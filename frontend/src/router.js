@@ -20,8 +20,12 @@ const routes = [
     element: <RegisterPage />,
     path: '/register',
   },
+  {
+    id: 4,
+    path: "*",
+    element: <h2>404</h2>
+  }
 ];
-
 
 const AppRouter = () => {
   return (
