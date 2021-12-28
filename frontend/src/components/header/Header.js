@@ -9,7 +9,7 @@ const Header = () => {
     searchResults,
     enteredValue,
     searching,
-    // onBlurHandler,
+    onReset,
     onChangeHandler,
     onSelectHandler
   } = useSearch();
@@ -48,11 +48,15 @@ const Header = () => {
                     onChange={onChangeHandler}
                     value={enteredValue}
                     className="me-auto"
-                    placeholder="Search or jump to..."
+                    placeholder="Search..."
                   />
-                  {searching && <Spinner className={classes.absolute} animation="border" variant="secondary" />}
+                  {
+                    searching
+                      ? <Spinner className={classes.spinner} animation="border" variant="secondary" />
+                      : <span role="button" onClick={() => onReset()} className={classes.clear__search__input}><i className="fas fa-times"></i></span>
+                  }
                   {searchResults && (
-                    <ListGroup className="position-absolute w-100">
+                    <ListGroup className={`position-absolute w-100 ${classes.listgroup}`}>
                       {
                         searchResults.map((r, idx) => (
                           <ListGroup.Item key={idx} role="button" onClick={() => onSelectHandler(idx)}>{r}</ListGroup.Item>

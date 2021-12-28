@@ -104,13 +104,13 @@ const useSearch = (arr) => {
 
   const onChangeHandler = (e) => dispatch({ type: USER_IS_TYPING, payload: e.target.value });
   const onSelectHandler = (id) => dispatch({ type: USER_USED_SEARCHED_TOPIC, payload: id });
-  // const onBlurHandler = () => dispatch({ type: USER_LEFT_INPUT_BOX });
+  const onReset = () => dispatch({ type: RESET });
 
   return {
     searchResults: state.searchResults,
     enteredValue: enteredValue,
     searching: state.searching,
-    // onBlurHandler,
+    onReset,
     onChangeHandler,
     onSelectHandler,
   }
