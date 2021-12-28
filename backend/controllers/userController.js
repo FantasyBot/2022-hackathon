@@ -10,7 +10,7 @@ const authUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const user = await pool.query(
-      "SELECT id, username, password, operator FROM users WHERE email = $1",
+      "SELECT id, username, password, role FROM users WHERE email = $1",
       [email]
     );
 
@@ -50,22 +50,22 @@ const registerUser = async (req, res, next) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    //save info in DB called 'users'
     await pool.query(
       "INSERT INTO users (username, password, email) VALUES($1, $2, $3)",
       [username, hashedPassword, email]
     );
-
     const user = await pool.query(
-      "SELECT id, username, operator FROM users WHERE username = $1",
+      "SELECT id, username, role FROM users WHERE username = $1",
       [username]
     );
+    console.log(generateToken(user.rows[0]));
 
     res.json({
       message: "Success",
       token: generateToken(user.rows[0]),
     });
   } catch (e) {
+    console.log(e.message);
     res.status(404);
     return next({
       msg: "username or email is already taken...",
@@ -82,7 +82,7 @@ const getUserProfile = async (req, res, next) => {
     const { email } = req.user;
     //Check second time
     const userInfo = await pool.query(
-      "SELECT id, username, email, operator FROM users WHERE email = $1",
+      "SELECT id, username, email, role FROM users WHERE email = $1",
       [email]
     );
     res.json({

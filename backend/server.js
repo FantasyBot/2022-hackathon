@@ -20,37 +20,17 @@ dotenv.config();
 //   res.render("index");
 // });
 
-app.post("/upload", (req, res) => {
-  upload(req, res, (err) => {
-    console.log(req.files);
-    if (req.files.multiImages === undefined) {
-      res.send("No image selected");
-    } else {
-      res.json({ message: "Success", images: req.files.multiImages });
-    }
-  });
-});
-
 // app.post("/upload", (req, res) => {
 //   upload(req, res, (err) => {
-//     if (err) {
-//       res.render("index", {
-//         msg: err,
-//       });
+//     console.log(req.files);
+//     if (req.files.multiImages === undefined) {
+//       res.send("No image selected");
 //     } else {
-//       if (req.file == undefined) {
-//         res.render("index", {
-//           msg: "Error: No File Selected!",
-//         });
-//       } else {
-//         res.render("index", {
-//           msg: "File Uploaded!",
-//           file: `public/uploads/${req.file.filename}`,
-//         });
-//       }
+//       res.json({ message: "Success", images: req.files.multiImages });
 //     }
 //   });
 // });
+
 
 app.use("/api/user", userRoutes);
 
