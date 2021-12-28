@@ -60,7 +60,7 @@ const HomePage = () => {
           </div>
           <Button type="submit" variant="outline-primary">Search</Button>
           <div className="vr" />
-          <Button type="button" variant="outline-secondary">Search</Button>
+          {/* <Button type="button" variant="outline-secondary">Search</Button> */}
         </Stack>
       </Form>
 
