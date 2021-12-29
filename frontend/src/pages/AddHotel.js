@@ -1,11 +1,26 @@
+import { useState } from 'react';
+
 import { Card, Form, Button } from 'react-bootstrap';
 
 const AddHotel = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    console.log('Submit!');
+    const asyncBehaviour = async () => {
+      setIsLoading(true);
+      setTimeout(() => setIsLoading(false), 3000);
+    };
+
+    asyncBehaviour();
+  };
+
   return (
     <>
       <h3 className="text-center mt-2 ">Register hotel</h3>
       <Card className="p-4 my-3">
-        <Form>
+        <Form onSubmit={submitHandler}>
           {/* username  */}
           <Form.Group className="mb-3">
             <Form.Label>User</Form.Label>
@@ -56,7 +71,14 @@ const AddHotel = () => {
           </Form.Group>
 
           <div className="d-grid">
-            <Button variant="primary" type="submit" size="lg">Submit</Button>
+            <Button
+              variant="primary"
+              type="submit"
+              size="lg"
+              disabled={isLoading}
+            >
+              {!isLoading ? 'Submit' : 'Submitting...'}
+            </Button>
           </div>
         </Form>
       </Card>
@@ -66,3 +88,39 @@ const AddHotel = () => {
 };
 
 export default AddHotel;
+
+
+
+
+
+
+
+// function simulateNetworkRequest() {
+//   return new Promise((resolve) => setTimeout(resolve, 2000));
+// }
+
+// function LoadingButton() {
+//   const [isLoading, setLoading] = useState(false);
+
+//   useEffect(() => {
+//     if (isLoading) {
+//       simulateNetworkRequest().then(() => {
+//         setLoading(false);
+//       });
+//     }
+//   }, [isLoading]);
+
+//   const handleClick = () => setLoading(true);
+
+//   return (
+//     <Button
+//       variant="primary"
+//       disabled={isLoading}
+//       onClick={!isLoading ? handleClick : null}
+//     >
+//       {isLoading ? 'Loading…' : 'Click to load'}
+//     </Button>
+//   );
+// }
+
+// render(<LoadingButton />);
