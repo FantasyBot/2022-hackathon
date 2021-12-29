@@ -1,7 +1,6 @@
 const bcrypt = require("bcryptjs");
 const generateToken = require("../utils/generateToken");
 const pool = require("../config/db");
-const error = require("../libs/error");
 
 // Auth user & get token
 // POST/api/users/login
@@ -55,8 +54,8 @@ const registerUser = async (req, res, next) => {
       [username, hashedPassword, email]
     );
     const user = await pool.query(
-      "SELECT id, username, role FROM users WHERE username = $1",
-      [username]
+      "SELECT id, username, role FROM users WHERE email = $1",
+      [email]
     );
 
     res.json({
@@ -104,7 +103,7 @@ const getUserProfile = async (req, res, next) => {
 // Public
 const registerOperator = async (req, res, next) => {
   try {
-    const { name, email, password, filename1, filename2 } = req.body;
+    const { name, password, email, filename1, filename2 } = req.body;
     console.log(name, email, password, filename1, filename2);
 
     const salt = await bcrypt.genSalt(10);
@@ -114,7 +113,16 @@ const registerOperator = async (req, res, next) => {
       "INSERT INTO users (username, password, email, role, user_photo1, user_photo2) VALUES($1, $2, $3, $4, $5, $6)",
       [name, hashedPassword, email, "operator", filename1, filename2]
     );
-    res.send("Success");
+
+    const operator = await pool.query(
+      "SELECT id, username, role FROM users WHERE email = $1",
+      [email]
+    );
+
+    res.json({
+      message: "Success",
+      token: generateToken(operator.rows[0]),
+    });
   } catch (err) {
     console.log(err);
     res.status(404);
