@@ -20,16 +20,37 @@ dotenv.config();
 //   res.render("index");
 // });
 
+app.post("/upload", (req, res) => {
+  upload(req, res, (err) => {
+    console.log(req.files);
+    if (req.files.multiImages === undefined) {
+      res.send("No image selected");
+    } else {
+      res.json({ message: "Success", images: req.files.multiImages });
+    }
+  });
+});
+
 // app.post("/upload", (req, res) => {
 //   console.log("Inside");
 
 //   upload(req, res, (err) => {
-//     console.log(req.files);
-//     console.log("Body ===>", req.body);
-//     if (req.files.multiImages === undefined) {
-//       res.send("No image selected");
+
+//     if (err) {
+//       res.render("index", {
+//         msg: err,
+//       });
 //     } else {
-//       res.json({ message: "Success", images: req.files.multiImages });
+//       if (req.file == undefined) {
+//         res.render("index", {
+//           msg: "Error: No File Selected!",
+//         });
+//       } else {
+//         res.render("index", {
+//           msg: "File Uploaded!",
+//           file: `public/uploads/${req.file.filename}`,
+//         });
+//       }
 //     }
 //   });
 // });

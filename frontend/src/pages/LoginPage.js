@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 
 import { Form, Button, Spinner } from "react-bootstrap";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import FormContainer from "../components/FormContainer";
 import Message from "../components/Message";
@@ -66,16 +66,16 @@ const LoginPage = () => {
   return (
     <FormContainer>
       <Form onSubmit={submitHandler}>
-        <h3>Sign In</h3>
+        <h3 className="text-center">Sign In</h3>
         {isLoading && <Spinner animation="border" variant="warning" />}
         {message && <Message variant="danger">{message}</Message>}
 
         <Form.Group className="mb-3" controlId="formBasicusername">
-          <Form.Label>Username</Form.Label>
+          <Form.Label>Email</Form.Label>
           <Form.Control
             type="email"
             required
-            placeholder="Enter username"
+            placeholder="Enter email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
