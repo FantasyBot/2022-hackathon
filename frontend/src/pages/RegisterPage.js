@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 
 import { Form, Button, Spinner } from "react-bootstrap";
-import { Navigate } from "react-router-dom";
+// import { Navigate } from "react-router-dom";
 
 import FormContainer from "../components/FormContainer";
 import Message from "../components/Message";
@@ -83,14 +83,15 @@ const RegisterPage = () => {
         {message && <Message variant="danger">{message}</Message>}
 
         <Form.Group className="mb-3" controlId="email">
-          <Form.Label>Username</Form.Label>
+          <Form.Label>Email</Form.Label>
           <Form.Control
             type="email"
             value={enteredEmail}
             placeholder="Enter email"
+            aria-describedby='email-help-text'
             onChange={(e) => setEnteredEmail(e.target.value)}
           />
-          <Form.Text className="text-muted">
+          <Form.Text id="email-help-text" muted>
             We'll never share your email with anyone else.
           </Form.Text>
         </Form.Group>
@@ -110,9 +111,14 @@ const RegisterPage = () => {
           <Form.Control
             type="password"
             value={enteredPassword}
+            aria-describedby='password-help-text'
             placeholder="Password"
             onChange={(e) => setEnteredPassword(e.target.value)}
           />
+          <Form.Text id="password-help-text" muted>
+            Your password must be 8-20 characters long, contain letters and numbers, and
+            must not contain spaces, special characters, or emoji.
+          </Form.Text>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="confirmPassword">
