@@ -3,6 +3,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
 import MyHotels from './pages/MyHotels';
+import AddHotel from './pages/AddHotel';
 
 import { Routes, Route } from 'react-router-dom';
 
@@ -34,6 +35,11 @@ const routes = [
   },
   {
     id: 6,
+    path: '/profile/:username/addhotel',
+    element: <AddHotel />
+  },
+  {
+    id: 7,
     path: "*",
     element: <h1>404</h1>
   }

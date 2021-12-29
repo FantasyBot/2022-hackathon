@@ -77,7 +77,7 @@ const RegisterPage = () => {
   return (
     <FormContainer>
       <Form onSubmit={submitHandler}>
-        <h4>Sign Up</h4>
+        <h4 className="text-center">Register</h4>
 
         {isLoading && <Spinner animation="border" variant="warning" />}
         {message && <Message variant="danger">{message}</Message>}

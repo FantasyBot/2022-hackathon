@@ -66,7 +66,7 @@ const LoginPage = () => {
   return (
     <FormContainer>
       <Form onSubmit={submitHandler}>
-        <h3>Sign In</h3>
+        <h3 className="text-center">Sign In</h3>
         {isLoading && <Spinner animation="border" variant="warning" />}
         {message && <Message variant="danger">{message}</Message>}
 
