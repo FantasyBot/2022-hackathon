@@ -18,21 +18,23 @@ const AddHotel = () => {
             <Form.Control type="text" />
           </Form.Group>
 
-          {/* City  */}
-          <Form.Group controlId="formFileMultiple" className="mb-3">
-            <Form.Label>City</Form.Label>
-            <Form.Select aria-label="Default select example">
-              <option>-</option>
-              <option value="1">Tbilisi</option>
-              <option value="2">Rustavi</option>
-              <option value="3">Gori</option>
-            </Form.Select>
+          {/* Location */}
+          <Form.Group className="mb-3" controlId="formBasicHotelLocation">
+            <Form.Label>Location</Form.Label>
+            <Form.Control type="text" />
           </Form.Group>
 
-          {/* Street name  */}
-          <Form.Group className="mb-3" controlId="formBasicHotelname">
-            <Form.Label>Street</Form.Label>
-            <Form.Control type="text" />
+          {/* price  */}
+          <Form.Group className="mb-3" controlId="formBasicHotelPrice">
+            <Form.Label>Price</Form.Label>
+            <Form.Control type="number" />
+          </Form.Group>
+
+
+          {/* discprice  */}
+          <Form.Group className="mb-3" controlId="formBasicHotelDiscprice">
+            <Form.Label>Discount percent</Form.Label>
+            <Form.Control type="number" />
           </Form.Group>
 
           {/* email  */}
