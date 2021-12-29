@@ -4,7 +4,7 @@ const generateToken = (user) => {
     const payload = {
         id: user.id,
         name: user.username,
-        active: user.operator
+        active: user.role
     }
 
     return jwt.sign((payload), process.env.JWT_SECRET, {

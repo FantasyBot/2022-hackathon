@@ -21,8 +21,11 @@ dotenv.config();
 // });
 
 // app.post("/upload", (req, res) => {
+//   console.log("Inside");
+
 //   upload(req, res, (err) => {
 //     console.log(req.files);
+//     console.log("Body ===>", req.body);
 //     if (req.files.multiImages === undefined) {
 //       res.send("No image selected");
 //     } else {
@@ -30,7 +33,6 @@ dotenv.config();
 //     }
 //   });
 // });
-
 
 app.use("/api/user", userRoutes);
 

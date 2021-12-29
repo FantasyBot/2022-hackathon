@@ -1,51 +1,58 @@
-import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
-import ProfilePage from './pages/ProfilePage';
-import MyHotels from './pages/MyHotels';
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import ProfilePage from "./pages/ProfilePage";
+import MyHotels from "./pages/MyHotels";
+import RegisterOperator from "./pages/RegisterOperator";
 
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route } from "react-router-dom";
 
 const routes = [
   {
     id: 1,
     element: <HomePage />,
-    path: '/',
+    path: "/",
   },
   {
     id: 2,
     element: <LoginPage />,
-    path: '/login',
+    path: "/login",
   },
   {
     id: 3,
     element: <RegisterPage />,
-    path: '/register',
+    path: "/register",
   },
   {
     id: 4,
-    path: '/profile',
-    element: <ProfilePage />
+    path: "/profile",
+    element: <ProfilePage />,
   },
   {
     id: 5,
-    path: '/profile/:username/myhotels',
-    element: <MyHotels />
+    path: "/register/operator",
+    element: <RegisterOperator />,
   },
   {
     id: 6,
+    path: "/profile/:username/myhotels",
+    element: <MyHotels />,
+  },
+  {
+    id: 7,
     path: "*",
-    element: <h1>404</h1>
-  }
+    element: <h1>404</h1>,
+  },
 ];
 
 const AppRouter = () => {
   return (
     <Routes>
-      {routes.map(r => <Route key={r.id} element={r.element} path={r.path} />)}
+      {routes.map((r) => (
+        <Route key={r.id} element={r.element} path={r.path} />
+      ))}
     </Routes>
-  )
+  );
 };
-
 
 export default AppRouter;

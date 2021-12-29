@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { useState } from 'react';
+import axios from "axios";
+import { useState } from "react";
 
 import { Form, Button, Spinner } from "react-bootstrap";
 import { Navigate } from "react-router-dom";
@@ -8,8 +8,7 @@ import FormContainer from "../components/FormContainer";
 import Message from "../components/Message";
 // import useHttp from "../hooks/useHttp";
 
-const RegisterPage = () => {
-
+const RegisterOperator = () => {
   const [enteredUsername, setEnteredUsername] = useState("");
   const [enteredEmail, setEnteredEmail] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
@@ -54,10 +53,12 @@ const RegisterPage = () => {
       setIsLoading(true);
       try {
         const { data } = await axios.request({
-          baseURL: "/api",
           url,
           method,
           data: enteredData,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         });
         // const { data } = await axios.post(url, enteredData);
 
@@ -66,42 +67,41 @@ const RegisterPage = () => {
 
         localStorage.setItem("token", JSON.stringify(data.token));
       } catch (error) {
-        setMessage(error.response.data.message);
+        setMessage(error.message);
         setIsLoading(false);
       }
     };
 
-    asyncFunc("/user/register", "POST", { username, password, email });
+    asyncFunc("/upload", "POST", { username, password, email });
   };
-
   return (
     <FormContainer>
-      <Form onSubmit={submitHandler}>
-        <h4>Sign Up</h4>
-
-        {isLoading && <Spinner animation="border" variant="warning" />}
-        {message && <Message variant="danger">{message}</Message>}
-
-        <Form.Group className="mb-3" controlId="email">
-          <Form.Label>Username</Form.Label>
-          <Form.Control
-            type="email"
-            value={enteredEmail}
-            placeholder="Enter email"
-            onChange={(e) => setEnteredEmail(e.target.value)}
-          />
-          <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text>
-        </Form.Group>
+      <Form
+        action="/api/user/register/operator"
+        method="POST"
+        encType="multipart/form-data"
+      >
+        <h4>Register operator</h4>
 
         <Form.Group className="mb-3" controlId="userName">
           <Form.Label>Username</Form.Label>
           <Form.Control
             type="text"
-            value={enteredUsername}
+            required
+            name="name"
             placeholder="Enter name"
             onChange={(e) => setEnteredUsername(e.target.value)}
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="email">
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            type="email"
+            name="email"
+            required
+            placeholder="Enter email"
+            onChange={(e) => setEnteredEmail(e.target.value)}
           />
         </Form.Group>
 
@@ -109,32 +109,31 @@ const RegisterPage = () => {
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
-            value={enteredPassword}
+            required
+            name="password"
             placeholder="Password"
             onChange={(e) => setEnteredPassword(e.target.value)}
           />
         </Form.Group>
 
-        <Form.Group className="mb-3" controlId="confirmPassword">
-          <Form.Label>Confirm Password</Form.Label>
-          <Form.Control
-            type="password"
-            value={confirmPassword}
-            placeholder="Confirm password"
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-        </Form.Group>
+        <h5>Take photos of your id (both sides) and upload here</h5>
+        <input
+          type="file"
+          name="multiImages"
+          accept="image/*"
+          multiple
+          required
+        />
+        <br />
+        <br />
+        <input type="submit" value="Upload" />
 
-        <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Check me out" />
-        </Form.Group>
-
-        <Button variant="primary" type="submit">
+        {/* <Button variant="primary" type="submit">
           Submit
-        </Button>
+        </Button> */}
       </Form>
     </FormContainer>
   );
 };
 
-export default RegisterPage;
+export default RegisterOperator;

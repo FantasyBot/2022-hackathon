@@ -96,7 +96,7 @@ const LoginPage = () => {
           Submit
         </Button>
         <p className="my-1">
-          Do not have an account? <Link to="/register">Sign up</Link>
+          Do not have an account? <Link to="/register">Sign up</Link><span> or </span> <Link to="/register/operator">Register operator</Link>
         </p>
       </Form>
     </FormContainer>

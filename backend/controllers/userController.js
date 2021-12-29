@@ -58,7 +58,6 @@ const registerUser = async (req, res, next) => {
       "SELECT id, username, role FROM users WHERE username = $1",
       [username]
     );
-    console.log(generateToken(user.rows[0]));
 
     res.json({
       message: "Success",
@@ -100,4 +99,30 @@ const getUserProfile = async (req, res, next) => {
   }
 };
 
-module.exports = { authUser, registerUser, getUserProfile };
+// Register new operator
+// POST/api/users/register/operator
+// Public
+const registerOperator = async (req, res, next) => {
+  try {
+    const { name, email, password, filename1, filename2 } = req.body;
+    console.log(name, email, password, filename1, filename2);
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    await pool.query(
+      "INSERT INTO users (username, password, email, role, user_photo1, user_photo2) VALUES($1, $2, $3, $4, $5, $6)",
+      [name, hashedPassword, email, "operator", filename1, filename2]
+    );
+    res.send("Success");
+  } catch (err) {
+    console.log(err);
+    res.status(404);
+    return next({
+      msg: "Operator registration failed",
+      stk: err.message,
+    });
+  }
+};
+
+module.exports = { authUser, registerUser, getUserProfile, registerOperator };
