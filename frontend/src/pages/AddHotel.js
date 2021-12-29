@@ -1,4 +1,4 @@
-import { Card, Form } from 'react-bootstrap';
+import { Card, Form, Button } from 'react-bootstrap';
 
 const AddHotel = () => {
   return (
@@ -17,7 +17,6 @@ const AddHotel = () => {
             <Form.Label>Hotel Name</Form.Label>
             <Form.Control type="text" />
           </Form.Group>
-
 
           {/* City  */}
           <Form.Group controlId="formFileMultiple" className="mb-3">
@@ -42,8 +41,6 @@ const AddHotel = () => {
             <Form.Control type="email" placeholder="name@example.com" />
           </Form.Group>
 
-
-
           {/* files  */}
           <Form.Group controlId="formFileMultiple" className="mb-3">
             <Form.Label>Upload files</Form.Label>
@@ -55,6 +52,10 @@ const AddHotel = () => {
             <Form.Label>Comment</Form.Label>
             <Form.Control as="textarea" rows={3} />
           </Form.Group>
+
+          <div className="d-grid">
+            <Button variant="primary" type="submit" size="lg">Submit</Button>
+          </div>
         </Form>
       </Card>
     </>
