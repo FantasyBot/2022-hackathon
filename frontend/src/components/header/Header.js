@@ -1,3 +1,5 @@
+import { useSelector } from 'react-redux';
+
 import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
 // import { Navbar, Container, Nav, NavDropdown, Stack, Form, Button, ListGroup, Spinner } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -6,6 +8,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 // import useSearch from '../../hooks/useSearch';
 
 const Header = () => {
+
   // const {
   //   searchResults,
   //   enteredValue,
@@ -15,11 +18,13 @@ const Header = () => {
   //   onSelectHandler
   // } = useSearch();
 
-  const user = false;
+  const { username = '', role = "", active = false } = useSelector(state => state.user);
+
 
   return (
     <header>
       {console.log('Rendering Header')}
+
       <Navbar bg="light" variant="light" expand="lg">
         <Container>
 
@@ -36,23 +41,33 @@ const Header = () => {
               <LinkContainer to="/">
                 <Nav.Link>Home</Nav.Link>
               </LinkContainer>
-              <LinkContainer to={user ? 'profile/:username/cart' : `/profile/:username/myhotels`}>
-                <Nav.Link>{user ? 'My Cart' : 'My Hotels'}</Nav.Link>
-              </LinkContainer>
+
+              {
+                username && (
+                  <LinkContainer to={role === "customer" ? `profile/${username}/cart` : role === "operator" ? `/profile/${username}/myhotels` : null}>
+                    {role && role === "customer" && <Nav.Link>My Cart</Nav.Link>}
+                    {role && role === "operator" && <Nav.Link>My Hotels</Nav.Link>}
+                    {/* <Nav.Link>{user ? 'My Cart' : 'My Hotels'}</Nav.Link> */}
+                  </LinkContainer>
+                )
+              }
             </Nav>
 
+            {
+              username && (
+                <NavDropdown title={username} id="userName" >
+                  <LinkContainer to="/profile">
+                    <NavDropdown.Item>
+                      {username}
+                    </NavDropdown.Item>
+                  </LinkContainer>
+                  <NavDropdown.Item onClick={() => console.log('Write logic for logout (cleanup localstorage)')}>
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
+              )
+            }
 
-
-            <NavDropdown title={"Temo Abesadze"} id="userName" >
-              <LinkContainer to="/profile">
-                <NavDropdown.Item>
-                  Profile
-                </NavDropdown.Item>
-              </LinkContainer>
-              <NavDropdown.Item onClick={() => console.log('Write logic for logout (cleanup localstorage)')}>
-                Logout
-              </NavDropdown.Item>
-            </NavDropdown>
             <LinkContainer to="/login">
               <Nav.Link className="text-secondary"><i className="far fa-user"></i> Sign In</Nav.Link>
             </LinkContainer>
