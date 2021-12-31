@@ -2,9 +2,16 @@ const upload = require("../libs/saveImages");
 
 const forMulter = (req, res, next) => {
   upload(req, res, (err) => {
+    if (err) {
+      return next({
+        msg: "Error in multer",
+        stk: err.message,
+      });
+    }
+    
     try {
-      const filename1 = req?.files?.multiImages[0]?.filename;
-      const filename2 = req?.files?.multiImages[1]?.filename;
+      const filename1 = req?.files[0]?.filename;
+      const filename2 = req?.files[1]?.filename;
 
       if (!filename1 || !filename2 || req?.files?.multiImages?.length > 2) {
         res.status(401);
@@ -16,7 +23,7 @@ const forMulter = (req, res, next) => {
         return next();
       }
     } catch (err) {
-      console.log("HERE", err.message);
+      console.log("forMulter => ", err.message);
       res.status(404);
       return next({
         msg: "Operator registration failed",

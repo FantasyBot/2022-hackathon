@@ -54,7 +54,7 @@ const registerUser = async (req, res, next) => {
       [username, hashedPassword, email]
     );
     const user = await pool.query(
-      "SELECT id, username, role FROM users WHERE email = $1",
+      "SELECT id, username, email, role FROM users WHERE email = $1",
       [email]
     );
 
@@ -98,6 +98,7 @@ const getUserProfile = async (req, res, next) => {
   }
 };
 
+
 // Register new operator
 // POST/api/users/register/operator
 // Public
@@ -115,12 +116,12 @@ const registerOperator = async (req, res, next) => {
     );
 
     const operator = await pool.query(
-      "SELECT id, username, role FROM users WHERE email = $1",
+      "SELECT id, username, email, role FROM users WHERE email = $1",
       [email]
     );
 
     res.json({
-      message: "Success",
+      message: "Success operator",
       token: generateToken(operator.rows[0]),
     });
   } catch (err) {
@@ -133,4 +134,30 @@ const registerOperator = async (req, res, next) => {
   }
 };
 
-module.exports = { authUser, registerUser, getUserProfile, registerOperator };
+// Create new hotel
+// POST/api/users/create/hotel
+// Private
+const createHotel = async (req, res, next) => {
+  try {
+    const { id, username, email, role } = req.user;
+
+    res.json({
+      message: "Success",
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(404);
+    return next({
+      msg: "Hotel registration failed",
+      stk: err.message,
+    });
+  }
+};
+
+module.exports = {
+  authUser,
+  registerUser,
+  getUserProfile,
+  registerOperator,
+  createHotel,
+};

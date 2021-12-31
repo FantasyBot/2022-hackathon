@@ -6,6 +6,7 @@ const {
   registerUser,
   getUserProfile,
   registerOperator,
+  createHotel
 } = require("../controllers/userController");
 const { forMulter } = require("../middleware/forMulter");
 
@@ -15,6 +16,7 @@ router.post("/login", authUser);
 router.post("/register", registerUser);
 router.get("/profile", protect, getUserProfile);
 router.post("/register/operator", forMulter, registerOperator);
+router.post("/create/hotel", protect, createHotel);
 // router.post('/profile/create/:id', createHotel);
 
 module.exports = router;

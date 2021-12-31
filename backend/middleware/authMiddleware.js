@@ -11,10 +11,10 @@ const protect = async (req, res, next) => {
     try {
       token = req.headers.authorization.split(" ")[1];
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
+      
       const userInfo = await pool.query(
-        "SELECT username, email, operator FROM users WHERE username = $1",
-        [decoded.name]
+        "SELECT id, username, email, role FROM users WHERE email = $1",
+        [decoded.email]
       );
       req.user = userInfo.rows[0];
       return next();
