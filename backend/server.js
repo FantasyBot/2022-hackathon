@@ -1,6 +1,9 @@
 const express = require("express");
+
 const dotenv = require("dotenv");
+
 const cors = require("cors");
+
 const path = require("path");
 
 const userRoutes = require("./routes/userRoutes");
@@ -8,13 +11,13 @@ const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const app = express();
 
-app.use(cors()); 
+app.use(cors());
 app.use(express.json());
-dotenv.config();
+
+dotenv.config(); // Do we need this here?
 
 // app.set("view engine", "ejs");
 // app.set("views", path.join(__dirname, "/views"));
-
 
 app.use("/api/user", userRoutes);
 
