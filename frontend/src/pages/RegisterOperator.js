@@ -1,7 +1,7 @@
 import axios from "axios";
-import { useState, useRef } from "react";
+import { useState } from "react";
 
-import { Form, Button, Spinner } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { Navigate } from "react-router-dom";
 
 import FormContainer from "../components/FormContainer";
@@ -15,6 +15,12 @@ const RegisterOperator = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [files, setFiles] = useState(null);
+
+  const [token, setToken] = useState("");
+
+  if (token) {
+    return <Navigate to="/" />;
+  }
 
   const checkInputOnChange = (e) => {
     if (e.target.files.length > 2 || e.target.files.length < 2) {
@@ -47,6 +53,7 @@ const RegisterOperator = () => {
       .then(function (response) {
         //handle success
         console.log(response.data);
+        setToken(response.data);
       })
       .catch(function (response) {
         //handle error
@@ -98,15 +105,20 @@ const RegisterOperator = () => {
           />
         </Form.Group>
 
-        <h5>Take photos of your id (both sides) and upload here</h5>
-        <input
-          type="file"
-          name="images"
-          // accept=".jpeg, .jpg, .png, .gif"
-          multiple
-          required
-          onChange={(e) => checkInputOnChange(e)}
-        />
+        <Form.Group controlId="formFileMultiple" className="mb-3">
+          <Form.Label>
+            Take photos of your id (both sides) and upload here
+          </Form.Label>
+          <Form.Control
+            type="file"
+            name="images"
+            accept=".jpeg, .jpg, .png, .gif"
+            multiple
+            required
+            onChange={(e) => checkInputOnChange(e)}
+          />
+        </Form.Group>
+
         <br />
         <br />
         <input type="submit" value="Upload" disabled={disable} />

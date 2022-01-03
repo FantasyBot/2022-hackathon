@@ -8,13 +8,12 @@ const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const app = express();
 
-app.use(cors()); 
+app.use(cors());
 app.use(express.json());
 dotenv.config();
 
 // app.set("view engine", "ejs");
 // app.set("views", path.join(__dirname, "/views"));
-
 
 app.use("/api/user", userRoutes);
 

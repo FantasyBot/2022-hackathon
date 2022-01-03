@@ -1,5 +1,6 @@
-import axios from 'axios';
-import { useState } from 'react';
+import axios from "axios";
+import { useState } from "react";
+import { Navigate } from "react-router-dom";
 
 import { Form, Button, Spinner } from "react-bootstrap";
 // import { Navigate } from "react-router-dom";
@@ -9,7 +10,6 @@ import Message from "../components/Message";
 // import useHttp from "../hooks/useHttp";
 
 const RegisterPage = () => {
-
   const [enteredUsername, setEnteredUsername] = useState("");
   const [enteredEmail, setEnteredEmail] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
@@ -17,21 +17,12 @@ const RegisterPage = () => {
 
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  // const {
-  //   token,
-  //   enteredUsername,
-  //   enteredPassword,
-  //   confirmPassword,
-  //   message,
-  //   isLoading,
-  //   setMessage,
-  //   asyncFunc,
-  //   setEnteredUsername,
-  //   setEnteredPassword,
-  //   setConfirmPassword,
-  // } = useHttp();
 
-  // if (token) return <Navigate to="/products" />;
+  const [token, setToken] = useState("");
+
+  if (token) {
+    return <Navigate to="/" />;
+  }
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -63,6 +54,7 @@ const RegisterPage = () => {
 
         setIsLoading(false);
         // setTokenHandler(data.token);
+        setToken(data.token);
 
         localStorage.setItem("token", JSON.stringify(data.token));
       } catch (error) {
@@ -88,7 +80,7 @@ const RegisterPage = () => {
             type="email"
             value={enteredEmail}
             placeholder="Enter email"
-            aria-describedby='email-help-text'
+            aria-describedby="email-help-text"
             onChange={(e) => setEnteredEmail(e.target.value)}
           />
           <Form.Text id="email-help-text" muted>
@@ -111,14 +103,10 @@ const RegisterPage = () => {
           <Form.Control
             type="password"
             value={enteredPassword}
-            aria-describedby='password-help-text'
+            aria-describedby="password-help-text"
             placeholder="Password"
             onChange={(e) => setEnteredPassword(e.target.value)}
           />
-          <Form.Text id="password-help-text" muted>
-            Your password must be 8-20 characters long, contain letters and numbers, and
-            must not contain spaces, special characters, or emoji.
-          </Form.Text>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="confirmPassword">
@@ -129,10 +117,6 @@ const RegisterPage = () => {
             placeholder="Confirm password"
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
-        </Form.Group>
-
-        <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Check me out" />
         </Form.Group>
 
         <Button variant="primary" type="submit">

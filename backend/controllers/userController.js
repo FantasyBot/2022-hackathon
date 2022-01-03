@@ -98,7 +98,6 @@ const getUserProfile = async (req, res, next) => {
   }
 };
 
-
 // Register new operator
 // POST/api/users/register/operator
 // Public

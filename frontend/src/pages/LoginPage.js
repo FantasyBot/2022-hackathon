@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 import { Navigate } from "react-router-dom";
 
-import { loginAction } from '../store/middlewares/loginAction';
+import { loginAction } from "../store/middlewares/loginAction";
 
 import FormContainer from "../components/FormContainer";
 import Message from "../components/Message";
@@ -15,13 +15,13 @@ import Message from "../components/Message";
 // import useHttp from "../hooks/useHttp";
 
 const LoginPage = () => {
-
   const dispatch = useDispatch();
-  const { callBegin, message, callSuccess } = useSelector(state => state.apiCall);
+  const { callBegin, message, callSuccess } = useSelector(
+    (state) => state.apiCall
+  );
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
 
   if (callSuccess) return <Navigate to="/" />;
 
@@ -63,7 +63,9 @@ const LoginPage = () => {
           Submit
         </Button>
         <p className="my-1">
-          Do not have an account? <Link to="/register">Sign up</Link><span> or </span> <Link to="/register/operator">Register operator</Link>
+          Do not have an account? <Link to="/register">Sign up</Link>
+          <span> or </span>{" "}
+          <Link to="/register/operator">Register operator</Link>
         </p>
       </Form>
     </FormContainer>
