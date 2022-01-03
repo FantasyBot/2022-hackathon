@@ -1,9 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import decodeToken from "../utils/jwtDecode";
+const token = localStorage.getItem("token");
+
 const initialState = {
-  username: "",
-  role: "",
-  active: false,
+  username: token ? decodeToken(token).name : "",
+  role: token ? decodeToken(token).role : "",
+  active: token ? decodeToken(token).active : false,
 };
 
 const userSlice = createSlice({
