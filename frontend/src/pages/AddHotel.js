@@ -1,26 +1,68 @@
 import { useState } from "react";
-
 import { Card, Form, Button } from "react-bootstrap";
+import Message from "../components/Message";
+import axios from "axios";
 
 const AddHotel = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
+  const [hotelName, setHotelName] = useState("");
+  const [location, setLocation] = useState("");
+  const [price, setPrice] = useState("");
+  const [discPrice, setDicsPrice] = useState("");
+  const [email, setEmail] = useState("");
+  const [description, setDescription] = useState("");
+  const [files, setFiles] = useState("");
 
-  const submitHandler = (e) => {
+  const [disable, setDisable] = useState("");
+  const [message, setMessage] = useState("");
+
+  const checkInputOnChange = (e) => {
+    if (e.target.files.length > 4 || e.target.files.length < 4) {
+      setDisable(true);
+      setMessage("Please upload four images");
+    } else {
+      setDisable(false);
+      setMessage("");
+      setFiles(e.target.files);
+    }
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Submit!");
-    const asyncBehaviour = async () => {
-      setIsLoading(true);
-      setTimeout(() => setIsLoading(false), 3000);
-    };
+    let bodyFormData = new FormData();
 
-    asyncBehaviour();
+    for (let i = 0; i < files.length; i++) {
+      bodyFormData.append("images", files[i]);
+    }
+    bodyFormData.append("name", hotelName);
+    bodyFormData.append("location", location);
+    bodyFormData.append("price", price);
+    bodyFormData.append("discPrice", discPrice);
+    bodyFormData.append("email", email);
+    bodyFormData.append("description", description);
+
+    axios({
+      method: "post",
+      url: "http://localhost:5000/api/user/register/operator",
+      data: bodyFormData,
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+      .then(function (response) {
+        //handle success
+        console.log(response.data);
+      })
+      .catch(function (response) {
+        //handle error
+        console.log("front ERR0R -->", response.message);
+      });
   };
 
   return (
     <>
       <h3 className="text-center mt-2 ">Register hotel</h3>
+      {message && <Message variant="danger">{message}</Message>}
       <Card className="p-4 my-3">
-        <Form onSubmit={submitHandler}>
+        <Form onSubmit={handleSubmit}>
           {/* username  */}
           <Form.Group className="mb-3">
             <Form.Label>User</Form.Label>
@@ -30,25 +72,45 @@ const AddHotel = () => {
           {/* Hotel name  */}
           <Form.Group className="mb-3" controlId="formBasicHotelname">
             <Form.Label>Hotel Name</Form.Label>
-            <Form.Control type="text" name="name" required />
+            <Form.Control
+              type="text"
+              name="name"
+              required
+              onChange={(e) => setHotelName(e.target.value)}
+            />
           </Form.Group>
 
           {/* Location */}
           <Form.Group className="mb-3" controlId="formBasicHotelLocation">
             <Form.Label>Location</Form.Label>
-            <Form.Control type="text" name="location" required />
+            <Form.Control
+              type="text"
+              name="location"
+              required
+              onChange={(e) => setLocation(e.target.value)}
+            />
           </Form.Group>
 
           {/* price  */}
           <Form.Group className="mb-3" controlId="formBasicHotelPrice">
             <Form.Label>Price</Form.Label>
-            <Form.Control type="number" name="price" required />
+            <Form.Control
+              type="number"
+              name="price"
+              required
+              onChange={(e) => setPrice(e.target.value)}
+            />
           </Form.Group>
 
           {/* discprice  */}
           <Form.Group className="mb-3" controlId="formBasicHotelDiscprice">
-            <Form.Label>Discount percent</Form.Label>
-            <Form.Control type="number" name="discount" required />
+            <Form.Label>Discount price</Form.Label>
+            <Form.Control
+              type="number"
+              name="discount"
+              required
+              onChange={(e) => setDicsPrice(e.target.value)}
+            />
           </Form.Group>
 
           {/* email  */}
@@ -59,6 +121,7 @@ const AddHotel = () => {
               name="email"
               required
               placeholder="name@example.com"
+              onChange={(e) => setEmail(e.target.value)}
             />
           </Form.Group>
 
@@ -71,13 +134,19 @@ const AddHotel = () => {
               accept=".jpeg, .jpg, .png, .gif"
               multiple
               required
+              onChange={(e) => checkInputOnChange(e)}
             />
           </Form.Group>
 
-          {/* comment */}
+          {/* description */}
           <Form.Group className="mb-3" controlId="basicTextarea">
             <Form.Label>Comment</Form.Label>
-            <Form.Control as="textarea" rows={3} />
+            <Form.Control
+              as="textarea"
+              rows={3}
+              required
+              onChange={(e) => setDescription(e.target.value)}
+            />
           </Form.Group>
 
           <div className="d-grid">
@@ -85,9 +154,10 @@ const AddHotel = () => {
               variant="primary"
               type="submit"
               size="lg"
-              disabled={isLoading}
+              disabled={disable}
             >
-              {!isLoading ? "Submit" : "Submitting..."}
+              Submit
+              {/* {!isLoading ? "Submit" : "Submitting..."} */}
             </Button>
           </div>
         </Form>
