@@ -1,29 +1,22 @@
 const bcrypt = require("bcryptjs");
+
 const generateToken = require("../utils/generateToken");
+
 const pool = require("../config/db");
 
 // Auth user & get token
-// POST/api/users/login
+// POST/api/user/login
 // Public
 const authUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const user = await pool.query(
-      "SELECT id, username, password, role FROM users WHERE email = $1",
-      [email]
-    );
 
-    //true if the password match
-    const encryptedPassword = await bcrypt.compare(
-      password,
-      user.rows[0].password
-    );
+    const user = await pool.query("SELECT id, username, password, role FROM users WHERE email = $1", [email]);
+    const encryptedPassword = await bcrypt.compare(password, user.rows[0].password); //true if the password match
 
     if (!user.rows[0] || !encryptedPassword) {
       res.status(404);
-      return next({
-        msg: "email or password is incorrect",
-      });
+      return next({ msg: "email or password is incorrect" });
     }
 
     res.json({
@@ -40,7 +33,7 @@ const authUser = async (req, res, next) => {
 };
 
 // Register new user
-// POST/api/users/register
+// POST/api/user/register
 // Public
 const registerUser = async (req, res, next) => {
   try {
