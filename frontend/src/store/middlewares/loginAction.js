@@ -1,22 +1,33 @@
-import axios from 'axios';
+import axios from "axios";
+import decodeToken from "../../utils/jwtDecode";
 
 import { callBegin, callSuccess, callFailed } from "../apiCall";
+import { userLoggedIn } from "../user";
 // import { userLoggedIn } from '../user';
 
 export const loginAction = (email, password) => async (dispatch) => {
-
   dispatch(callBegin());
 
   try {
     const { data } = await axios.post("/api/user/login", { email, password });
+    console.log("data", data);
 
-    console.log('data', data);
-    // dispatch(userLoggedIn({ payload: { username: , role: } }));
+    const decodedToken = decodeToken(data.token);
+    console.log("decodedToken", decodedToken);
+    const { name, active } = decodedToken;
+
+    dispatch(userLoggedIn({ username: name, active }));
     dispatch(callSuccess());
-    localStorage.setItem("token", JSON.stringify(data.token));
 
+    localStorage.setItem("token", JSON.stringify(data.token));
   } catch (error) {
     console.log(error.response.data.message);
-    dispatch(callFailed(error.response.data.message ? error.response.data.message : error.message));
+    dispatch(
+      callFailed(
+        error.response.data.message
+          ? error.response.data.message
+          : error.message
+      )
+    );
   }
 };

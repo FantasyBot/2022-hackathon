@@ -1,7 +1,11 @@
 import { useState } from "react";
-import { Card, Form, Button } from "react-bootstrap";
-import Message from "../components/Message";
+
 import axios from "axios";
+
+import { Form, Button } from "react-bootstrap";
+
+import Message from "../components/Message";
+import FormContainer from "../components/FormContainer";
 
 const AddHotel = () => {
   // const [isLoading, setIsLoading] = useState(false);
@@ -59,9 +63,9 @@ const AddHotel = () => {
 
   return (
     <>
-      <h3 className="text-center mt-2 ">Register hotel</h3>
+      <h2 className="text-center mt-2 text-secondary">Register hotel</h2>
       {message && <Message variant="danger">{message}</Message>}
-      <Card className="p-4 my-3">
+      <FormContainer>
         <Form onSubmit={handleSubmit}>
           {/* username  */}
           <Form.Group className="mb-3">
@@ -161,7 +165,7 @@ const AddHotel = () => {
             </Button>
           </div>
         </Form>
-      </Card>
+      </FormContainer>
     </>
   );
 };

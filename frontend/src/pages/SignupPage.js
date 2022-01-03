@@ -5,11 +5,11 @@ import { LinkContainer } from "react-router-bootstrap";
 const SignupPage = () => {
   return (
     <div className="py-2">
-      <h1 className="text-center text-secondary my-3" > Register as</h1 >
+      <h1 className="text-center text-secondary my-3"> Register as</h1>
       <Row xs={1} md={2} className="g-2">
         <LinkContainer to="/register">
-          <Col className="btn">
-            <Card>
+          <Col>
+            <Card className="btn btn-outline-secondary">
               {/* <Card.Header>dads</Card.Header> */}
               {/* <Card.Img variant="top" src="holder.js/100px160" /> */}
               <Card.Body>
@@ -23,8 +23,8 @@ const SignupPage = () => {
           </Col>
         </LinkContainer>
         <LinkContainer to="/register/operator">
-          <Col className="btn">
-            <Card>
+          <Col>
+            <Card className="btn btn-outline-secondary">
               {/* <Card.Img variant="top" src="holder.js/100px160" /> */}
               <Card.Body>
                 <Card.Title className="m-0">OPERATOR</Card.Title>
@@ -37,8 +37,8 @@ const SignupPage = () => {
           </Col>
         </LinkContainer>
       </Row>
-    </div >
-  )
+    </div>
+  );
 };
 
 export default SignupPage;

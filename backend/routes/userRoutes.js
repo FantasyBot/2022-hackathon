@@ -1,6 +1,12 @@
 const express = require("express");
 
-const { authUser, registerUser, getUserProfile, registerOperator, createHotel } = require("../controllers/userController");
+const {
+  authUser,
+  registerUser,
+  getUserProfile,
+  registerOperator,
+  createHotel,
+} = require("../controllers/userController");
 
 const { forMulter } = require("../middleware/forMulter");
 const { protect } = require("../middleware/authMiddleware");

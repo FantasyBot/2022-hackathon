@@ -16,7 +16,9 @@ import Message from "../components/Message";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
-  const { callBegin, message, callSuccess } = useSelector(state => state.apiCall);
+  const { callBegin, message, callSuccess } = useSelector(
+    (state) => state.apiCall
+  );
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

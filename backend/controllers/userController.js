@@ -11,8 +11,16 @@ const authUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    const user = await pool.query("SELECT id, username, password, role FROM users WHERE email = $1", [email]);
-    const encryptedPassword = await bcrypt.compare(password, user.rows[0].password); //true if the password match
+    const user = await pool.query(
+      "SELECT id, username, password, role FROM users WHERE email = $1",
+      [email]
+    );
+    // console.log("user.rows[0]", user.rows[0]);
+
+    const encryptedPassword = await bcrypt.compare(
+      password,
+      user.rows[0].password
+    ); //true if the password match
 
     if (!user.rows[0] || !encryptedPassword) {
       res.status(404);
@@ -36,24 +44,29 @@ const authUser = async (req, res, next) => {
 // POST/api/user/register
 // Public
 const registerUser = async (req, res, next) => {
-  console.log('here')
+  console.log("here");
   try {
     const { username, password, email } = req.body;
 
     const salt = await bcrypt.genSalt(10);
-    console.log('salt', salt);
+    console.log("salt", salt);
     const hashedPassword = await bcrypt.hash(password, salt);
-    console.log('hashedPassword', hashedPassword);
+    console.log("hashedPassword", hashedPassword);
 
-    await pool.query("INSERT INTO users (username, password, email) VALUES($1, $2, $3)", [username, hashedPassword, email]);
-    const user = await pool.query("SELECT id, username, email, role FROM users WHERE email = $1", [email]);
+    await pool.query(
+      "INSERT INTO users (username, password, email) VALUES($1, $2, $3)",
+      [username, hashedPassword, email]
+    );
+    const user = await pool.query(
+      "SELECT id, username, email, role FROM users WHERE email = $1",
+      [email]
+    );
     console.log(user.rows, user.rows[0]);
 
     res.json({
       message: "Success",
       token: generateToken(user.rows[0]),
     });
-
   } catch (e) {
     console.log(e.message);
     res.status(404);
