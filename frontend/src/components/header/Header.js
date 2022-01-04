@@ -24,7 +24,6 @@ const Header = () => {
   const {
     username = "",
     role = "",
-    active = false,
   } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
@@ -33,6 +32,7 @@ const Header = () => {
   const logoutHandler = () => {
     console.log("Removed token from localStorage. User has just logged out!");
     console.log("navigate", navigate);
+    
     dispatch(userLoggedOut());
     dispatch(resetApiCallState());
     navigate("/");
@@ -58,16 +58,16 @@ const Header = () => {
               {username && (
                 <LinkContainer
                   to={`/profile/${username}/${
-                    active === "customer" ? "cart" : "myhotels"
+                    role === "customer" ? "cart" : "myhotels"
                   }`}
                 >
                   <Nav.Link>
-                    {active === "customer" ? "My Cart" : "My Hotels"}
+                    {role === "customer" ? "My Cart" : "My Hotels"}
                   </Nav.Link>
                 </LinkContainer>
               )}
 
-              {active === "operator" && (
+              {role === "operator" && (
                 <LinkContainer to={`/profile/${username}/addhotel`}>
                   <Nav.Link>Add hotel</Nav.Link>
                 </LinkContainer>

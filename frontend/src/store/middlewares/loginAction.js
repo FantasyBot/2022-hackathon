@@ -14,9 +14,9 @@ export const loginAction = (email, password) => async (dispatch) => {
 
     const decodedToken = decodeToken(data.token);
     console.log("decodedToken", decodedToken);
-    const { name, active } = decodedToken;
+    const { name, role } = decodedToken;
 
-    dispatch(userLoggedIn({ username: name, active }));
+    dispatch(userLoggedIn({ username: name, role }));
     dispatch(callSuccess());
 
     localStorage.setItem("token", JSON.stringify(data.token));

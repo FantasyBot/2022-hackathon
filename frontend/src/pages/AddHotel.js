@@ -9,7 +9,6 @@ import Message from "../components/Message";
 import FormContainer from "../components/FormContainer";
 
 const AddHotel = () => {
-  // const [isLoading, setIsLoading] = useState(false);
   const [hotelName, setHotelName] = useState("");
   const [location, setLocation] = useState("");
   const [price, setPrice] = useState("");
@@ -53,13 +52,14 @@ const AddHotel = () => {
     bodyFormData.append("email", email);
     bodyFormData.append("description", description);
 
+    const token = localStorage.getItem("token");
     axios({
       method: "post",
       url: "http://localhost:5000/api/user/create/hotel",
       data: bodyFormData,
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTA0LCJuYW1lIjoiam9obiIsImVtYWlsIjoiam9obkBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjQxMzAwMTcwLCJleHAiOjE2NDE3MzIxNzB9.aweZhDUwd4Hbw78okKYw1yUDvUMH6zEC1KS6oqL6OrQ`,
+        Authorization: `Bearer ${JSON.parse(token)}`,
       },
     })
       .then(function (response) {
@@ -184,7 +184,6 @@ const AddHotel = () => {
               disabled={disable}
             >
               Submit
-              {/* {!isLoading ? "Submit" : "Submitting..."} */}
             </Button>
           </div>
         </Form>

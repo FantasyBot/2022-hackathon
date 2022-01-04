@@ -6,7 +6,6 @@ const token = localStorage.getItem("token");
 const initialState = {
   username: token ? decodeToken(token).name : "",
   role: token ? decodeToken(token).role : "",
-  active: token ? decodeToken(token).active : false,
 };
 
 const userSlice = createSlice({
@@ -17,9 +16,9 @@ const userSlice = createSlice({
     // action => actionHandler
 
     userLoggedIn: (user, action) => {
-      const { username, active } = action.payload;
+      const { username, role } = action.payload;
       user.username = username;
-      user.active = active;
+      user.role = role;
     },
 
     userRegistered: (user, action) => {
@@ -29,10 +28,8 @@ const userSlice = createSlice({
     },
     userLoggedOut: (user) => {
       localStorage.removeItem("token");
-
       user.username = "";
       user.role = "";
-      user.active = false;
     },
   },
 });

@@ -16,6 +16,6 @@ router.post("/login", authUser);
 router.post("/register", registerUser);
 router.get("/profile", protect, getUserProfile);
 router.post("/register/operator", forMulter, registerOperator);
-router.post("/create/hotel", forMulter, protect,createHotel);
+router.post("/create/hotel", forMulter, protect, createHotel);
 
 module.exports = router;
