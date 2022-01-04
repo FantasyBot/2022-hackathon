@@ -67,9 +67,10 @@ const AddHotel = () => {
   return (
     <>
       <h2 className="text-center mt-2 text-secondary">Register hotel</h2>
-      {message && <Message variant="danger">{message}</Message>}
+
       <FormContainer>
         <Form onSubmit={handleSubmit}>
+          {message && <Message variant="danger">{message}</Message>}
           {/* username  */}
           <Form.Group className="mb-3">
             <Form.Label>User</Form.Label>

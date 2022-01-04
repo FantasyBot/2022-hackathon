@@ -85,12 +85,13 @@ const Header = () => {
               </NavDropdown>
             )}
 
-            <LinkContainer to="/login">
-              <Nav.Link className="text-secondary">
-                <i className="far fa-user"></i>{" "}
-                {username ? "Sign Out" : "Sign In"}
-              </Nav.Link>
-            </LinkContainer>
+            {!username && (
+              <LinkContainer to="/login">
+                <Nav.Link className="text-secondary">
+                  <i className="far fa-user"></i> Sign In
+                </Nav.Link>
+              </LinkContainer>
+            )}
           </Navbar.Collapse>
         </Container>
       </Navbar>
