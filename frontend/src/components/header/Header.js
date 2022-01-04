@@ -1,5 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 
+import { useNavigate } from "react-router-dom";
+
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 
@@ -26,11 +28,14 @@ const Header = () => {
   } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const logoutHandler = () => {
     console.log("Removed token from localStorage. User has just logged out!");
+    console.log("navigate", navigate);
     dispatch(userLoggedOut());
     dispatch(resetApiCallState());
+    navigate("/");
   };
 
   return (
@@ -61,6 +66,12 @@ const Header = () => {
                   </Nav.Link>
                 </LinkContainer>
               )}
+
+              {active === "operator" && (
+                <LinkContainer to={`/profile/${username}/addhotel`}>
+                  <Nav.Link>Add hotel</Nav.Link>
+                </LinkContainer>
+              )}
             </Nav>
 
             {username && (
@@ -76,7 +87,8 @@ const Header = () => {
 
             <LinkContainer to="/login">
               <Nav.Link className="text-secondary">
-                <i className="far fa-user"></i> Sign In
+                <i className="far fa-user"></i>{" "}
+                {username ? "Sign Out" : "Sign In"}
               </Nav.Link>
             </LinkContainer>
           </Navbar.Collapse>

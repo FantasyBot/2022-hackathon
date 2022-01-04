@@ -36,7 +36,6 @@ const HomePage = () => {
 
   return (
     <div>
-      <a href="/profile/:username/addhotel">Add hotel</a>
       <Form>
         <Stack
           className="justify-content-center my-3"

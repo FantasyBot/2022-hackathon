@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 import axios from "axios";
 
@@ -19,6 +20,8 @@ const AddHotel = () => {
 
   const [disable, setDisable] = useState("");
   const [message, setMessage] = useState("");
+
+  const { username } = useSelector((state) => state.user);
 
   const checkInputOnChange = (e) => {
     if (e.target.files.length > 4 || e.target.files.length < 4) {
@@ -70,7 +73,7 @@ const AddHotel = () => {
           {/* username  */}
           <Form.Group className="mb-3">
             <Form.Label>User</Form.Label>
-            <Form.Control placeholder="Guram Svanidze" disabled />
+            <Form.Control placeholder={username} disabled />
           </Form.Group>
 
           {/* Hotel name  */}
