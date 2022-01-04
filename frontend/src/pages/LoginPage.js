@@ -60,6 +60,7 @@ const LoginPage = () => {
             {callBegin && (
               <Spinner
                 as="span"
+                variant="light"
                 animation="grow"
                 size="sm"
                 role="status"

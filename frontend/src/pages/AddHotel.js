@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 import axios from "axios";
 
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Image } from "react-bootstrap";
 
 import Message from "../components/Message";
 import FormContainer from "../components/FormContainer";
@@ -21,16 +21,21 @@ const AddHotel = () => {
   const [disable, setDisable] = useState("");
   const [message, setMessage] = useState("");
 
+  const [objectUrls, setObjectUrls] = useState([]);
+
   const { username } = useSelector((state) => state.user);
 
   const checkInputOnChange = (e) => {
-    if (e.target.files.length > 4 || e.target.files.length < 4) {
+    if (e.target.files.length !== 4) {
       setDisable(true);
-      setMessage("Please upload four images");
+      setMessage("Please upload exactly four (4) images!");
     } else {
       setDisable(false);
       setMessage("");
       setFiles(e.target.files);
+
+      // New
+      setObjectUrls([...e.target.files].map((o) => URL.createObjectURL(o)));
     }
   };
 
@@ -67,7 +72,6 @@ const AddHotel = () => {
   return (
     <>
       <h2 className="text-center mt-2 text-secondary">Register hotel</h2>
-
       <FormContainer>
         <Form onSubmit={handleSubmit}>
           {message && <Message variant="danger">{message}</Message>}
@@ -142,8 +146,20 @@ const AddHotel = () => {
               accept=".jpeg, .jpg, .png, .gif"
               multiple
               required
-              onChange={(e) => checkInputOnChange(e)}
+              onChange={checkInputOnChange}
             />
+            <div className="my-2 d-flex gap-2">
+              {objectUrls.map((url) => (
+                <div key={url}>
+                  <Image
+                    rounded
+                    style={{ width: "100%", height: "100%" }}
+                    src={url}
+                    alt={url}
+                  />
+                </div>
+              ))}
+            </div>
           </Form.Group>
 
           {/* description */}
@@ -175,33 +191,3 @@ const AddHotel = () => {
 };
 
 export default AddHotel;
-
-// function simulateNetworkRequest() {
-//   return new Promise((resolve) => setTimeout(resolve, 2000));
-// }
-
-// function LoadingButton() {
-//   const [isLoading, setLoading] = useState(false);
-
-//   useEffect(() => {
-//     if (isLoading) {
-//       simulateNetworkRequest().then(() => {
-//         setLoading(false);
-//       });
-//     }
-//   }, [isLoading]);
-
-//   const handleClick = () => setLoading(true);
-
-//   return (
-//     <Button
-//       variant="primary"
-//       disabled={isLoading}
-//       onClick={!isLoading ? handleClick : null}
-//     >
-//       {isLoading ? 'Loading…' : 'Click to load'}
-//     </Button>
-//   );
-// }
-
-// render(<LoadingButton />);
