@@ -153,7 +153,7 @@ const AddHotel = () => {
                 <div key={url}>
                   <Image
                     rounded
-                    style={{ width: "100%", height: "100%" }}
+                    style={{ width: "100%", height: "auto" }}
                     src={url}
                     alt={url}
                   />
