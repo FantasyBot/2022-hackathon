@@ -47,9 +47,12 @@ const AddHotel = () => {
 
     axios({
       method: "post",
-      url: "http://localhost:5000/api/user/register/operator",
+      url: "http://localhost:5000/api/user/create/hotel",
       data: bodyFormData,
-      headers: { "Content-Type": "multipart/form-data" },
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTA0LCJuYW1lIjoiam9obiIsImVtYWlsIjoiam9obkBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjQxMzAwMTcwLCJleHAiOjE2NDE3MzIxNzB9.aweZhDUwd4Hbw78okKYw1yUDvUMH6zEC1KS6oqL6OrQ`,
+      },
     })
       .then(function (response) {
         //handle success
@@ -70,7 +73,7 @@ const AddHotel = () => {
           {/* username  */}
           <Form.Group className="mb-3">
             <Form.Label>User</Form.Label>
-            <Form.Control placeholder="Guram Svanidze" disabled />
+            <Form.Control placeholder="Loged in user's NAME" disabled />
           </Form.Group>
 
           {/* Hotel name  */}

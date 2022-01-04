@@ -31,6 +31,6 @@ const upload = multer({
   fileFilter: function (req, file, cb) {
     checkFileType(file, cb);
   },
-}).array("images", 2);
+}).array("images", 4);
 // .fields([{ name: "multiImages", maxCount: 4 }]);
 module.exports = upload;

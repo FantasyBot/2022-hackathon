@@ -1,5 +1,8 @@
 const upload = require("../libs/saveImages");
 
+//E X T R A
+// const upload = multer({ dest: "uploads/" });
+
 const forMulter = (req, res, next) => {
   upload(req, res, (err) => {
     if (err) {
@@ -8,16 +11,33 @@ const forMulter = (req, res, next) => {
         stk: err.message,
       });
     }
-    
     try {
       const filename1 = req?.files[0]?.filename;
       const filename2 = req?.files[1]?.filename;
 
-      if (!filename1 || !filename2 || req?.files?.multiImages?.length > 2) {
+      const filename3 = req?.files[2]?.filename;
+      const filename4 = req?.files[3]?.filename;
+      
+      // I know I know...
+      if (
+        !filename1 ||
+        !filename2 ||
+        !filename3 ||
+        !filename4 ||
+        req?.files?.images?.length > 4
+      ) {
+        res.status(401);
+        return next({
+          msg: "Please upload four images (You can select them together)",
+        });
+      } else if (!filename1 || !filename2 || req?.files?.images?.length > 2) {
         res.status(401);
         return next({
           msg: "Please upload two images (You can select both together)",
         });
+      } else if ((filename3, filename4)) {
+        req.body = { ...req.body, filename1, filename2, filename3, filename4 };
+        return next();
       } else {
         req.body = { ...req.body, filename1, filename2 };
         return next();
