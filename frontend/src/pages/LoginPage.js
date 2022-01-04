@@ -3,9 +3,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Form, Button, Spinner } from "react-bootstrap";
-import { Link } from "react-router-dom";
-
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 import { loginAction } from "../store/middlewares/loginAction";
 
@@ -34,7 +32,6 @@ const LoginPage = () => {
     <FormContainer>
       <Form onSubmit={submitHandler}>
         <h3 className="text-center">Sign In</h3>
-        {callBegin && <Spinner animation="border" variant="warning" />}
         {message && <Message variant="danger">{message}</Message>}
 
         <Form.Group className="mb-3" controlId="formBasicusername">
@@ -58,10 +55,21 @@ const LoginPage = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
+        <div className="d-grid gap-2 mb-4">
+          <Button variant="primary" disabled={callBegin} type="submit">
+            {callBegin && (
+              <Spinner
+                as="span"
+                animation="grow"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+            )}
+            {callBegin ? " Loading..." : " Submit"}
+          </Button>
+        </div>
 
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
         <p className="my-1">
           Do not have an account? <Link to="/signup">Sign up</Link>
         </p>
