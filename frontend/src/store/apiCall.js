@@ -8,7 +8,7 @@ const initialState = {
 };
 
 const apiCallSlice = createSlice({
-  name: 'apiCall',
+  name: "apiCall",
   initialState,
   reducers: {
     callBegin: (state) => {
@@ -24,11 +24,15 @@ const apiCallSlice = createSlice({
       state.callFail = true;
       state.message = action.payload;
     },
-    reset: (state) => {
-      state = initialState;
-    }
-  }
+    resetApiCallState: (state) => {
+      state.callBegin = false;
+      state.callSuccess = null;
+      state.callFail = null;
+      state.message = "";
+    },
+  },
 });
 
-export const { callBegin, callSuccess, callFailed } = apiCallSlice.actions;
+export const { callBegin, callSuccess, callFailed, resetApiCallState } =
+  apiCallSlice.actions;
 export default apiCallSlice.reducer;

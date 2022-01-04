@@ -1,8 +1,10 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
-// import { Navbar, Container, Nav, NavDropdown, Stack, Form, Button, ListGroup, Spinner } from 'react-bootstrap';
 import { LinkContainer } from "react-router-bootstrap";
+
+import { userLoggedOut } from "../../store/user";
+import { resetApiCallState } from "../../store/apiCall";
 
 // import classes from './Header.module.css';
 // import useSearch from '../../hooks/useSearch';
@@ -22,6 +24,14 @@ const Header = () => {
     role = "",
     active = false,
   } = useSelector((state) => state.user);
+
+  const dispatch = useDispatch();
+
+  const logoutHandler = () => {
+    console.log("Removed token from localStorage. User has just logged out!");
+    dispatch(userLoggedOut());
+    dispatch(resetApiCallState());
+  };
 
   return (
     <header>
@@ -58,11 +68,7 @@ const Header = () => {
                 <LinkContainer to="/profile">
                   <NavDropdown.Item>{username}</NavDropdown.Item>
                 </LinkContainer>
-                <NavDropdown.Item
-                  onClick={() =>
-                    console.log("Write logic for logout (cleanup localstorage)")
-                  }
-                >
+                <NavDropdown.Item onClick={logoutHandler}>
                   Logout
                 </NavDropdown.Item>
               </NavDropdown>
