@@ -27,8 +27,16 @@ const userSlice = createSlice({
       user.username = username;
       user.role = role;
     },
+    userLoggedOut: (user) => {
+      localStorage.removeItem("token");
+
+      user.username = "";
+      user.role = "";
+      user.active = false;
+    },
   },
 });
 
-export const { userLoggedIn, userRegistered } = userSlice.actions;
+export const { userLoggedIn, userRegistered, userLoggedOut } =
+  userSlice.actions;
 export default userSlice.reducer;

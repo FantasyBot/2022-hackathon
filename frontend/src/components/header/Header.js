@@ -1,8 +1,12 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+
+import { useNavigate } from "react-router-dom";
 
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
-// import { Navbar, Container, Nav, NavDropdown, Stack, Form, Button, ListGroup, Spinner } from 'react-bootstrap';
 import { LinkContainer } from "react-router-bootstrap";
+
+import { userLoggedOut } from "../../store/user";
+import { resetApiCallState } from "../../store/apiCall";
 
 // import classes from './Header.module.css';
 // import useSearch from '../../hooks/useSearch';
@@ -22,6 +26,17 @@ const Header = () => {
     role = "",
     active = false,
   } = useSelector((state) => state.user);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const logoutHandler = () => {
+    console.log("Removed token from localStorage. User has just logged out!");
+    console.log("navigate", navigate);
+    dispatch(userLoggedOut());
+    dispatch(resetApiCallState());
+    navigate("/");
+  };
 
   return (
     <header>
@@ -51,6 +66,12 @@ const Header = () => {
                   </Nav.Link>
                 </LinkContainer>
               )}
+
+              {active === "operator" && (
+                <LinkContainer to={`/profile/${username}/addhotel`}>
+                  <Nav.Link>Add hotel</Nav.Link>
+                </LinkContainer>
+              )}
             </Nav>
 
             {username && (
@@ -58,21 +79,19 @@ const Header = () => {
                 <LinkContainer to="/profile">
                   <NavDropdown.Item>{username}</NavDropdown.Item>
                 </LinkContainer>
-                <NavDropdown.Item
-                  onClick={() =>
-                    console.log("Write logic for logout (cleanup localstorage)")
-                  }
-                >
+                <NavDropdown.Item onClick={logoutHandler}>
                   Logout
                 </NavDropdown.Item>
               </NavDropdown>
             )}
 
-            <LinkContainer to="/login">
-              <Nav.Link className="text-secondary">
-                <i className="far fa-user"></i> Sign In
-              </Nav.Link>
-            </LinkContainer>
+            {!username && (
+              <LinkContainer to="/login">
+                <Nav.Link className="text-secondary">
+                  <i className="far fa-user"></i> Sign In
+                </Nav.Link>
+              </LinkContainer>
+            )}
           </Navbar.Collapse>
         </Container>
       </Navbar>
