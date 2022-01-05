@@ -36,6 +36,7 @@ const HomePage = () => {
 
   return (
     <div>
+      {console.log("HomePage rendering")}
       <Form>
         <Stack
           className="justify-content-center my-3"

@@ -1,13 +1,15 @@
-import axios from "axios";
 import { useState } from "react";
+
+import { useDispatch, useSelector } from "react-redux";
+
 import { Navigate } from "react-router-dom";
 
 import { Form, Button, Spinner } from "react-bootstrap";
-// import { Navigate } from "react-router-dom";
+
+import { loginAction } from "../store/middlewares/loginAction";
 
 import FormContainer from "../components/FormContainer";
 import Message from "../components/Message";
-// import useHttp from "../hooks/useHttp";
 
 const RegisterPage = () => {
   const [enteredUsername, setEnteredUsername] = useState("");
@@ -15,12 +17,15 @@ const RegisterPage = () => {
   const [enteredPassword, setEnteredPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const [message, setMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [warningMessage, setWarningMessage] = useState("");
 
-  const [token, setToken] = useState("");
+  const { callBegin, callSuccess, message } = useSelector(
+    (state) => state.apiCall
+  );
 
-  if (token) {
+  const dispatch = useDispatch();
+
+  if (callSuccess) {
     return <Navigate to="/" />;
   }
 
@@ -32,47 +37,30 @@ const RegisterPage = () => {
     const email = enteredEmail.trim();
 
     if (!username || !password || !email) {
-      setMessage("Your name or password must not be empty!");
+      setWarningMessage(
+        "Your username, password or email fields must not be empty!"
+      );
       return;
     }
 
     if (enteredPassword !== confirmPassword) {
-      setMessage("Passwords do not match!");
+      setWarningMessage("Passwords do not match!");
       return;
     }
 
-    const asyncFunc = async (url, method, enteredData) => {
-      setIsLoading(true);
-      try {
-        const { data } = await axios.request({
-          baseURL: "/api",
-          url,
-          method,
-          data: enteredData,
-        });
-        // const { data } = await axios.post(url, enteredData);
-
-        setIsLoading(false);
-        // setTokenHandler(data.token);
-        setToken(data.token);
-
-        localStorage.setItem("token", JSON.stringify(data.token));
-      } catch (error) {
-        setMessage(error.response.data.message);
-        setIsLoading(false);
-      }
-    };
-
-    asyncFunc("/user/register", "POST", { username, password, email });
+    dispatch(loginAction("/api/user/register", { username, password, email }));
   };
 
   return (
     <FormContainer>
+      {console.log("RegisterPage rendering....")}
       <Form onSubmit={submitHandler}>
         <h4 className="text-center">Register</h4>
 
-        {isLoading && <Spinner animation="border" variant="warning" />}
-        {message && <Message variant="danger">{message}</Message>}
+        {/* {isLoading && <Spinner animation="border" variant="warning" />} */}
+        {(warningMessage || message) && (
+          <Message variant="danger">{warningMessage || message}</Message>
+        )}
 
         <Form.Group className="mb-3" controlId="email">
           <Form.Label>Email</Form.Label>
@@ -118,10 +106,21 @@ const RegisterPage = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </Form.Group>
-
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
+        <div className="d-grid gap-2 mb-4">
+          <Button variant="primary" disabled={callBegin} type="submit">
+            {callBegin && (
+              <Spinner
+                as="span"
+                variant="light"
+                animation="grow"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+            )}
+            {callBegin ? " Loading..." : " Register"}
+          </Button>
+        </div>
       </Form>
     </FormContainer>
   );

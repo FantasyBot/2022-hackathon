@@ -1,14 +1,18 @@
-import axios from "axios";
 import { useState } from "react";
+// import axios from "axios";
 
-import { Form } from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
+
+import { Form, Image, Button, Spinner } from "react-bootstrap";
 import { Navigate } from "react-router-dom";
+
+import { loginAction } from "../store/middlewares/loginAction";
 
 import FormContainer from "../components/FormContainer";
 import Message from "../components/Message";
 
 const RegisterOperator = () => {
-  const [message, setMessage] = useState("");
+  const [warningMessage, setWarningMessage] = useState("");
   const [disable, setDisable] = useState(false);
 
   const [username, setUsername] = useState("");
@@ -16,19 +20,27 @@ const RegisterOperator = () => {
   const [password, setPassword] = useState("");
   const [files, setFiles] = useState(null);
 
-  const [token, setToken] = useState("");
+  // const [token, setToken] = useState("");
+  const [objectUrls, setObjectUrls] = useState([]);
 
-  if (token) {
+  const dispatch = useDispatch();
+
+  const { callBegin, message, callSuccess } = useSelector(
+    (state) => state.apiCall
+  );
+
+  if (callSuccess) {
     return <Navigate to="/" />;
   }
 
   const checkInputOnChange = (e) => {
     if (e.target.files.length > 2 || e.target.files.length < 2) {
       setDisable(true);
-      setMessage("Please upload two images");
+      setWarningMessage("Please upload two images");
     } else {
+      setObjectUrls([...e.target.files].map((o) => URL.createObjectURL(o)));
       setDisable(false);
-      setMessage("");
+      setWarningMessage("");
       setFiles(e.target.files);
     }
   };
@@ -44,33 +56,36 @@ const RegisterOperator = () => {
     bodyFormData.append("password", password);
     bodyFormData.append("email", email);
 
-    axios({
-      method: "post",
-      url: "http://localhost:5000/api/user/register/operator",
-      data: bodyFormData,
-      headers: { "Content-Type": "multipart/form-data" },
-    })
-      .then(function (response) {
-        //handle success
-        console.log(response.data);
-        setToken(response.data);
+    dispatch(
+      loginAction("POST", "/api/user/register/operator", bodyFormData, {
+        "Content-Type": "multipart/form-data",
       })
-      .catch(function (response) {
-        //handle error
-        console.log("front ERR0R -->", response.message);
-      });
+    );
+
+    // axios({
+    //   method: "post",
+    //   url: "http://localhost:5000/api/user/register/operator",
+    //   data: bodyFormData,
+    //   headers: { "Content-Type": "multipart/form-data" },
+    // })
+    //   .then(function (response) {
+    //     //handle success
+    //     console.log(response.data);
+    //     setToken(response.data);
+    //   })
+    //   .catch(function (response) {
+    //     //handle error
+    //     console.log("front ERR0R -->", response.message);
+    //   });
   };
 
   return (
     <FormContainer>
-      <Form
-        onSubmit={handleSubmit}
-        // action="/api/user/register/operator"
-        // method="POST"
-        // encType="multipart/form-data"
-      >
+      <Form onSubmit={handleSubmit}>
         <h4>Register operator</h4>
-        {message && <Message variant="danger">{message}</Message>}
+        {(warningMessage || message) && (
+          <Message variant="danger">{warningMessage}</Message>
+        )}
 
         <Form.Group className="mb-3" controlId="userName">
           <Form.Label>Username</Form.Label>
@@ -115,13 +130,42 @@ const RegisterOperator = () => {
             accept=".jpeg, .jpg, .png, .gif"
             multiple
             required
-            onChange={(e) => checkInputOnChange(e)}
+            onChange={checkInputOnChange}
           />
+          <div className="my-2 d-flex gap-2">
+            {objectUrls.map((url) => (
+              <div key={url}>
+                <Image
+                  rounded
+                  style={{ width: "100%", height: "auto" }}
+                  src={url}
+                  alt={url}
+                />
+              </div>
+            ))}
+          </div>
         </Form.Group>
+        <div className="d-grid gap-2 mb-4">
+          <Button
+            variant="primary"
+            disabled={callBegin || disable}
+            type="submit"
+          >
+            {callBegin && (
+              <Spinner
+                as="span"
+                variant="light"
+                animation="grow"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+            )}
+            {callBegin ? " Loading..." : " Submit"}
+          </Button>
+        </div>
 
-        <br />
-        <br />
-        <input type="submit" value="Upload" disabled={disable} />
+        {/* <input type="submit" value="Upload" disabled={disable} /> */}
       </Form>
     </FormContainer>
   );
