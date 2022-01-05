@@ -141,7 +141,6 @@ const createHotel = async (req, res, next) => {
       location,
       price,
       discPrice,
-      email,
       description,
       filename1,
       filename2,
@@ -150,8 +149,8 @@ const createHotel = async (req, res, next) => {
     } = req.body;
 
     await pool.query(
-      "INSERT INTO hotels (name, location, price, discPrice, email, description, user_id) VALUES($1, $2, $3, $4, $5, $6, $7)",
-      [name, location, price, discPrice, email, description, id]
+      "INSERT INTO hotels (name, location, price, discPrice, description, user_id) VALUES($1, $2, $3, $4, $5, $6)",
+      [name, location, price, discPrice, description, id]
     );
 
     const hotelId = await pool.query("SELECT id from hotels where name = $1", [

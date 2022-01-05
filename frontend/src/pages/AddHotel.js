@@ -13,7 +13,6 @@ const AddHotel = () => {
   const [location, setLocation] = useState("");
   const [price, setPrice] = useState("");
   const [discPrice, setDicsPrice] = useState("");
-  const [email, setEmail] = useState("");
   const [description, setDescription] = useState("");
   const [files, setFiles] = useState("");
 
@@ -49,7 +48,6 @@ const AddHotel = () => {
     bodyFormData.append("location", location);
     bodyFormData.append("price", price);
     bodyFormData.append("discPrice", discPrice);
-    bodyFormData.append("email", email);
     bodyFormData.append("description", description);
 
     const token = localStorage.getItem("token");
@@ -112,6 +110,8 @@ const AddHotel = () => {
             <Form.Control
               type="number"
               name="price"
+              min="10"
+              placeholder="Please write price in $"
               required
               onChange={(e) => setPrice(e.target.value)}
             />
@@ -123,26 +123,16 @@ const AddHotel = () => {
             <Form.Control
               type="number"
               name="discount"
+              placeholder="Please write discount price in $"
+              min="10"
               required
               onChange={(e) => setDicsPrice(e.target.value)}
             />
           </Form.Group>
 
-          {/* email  */}
-          <Form.Group className="mb-3" controlId="formBasicHotelEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control
-              type="email"
-              name="email"
-              required
-              placeholder="name@example.com"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </Form.Group>
-
           {/* files  */}
           <Form.Group controlId="formFileMultiple" className="mb-3">
-            <Form.Label>Upload files</Form.Label>
+            <Form.Label>Please upload your hotel images</Form.Label>
             <Form.Control
               type="file"
               name="multiImages"
