@@ -5,6 +5,7 @@ import { LinkContainer } from "react-router-bootstrap";
 const SignupPage = () => {
   return (
     <div className="py-2">
+      {console.log("SignUp rendering")}
       <h1 className="text-center text-secondary my-3"> Register as</h1>
       <Row xs={1} md={2} className="g-2">
         <LinkContainer to="/register">

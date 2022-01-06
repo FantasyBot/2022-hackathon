@@ -21,18 +21,15 @@ const Header = () => {
   //   onSelectHandler
   // } = useSearch();
 
-  const {
-    username = "",
-    role = "",
-  } = useSelector((state) => state.user);
+  const { username = "", role = "" } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const logoutHandler = () => {
     console.log("Removed token from localStorage. User has just logged out!");
-    console.log("navigate", navigate);
-    
+    // console.log("navigate", navigate);
+
     dispatch(userLoggedOut());
     dispatch(resetApiCallState());
     navigate("/");
@@ -40,7 +37,7 @@ const Header = () => {
 
   return (
     <header>
-      {console.log("Rendering Header")}
+      {console.log("Header Rendering")}
 
       <Navbar bg="light" variant="light" expand="lg">
         <Container>

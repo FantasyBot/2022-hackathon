@@ -25,11 +25,12 @@ const LoginPage = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(loginAction(email, password));
+    dispatch(loginAction("/api/user/login", { email, password }));
   };
 
   return (
     <FormContainer>
+      {console.log("LoginPage rendering")}
       <Form onSubmit={submitHandler}>
         <h3 className="text-center">Sign In</h3>
         {message && <Message variant="danger">{message}</Message>}
