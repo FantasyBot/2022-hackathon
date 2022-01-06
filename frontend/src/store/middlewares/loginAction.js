@@ -29,7 +29,7 @@ export const loginAction =
 
       localStorage.setItem("token", JSON.stringify(data.token));
     } catch (error) {
-      console.log(error.response.data.message);
+      // console.log(error.response.data.message);
       dispatch(
         callFailed(
           error.response.data.message
