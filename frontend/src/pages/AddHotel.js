@@ -13,6 +13,8 @@ const AddHotel = () => {
   const [location, setLocation] = useState("");
   const [price, setPrice] = useState("");
   const [discPrice, setDicsPrice] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [description, setDescription] = useState("");
   const [files, setFiles] = useState("");
 
@@ -47,7 +49,9 @@ const AddHotel = () => {
     bodyFormData.append("name", hotelName);
     bodyFormData.append("location", location);
     bodyFormData.append("price", price);
-    bodyFormData.append("discPrice", discPrice);
+    bodyFormData.append("discount_price", discPrice);
+    bodyFormData.append("email", email);
+    bodyFormData.append("phone", phoneNumber);
     bodyFormData.append("description", description);
 
     const token = localStorage.getItem("token");
@@ -111,7 +115,7 @@ const AddHotel = () => {
               type="number"
               name="price"
               min="10"
-              placeholder="Please write price in $"
+              placeholder="price in $"
               required
               onChange={(e) => setPrice(e.target.value)}
             />
@@ -123,16 +127,42 @@ const AddHotel = () => {
             <Form.Control
               type="number"
               name="discount"
-              placeholder="Please write discount price in $"
+              placeholder="price in $"
               min="10"
               required
               onChange={(e) => setDicsPrice(e.target.value)}
             />
           </Form.Group>
 
+          {/* hotel email  */}
+          <Form.Group className="mb-3" controlId="formBasicHotelEmail">
+            <Form.Label>Hotel email address</Form.Label>
+            <Form.Control
+              type="email"
+              name="email"
+              required
+              placeholder="name@example.com"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </Form.Group>
+
+          {/* phone number  */}
+          <Form.Group className="mb-3" controlId="formBasicHotelEmail">
+            <Form.Label>Phone number</Form.Label>
+            <Form.Control
+              type="number"
+              name="phone"
+              required
+              min="995598000000"
+              // WE CAN USE REGEX HERE
+              placeholder="+(995)598123456"
+              onChange={(e) => setPhoneNumber(e.target.value)}
+            />
+          </Form.Group>
+
           {/* files  */}
           <Form.Group controlId="formFileMultiple" className="mb-3">
-            <Form.Label>Please upload your hotel images</Form.Label>
+            <Form.Label>Upload files</Form.Label>
             <Form.Control
               type="file"
               name="multiImages"
