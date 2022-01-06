@@ -64,7 +64,7 @@ const registerUser = async (req, res, next) => {
     console.log(e.message);
     res.status(404);
     return next({
-      msg: "username or email is already taken...",
+      msg: "User registration failed...",
       stk: e.message,
     });
   }
