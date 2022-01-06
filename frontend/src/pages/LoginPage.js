@@ -25,7 +25,7 @@ const LoginPage = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(loginAction("/api/user/login", { email, password }));
+    dispatch(loginAction("POST", "/api/user/login", { email, password }));
   };
 
   return (
