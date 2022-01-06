@@ -48,7 +48,9 @@ const RegisterPage = () => {
       return;
     }
 
-    dispatch(loginAction("/api/user/register", { username, password, email }));
+    dispatch(
+      loginAction("POST", "/api/user/register", { username, password, email })
+    );
   };
 
   return (
