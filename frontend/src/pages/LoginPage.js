@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -9,19 +9,34 @@ import { loginAction } from "../store/middlewares/loginAction";
 
 import FormContainer from "../components/FormContainer";
 import Message from "../components/Message";
+import { resetApiCallState } from "../store/apiCall";
 
 // import useHttp from "../hooks/useHttp";
 
 const LoginPage = () => {
-  const dispatch = useDispatch();
-  const { callBegin, message, callSuccess } = useSelector(
-    (state) => state.apiCall
-  );
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  if (callSuccess) return <Navigate to="/" />;
+  const dispatch = useDispatch();
+
+  const { callBegin, message } = useSelector((state) => state.apiCall);
+
+  const { username } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    // console.log("Effect in LoginPage");
+    return () => {
+      console.log("cleanup in LoginPage");
+      dispatch(resetApiCallState());
+    };
+  }, [dispatch]);
+
+  // console.log(username);
+
+  if (username) {
+    console.log("Everything is right!");
+    return <Navigate replace to="/" />;
+  }
 
   const submitHandler = (e) => {
     e.preventDefault();

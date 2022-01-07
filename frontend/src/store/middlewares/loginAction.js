@@ -24,12 +24,34 @@ export const loginAction =
       console.log("decodedToken", decodedToken);
       const { name, role } = decodedToken;
 
+      dispatch(callSuccess({ message: "Successful!" }));
       dispatch(userLoggedIn({ username: name, role }));
-      dispatch(callSuccess());
 
       localStorage.setItem("token", JSON.stringify(data.token));
     } catch (error) {
       // console.log(error.response.data.message);
+      dispatch(
+        callFailed(
+          error.response.data.message
+            ? error.response.data.message
+            : error.message
+        )
+      );
+    }
+  };
+
+export const registerHotel =
+  (method, url, enteredData, headers) => async (dispatch) => {
+    dispatch(callBegin());
+    try {
+      const { data } = await axios({
+        method,
+        url,
+        enteredData,
+        headers,
+      });
+      dispatch(callSuccess({ message: data.message }));
+    } catch (error) {
       dispatch(
         callFailed(
           error.response.data.message

@@ -25,9 +25,9 @@ const RegisterPage = () => {
 
   const dispatch = useDispatch();
 
-  if (callSuccess) {
-    return <Navigate to="/" />;
-  }
+  const { username } = useSelector((state) => state.user);
+
+  if (callSuccess || username) <Navigate to="/" />;
 
   const submitHandler = (e) => {
     e.preventDefault();

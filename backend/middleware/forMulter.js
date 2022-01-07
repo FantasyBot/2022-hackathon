@@ -6,6 +6,7 @@ const upload = require("../libs/saveImages");
 const forMulter = (req, res, next) => {
   upload(req, res, (err) => {
     if (err) {
+      console.log("in err");
       return next({
         msg: "Error in multer",
         stk: err.message,
@@ -17,6 +18,8 @@ const forMulter = (req, res, next) => {
 
       const filename3 = req?.files[2]?.filename;
       const filename4 = req?.files[3]?.filename;
+
+      console.log(filename1, filename2, filename3, filename4);
 
       // I know I know...
       if (!filename1 || !filename2) {
