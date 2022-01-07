@@ -6,7 +6,6 @@ const upload = require("../libs/saveImages");
 const forMulter = (req, res, next) => {
   upload(req, res, (err) => {
     if (err) {
-      console.log("in err");
       return next({
         msg: "Error in multer",
         stk: err.message,

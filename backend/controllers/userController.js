@@ -51,14 +51,14 @@ const registerUser = async (req, res, next) => {
       "INSERT INTO users (username, password, email) VALUES($1, $2, $3)",
       [username, hashedPassword, email]
     );
-    const user = await pool.query(
+    const { rows } = await pool.query(
       "SELECT id, username, email, role FROM users WHERE email = $1",
       [email]
     );
 
     res.json({
       message: "Success",
-      token: generateToken(user.rows[0]),
+      token: generateToken(rows[0]),
     });
   } catch (e) {
     console.log(e.message);
@@ -77,15 +77,15 @@ const getUserProfile = async (req, res, next) => {
   try {
     const { email } = req.user;
     //Check second time
-    const userInfo = await pool.query(
+    const { rows } = await pool.query(
       "SELECT id, username, email, role FROM users WHERE email = $1",
       [email]
     );
     res.json({
-      _id: userInfo.rows[0].id,
-      name: userInfo.rows[0].username,
-      email: userInfo.rows[0].email,
-      active: userInfo.rows[0].operator,
+      _id: rows[0].id,
+      name: rows[0].username,
+      email: rows[0].email,
+      active: rows[0].operator,
     });
   } catch (err) {
     console.log(err.message);
@@ -111,14 +111,14 @@ const registerOperator = async (req, res, next) => {
       [name, hashedPassword, email, "operator", filename1, filename2]
     );
 
-    const operator = await pool.query(
+    const { rows } = await pool.query(
       "SELECT id, username, email, role FROM users WHERE email = $1",
       [email]
     );
 
     res.json({
       message: "Success operator",
-      token: generateToken(operator.rows[0]),
+      token: generateToken(rows[0]),
     });
   } catch (err) {
     console.log(err.message);
@@ -156,16 +156,15 @@ const createHotel = async (req, res, next) => {
       [name, location, price, discount_price, email, phone, description, id]
     );
 
-    const hotelId = await pool.query("SELECT id from hotels where name = $1", [
-      name,
-    ]);
-
-    console.log("hotelId", hotelId);
+    const { rows: hotelId } = await pool.query(
+      "SELECT id from hotels where name = $1",
+      [name]
+    );
 
     await pool.query(
       "INSERT INTO media (first_photo, second_photo, third_photo, fourth_photo, author_photo, hotel_photo) " +
         "VALUES($1, $2, $3, $4, $5, $6)",
-      [filename1, filename2, filename3, filename4, id, hotelId.rows[0].id]
+      [filename1, filename2, filename3, filename4, id, hotelId[0].id]
     );
 
     res.json({
@@ -186,14 +185,15 @@ const createHotel = async (req, res, next) => {
 // Public
 const getAllHotels = async (req, res, next) => {
   try {
-    const myHotelInfo = await pool.query(
+    const { rows } = await pool.query(
       "SELECT name, location, price, discount_price, email, phone, description, first_photo, user_id " +
         "FROM hotels JOIN media ON hotels.id = media.hotel_photo"
     );
-    if (myHotelInfo.rows.length !== 0) {
+
+    if (rows.length !== 0) {
       res.json({
         message: "SUCCESS",
-        allHotels: myHotelInfo.rows,
+        allHotels: rows,
       });
     } else {
       res.status(404);
@@ -218,16 +218,16 @@ const getMyHotels = async (req, res, next) => {
   try {
     const { id } = req.user;
 
-    const myHotelInfo = await pool.query(
+    const { rows } = await pool.query(
       "SELECT * FROM (SELECT name, location, price, discount_price, email, phone, description, first_photo, user_id " +
         "FROM hotels JOIN media ON hotels.id = media.hotel_photo) as joined_info WHERE joined_info.user_id = $1",
       [id]
     );
 
-    if (myHotelInfo.rows.length !== 0) {
+    if (rows.length !== 0) {
       res.json({
         message: "SUCCESS",
-        hotels: myHotelInfo.rows,
+        hotels: rows,
       });
     } else {
       res.status(404);
@@ -252,16 +252,16 @@ const getSingleHotel = async (req, res, next) => {
   try {
     const { id: single_hotel_name } = req.params;
 
-    const myHotelInfo = await pool.query(
+    const { rows } = await pool.query(
       "SELECT * FROM (SELECT name, location, price, discount_price, email, phone, description, first_photo, second_photo, third_photo, fourth_photo " +
         "FROM hotels JOIN media ON hotels.id = media.hotel_photo) as joined_info WHERE joined_info.name = $1",
       [single_hotel_name]
     );
 
-    if (myHotelInfo.rows[0]) {
+    if (rows[0]) {
       res.json({
         message: "SUCCESS",
-        hotel_info: myHotelInfo.rows[0],
+        hotel_info: rows[0],
       });
     } else {
       res.status(404);

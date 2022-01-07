@@ -77,10 +77,15 @@ const AddHotel = () => {
     const token = localStorage.getItem("token");
 
     dispatch(
-      registerHotel("POST", "/api/user/create/hotel", bodyFormData, {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${JSON.parse(token)}`,
-      })
+      registerHotel(
+        "POST",
+        "http://localhost:5000/api/user/create/hotel",
+        bodyFormData,
+        {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${JSON.parse(token)}`,
+        }
+      )
     );
   };
 
