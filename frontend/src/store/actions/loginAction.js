@@ -1,8 +1,8 @@
 import axios from "axios";
 import decodeToken from "../../utils/jwtDecode";
 
-import { callBegin, callSuccess, callFailed } from "../apiCall";
-import { userLoggedIn } from "../user";
+import { callBegin, callSuccess, callFailed } from "../slices/apiCall";
+import { userLoggedIn } from "../slices/user";
 // import { userLoggedIn } from '../user';
 
 export const loginAction =

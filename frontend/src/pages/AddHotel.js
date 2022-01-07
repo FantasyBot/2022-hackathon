@@ -9,11 +9,11 @@ import VerticallyCenteredModal from "../components/UI/VerticallyCenteredModal";
 
 import { useNavigate } from "react-router-dom";
 
-import { registerHotel } from "../store/middlewares/loginAction";
+import { registerHotel } from "../store/actions/loginAction";
 
 import Message from "../components/Message";
 import FormContainer from "../components/FormContainer";
-import { resetApiCallState } from "../store/apiCall";
+import { resetApiCallState } from "../store/slices/apiCall";
 
 const AddHotel = () => {
   const [hotelName, setHotelName] = useState("");

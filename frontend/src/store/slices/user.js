@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import decodeToken from "../utils/jwtDecode";
+import decodeToken from "../../utils/jwtDecode";
 const token = localStorage.getItem("token");
 
 const initialState = {

@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Form, Image, Button, Spinner } from "react-bootstrap";
 import { Navigate } from "react-router-dom";
 
-import { loginAction } from "../store/middlewares/loginAction";
+import { loginAction } from "../store/actions/loginAction";
 
 import FormContainer from "../components/FormContainer";
 import Message from "../components/Message";

@@ -5,11 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Form, Button, Spinner } from "react-bootstrap";
 import { Link, Navigate } from "react-router-dom";
 
-import { loginAction } from "../store/middlewares/loginAction";
+import { loginAction } from "../store/actions/loginAction";
 
 import FormContainer from "../components/FormContainer";
 import Message from "../components/Message";
-import { resetApiCallState } from "../store/apiCall";
+import { resetApiCallState } from "../store/slices/apiCall";
 
 // import useHttp from "../hooks/useHttp";
 

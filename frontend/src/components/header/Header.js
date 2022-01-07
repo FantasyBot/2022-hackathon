@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 
-import { userLoggedOut } from "../../store/user";
-import { resetApiCallState } from "../../store/apiCall";
+import { userLoggedOut } from "../../store/slices/user";
+import { resetApiCallState } from "../../store/slices/apiCall";
 
 // import classes from './Header.module.css';
 // import useSearch from '../../hooks/useSearch';
