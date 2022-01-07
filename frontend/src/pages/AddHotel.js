@@ -1,12 +1,19 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-import axios from "axios";
+// import axios from "axios";
 
-import { Form, Button, Image } from "react-bootstrap";
+import { Form, Button, Image, Spinner } from "react-bootstrap";
+
+import VerticallyCenteredModal from "../components/UI/VerticallyCenteredModal";
+
+import { useNavigate } from "react-router-dom";
+
+import { registerHotel } from "../store/middlewares/loginAction";
 
 import Message from "../components/Message";
 import FormContainer from "../components/FormContainer";
+import { resetApiCallState } from "../store/apiCall";
 
 const AddHotel = () => {
   const [hotelName, setHotelName] = useState("");
@@ -19,25 +26,38 @@ const AddHotel = () => {
   const [files, setFiles] = useState("");
 
   const [disable, setDisable] = useState("");
-  const [message, setMessage] = useState("");
+  const [warningMessage, setWarningMessage] = useState("");
 
   const [objectUrls, setObjectUrls] = useState([]);
 
   const { username } = useSelector((state) => state.user);
 
+  const { callBegin, message, callSuccess } = useSelector(
+    (state) => state.apiCall
+  );
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    return () => dispatch(resetApiCallState());
+  }, [dispatch]);
+
   const checkInputOnChange = (e) => {
     if (e.target.files.length !== 4) {
       setDisable(true);
-      setMessage("Please upload exactly four (4) images!");
+      setWarningMessage("Please upload exactly four (4) images!");
     } else {
       setDisable(false);
-      setMessage("");
+      setWarningMessage("");
       setFiles(e.target.files);
 
       // New
       setObjectUrls([...e.target.files].map((o) => URL.createObjectURL(o)));
     }
   };
+
+  const hideModalHandler = () => navigate(`/profile/${username}/myhotels`);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -55,23 +75,32 @@ const AddHotel = () => {
     bodyFormData.append("description", description);
 
     const token = localStorage.getItem("token");
-    axios({
-      method: "post",
-      url: "http://localhost:5000/api/user/create/hotel",
-      data: bodyFormData,
-      headers: {
+    console.log(bodyFormData);
+
+    dispatch(
+      registerHotel("POST", "/api/user/create/hotel", bodyFormData, {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${JSON.parse(token)}`,
-      },
-    })
-      .then(function (response) {
-        //handle success
-        console.log(response.data);
       })
-      .catch(function (response) {
-        //handle error
-        console.log("front ERR0R -->", response.message);
-      });
+    );
+
+    // axios({
+    //   method: "post",
+    //   url: "http://localhost:5000/api/user/create/hotel",
+    //   data: bodyFormData,
+    //   headers: {
+    //     "Content-Type": "multipart/form-data",
+    //     Authorization: `Bearer ${JSON.parse(token)}`,
+    //   },
+    // })
+    //   .then(function (response) {
+    //     //handle success
+    //     console.log(response.data);
+    //   })
+    //   .catch(function (response) {
+    //     //handle error
+    //     console.log("front ERR0R -->", response.message);
+    //   });
   };
 
   return (
@@ -79,7 +108,9 @@ const AddHotel = () => {
       <h2 className="text-center mt-2 text-secondary">Register hotel</h2>
       <FormContainer>
         <Form onSubmit={handleSubmit}>
-          {message && <Message variant="danger">{message}</Message>}
+          {(warningMessage || message) && (
+            <Message variant="danger">{warningMessage || message}</Message>
+          )}
           {/* username  */}
           <Form.Group className="mb-3">
             <Form.Label>User</Form.Label>
@@ -199,15 +230,25 @@ const AddHotel = () => {
           <div className="d-grid">
             <Button
               variant="primary"
+              disabled={callBegin || disable}
               type="submit"
-              size="lg"
-              disabled={disable}
             >
-              Submit
+              {callBegin && (
+                <Spinner
+                  as="span"
+                  variant="light"
+                  animation="grow"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+              )}
+              {callBegin ? " Loading..." : " Register"}
             </Button>
           </div>
         </Form>
       </FormContainer>
+      <VerticallyCenteredModal show={callSuccess} onHide={hideModalHandler} />
     </>
   );
 };

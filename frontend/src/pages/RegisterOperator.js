@@ -29,9 +29,9 @@ const RegisterOperator = () => {
     (state) => state.apiCall
   );
 
-  if (callSuccess) {
-    return <Navigate to="/" />;
-  }
+  const user = useSelector((state) => state.user);
+
+  if (callSuccess || user.username) return <Navigate to="/" />;
 
   const checkInputOnChange = (e) => {
     if (e.target.files.length > 2 || e.target.files.length < 2) {
@@ -84,7 +84,7 @@ const RegisterOperator = () => {
       <Form onSubmit={handleSubmit}>
         <h4>Register operator</h4>
         {(warningMessage || message) && (
-          <Message variant="danger">{warningMessage}</Message>
+          <Message variant="danger">{warningMessage || message}</Message>
         )}
 
         <Form.Group className="mb-3" controlId="userName">

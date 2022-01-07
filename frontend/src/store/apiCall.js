@@ -17,7 +17,7 @@ const apiCallSlice = createSlice({
     callSuccess: (state, action) => {
       state.callBegin = false;
       state.callSuccess = true;
-      // state.message = action.payload.message;
+      state.message = action.payload.message;
     },
     callFailed: (state, action) => {
       state.callBegin = false;

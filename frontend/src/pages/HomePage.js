@@ -4,40 +4,40 @@ import {
   Row,
   Col,
   Card,
-  Form,
-  Stack,
-  Spinner,
-  ListGroup,
-  Button,
+  // Form,
+  // Stack,
+  // Spinner,
+  // ListGroup,
+  // Button,
 } from "react-bootstrap";
 import logo from "../assets/images/hotels.jpg";
-import useSearch from "../hooks/useSearch";
-import classes from "./HomePage.module.css";
+// import useSearch from "../hooks/useSearch";
+// import classes from "./HomePage.module.css";
 
 const HomePage = () => {
-  const {
-    searchResults,
-    enteredValue,
-    searching,
-    onReset,
-    onChangeHandler,
-    onSelectHandler,
-  } = useSearch();
+  // const {
+  //   searchResults,
+  //   enteredValue,
+  //   searching,
+  //   onReset,
+  //   onChangeHandler,
+  //   onSelectHandler,
+  // } = useSearch();
 
-  const onSubmit = async () => {
-    try {
-      const { data } = await axios.post("/upload", {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const onSubmit = async () => {
+  //   try {
+  //     const { data } = await axios.post("/upload", {
+  //       headers: { "Content-Type": "multipart/form-data" },
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   return (
     <div>
       {console.log("HomePage rendering")}
-      <Form>
+      {/* <Form>
         <Stack
           className="justify-content-center my-3"
           direction="horizontal"
@@ -86,9 +86,8 @@ const HomePage = () => {
             Search
           </Button>
           <div className="vr" />
-          {/* <Button type="button" variant="outline-secondary">Search</Button> */}
         </Stack>
-      </Form>
+      </Form> */}
 
       <Row xs={1} md={3} className="g-4">
         {Array.from({ length: 8 }).map((_, idx) => (

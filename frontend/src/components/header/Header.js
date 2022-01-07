@@ -12,15 +12,6 @@ import { resetApiCallState } from "../../store/apiCall";
 // import useSearch from '../../hooks/useSearch';
 
 const Header = () => {
-  // const {
-  //   searchResults,
-  //   enteredValue,
-  //   searching,
-  //   onReset,
-  //   onChangeHandler,
-  //   onSelectHandler
-  // } = useSearch();
-
   const { username = "", role = "" } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
@@ -28,7 +19,6 @@ const Header = () => {
 
   const logoutHandler = () => {
     console.log("Removed token from localStorage. User has just logged out!");
-    // console.log("navigate", navigate);
 
     dispatch(userLoggedOut());
     dispatch(resetApiCallState());
@@ -48,10 +38,6 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <LinkContainer to="/">
-                <Nav.Link>Home</Nav.Link>
-              </LinkContainer>
-
               {username && (
                 <LinkContainer
                   to={`/profile/${username}/${
@@ -59,7 +45,7 @@ const Header = () => {
                   }`}
                 >
                   <Nav.Link>
-                    {role === "customer" ? "My Cart" : "My Hotels"}
+                    {role === "user" ? "My Cart" : "My Hotels"}
                   </Nav.Link>
                 </LinkContainer>
               )}

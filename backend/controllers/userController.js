@@ -161,6 +161,8 @@ const createHotel = async (req, res, next) => {
       [name]
     );
 
+    console.log("hotelId", hotelId);
+
     await pool.query(
       "INSERT INTO media (first_photo, second_photo, third_photo, fourth_photo, author_photo, hotel_photo) " +
         "VALUES($1, $2, $3, $4, $5, $6)",
