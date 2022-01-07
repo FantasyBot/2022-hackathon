@@ -26,6 +26,7 @@ const userSlice = createSlice({
       user.username = username;
       user.role = role;
     },
+
     userLoggedOut: (user) => {
       localStorage.removeItem("token");
       user.username = "";

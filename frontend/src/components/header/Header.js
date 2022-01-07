@@ -7,6 +7,7 @@ import { LinkContainer } from "react-router-bootstrap";
 
 import { userLoggedOut } from "../../store/slices/user";
 import { resetApiCallState } from "../../store/slices/apiCall";
+import { resetHotelsState } from "../../store/slices/hotels";
 
 // import classes from './Header.module.css';
 // import useSearch from '../../hooks/useSearch';
@@ -22,6 +23,7 @@ const Header = () => {
 
     dispatch(userLoggedOut());
     dispatch(resetApiCallState());
+    dispatch(resetHotelsState());
     navigate("/");
   };
 
