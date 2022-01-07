@@ -75,7 +75,6 @@ const AddHotel = () => {
     bodyFormData.append("description", description);
 
     const token = localStorage.getItem("token");
-    console.log(bodyFormData);
 
     dispatch(
       registerHotel("POST", "/api/user/create/hotel", bodyFormData, {
@@ -83,24 +82,6 @@ const AddHotel = () => {
         Authorization: `Bearer ${JSON.parse(token)}`,
       })
     );
-
-    // axios({
-    //   method: "post",
-    //   url: "http://localhost:5000/api/user/create/hotel",
-    //   data: bodyFormData,
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //     Authorization: `Bearer ${JSON.parse(token)}`,
-    //   },
-    // })
-    //   .then(function (response) {
-    //     //handle success
-    //     console.log(response.data);
-    //   })
-    //   .catch(function (response) {
-    //     //handle error
-    //     console.log("front ERR0R -->", response.message);
-    //   });
   };
 
   return (

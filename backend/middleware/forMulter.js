@@ -19,8 +19,6 @@ const forMulter = (req, res, next) => {
       const filename3 = req?.files[2]?.filename;
       const filename4 = req?.files[3]?.filename;
 
-      console.log(filename1, filename2, filename3, filename4);
-
       // I know I know...
       if (!filename1 || !filename2) {
         res.status(401);

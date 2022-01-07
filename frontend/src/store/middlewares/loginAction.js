@@ -47,7 +47,7 @@ export const registerHotel =
       const { data } = await axios({
         method,
         url,
-        enteredData,
+        data: enteredData,
         headers,
       });
       dispatch(callSuccess({ message: data.message }));
