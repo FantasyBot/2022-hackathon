@@ -193,7 +193,7 @@ const AddHotel = () => {
                 <div key={url}>
                   <Image
                     rounded
-                    style={{ width: "100%", height: "auto" }}
+                    style={{ width: "100%", height: "100%" }}
                     src={url}
                     alt={url}
                   />
@@ -234,7 +234,12 @@ const AddHotel = () => {
           </div>
         </Form>
       </FormContainer>
-      <VerticallyCenteredModal show={callSuccess} onHide={hideModalHandler} />
+      <VerticallyCenteredModal
+        title="Congratulations!"
+        body="New hotel added successfully!"
+        show={callSuccess}
+        onHide={hideModalHandler}
+      />
     </>
   );
 };

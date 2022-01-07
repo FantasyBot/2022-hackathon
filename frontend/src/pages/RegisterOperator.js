@@ -61,22 +61,6 @@ const RegisterOperator = () => {
         "Content-Type": "multipart/form-data",
       })
     );
-
-    // axios({
-    //   method: "post",
-    //   url: "http://localhost:5000/api/user/register/operator",
-    //   data: bodyFormData,
-    //   headers: { "Content-Type": "multipart/form-data" },
-    // })
-    //   .then(function (response) {
-    //     //handle success
-    //     console.log(response.data);
-    //     setToken(response.data);
-    //   })
-    //   .catch(function (response) {
-    //     //handle error
-    //     console.log("front ERR0R -->", response.message);
-    //   });
   };
 
   return (
@@ -137,7 +121,7 @@ const RegisterOperator = () => {
               <div key={url}>
                 <Image
                   rounded
-                  style={{ width: "100%", height: "auto" }}
+                  style={{ width: "100%", height: "100%" }}
                   src={url}
                   alt={url}
                 />
