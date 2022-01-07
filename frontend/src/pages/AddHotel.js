@@ -75,13 +75,21 @@ const AddHotel = () => {
     bodyFormData.append("description", description);
 
     const token = localStorage.getItem("token");
-    console.log(bodyFormData);
+
+    // for (var value of bodyFormData.values()) {
+    //   console.log(value);
+    // }
 
     dispatch(
-      registerHotel("POST", "/api/user/create/hotel", bodyFormData, {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${JSON.parse(token)}`,
-      })
+      registerHotel(
+        "POST",
+        "http://localhost:5000/api/user/create/hotel",
+        bodyFormData,
+        {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${JSON.parse(token)}`,
+        }
+      )
     );
 
     // axios({
