@@ -4,7 +4,7 @@ import RegisterPage from "./pages/RegisterPage";
 import ProfilePage from "./pages/ProfilePage";
 import MyHotels from "./pages/MyHotels";
 import RegisterOperator from "./pages/RegisterOperator";
-import AddHotel from "./pages/AddHotel";
+import AddHotelPage from "./pages/AddHotelPage";
 import SignupPage from "./pages/SignupPage";
 import MyReservationsPage from "./pages/MyReservationsPage";
 
@@ -43,8 +43,8 @@ const routes = [
   },
   {
     id: 7,
-    path: "/profile/:username/addhotel",
-    element: <AddHotel />,
+    path: "/profile/:username/add-hotel",
+    element: <AddHotelPage />,
   },
   {
     id: 8,

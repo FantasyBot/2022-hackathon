@@ -15,7 +15,7 @@ import Message from "../components/Message";
 import FormContainer from "../components/FormContainer";
 import { resetApiCallState } from "../store/slices/apiCall";
 
-const AddHotel = () => {
+const AddHotelPage = () => {
   const [hotelName, setHotelName] = useState("");
   const [location, setLocation] = useState("");
   const [price, setPrice] = useState("");
@@ -244,4 +244,4 @@ const AddHotel = () => {
   );
 };
 
-export default AddHotel;
+export default AddHotelPage;

@@ -53,7 +53,7 @@ const Header = () => {
                   </LinkContainer>
                   {role === "operator" && (
                     <>
-                      <LinkContainer to={`/profile/${username}/addhotel`}>
+                      <LinkContainer to={`/profile/${username}/add-hotel`}>
                         <Nav.Link>Add hotel</Nav.Link>
                       </LinkContainer>
 
