@@ -5,7 +5,8 @@ import ProfilePage from "./pages/ProfilePage";
 import MyHotels from "./pages/MyHotels";
 import RegisterOperator from "./pages/RegisterOperator";
 import AddHotel from "./pages/AddHotel";
-import SignupPage from './pages/SignupPage';
+import SignupPage from "./pages/SignupPage";
+import MyReservationsPage from "./pages/MyReservationsPage";
 
 import { Routes, Route } from "react-router-dom";
 
@@ -47,11 +48,16 @@ const routes = [
   },
   {
     id: 8,
-    path: '/signup',
+    path: "/signup",
     element: <SignupPage />,
   },
   {
     id: 9,
+    path: "/profile/:username/my-reservations",
+    element: <MyReservationsPage />,
+  },
+  {
+    id: 100,
     path: "*",
     element: <h1>404</h1>,
   },

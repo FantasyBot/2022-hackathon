@@ -41,21 +41,30 @@ const Header = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               {username && (
-                <LinkContainer
-                  to={`/profile/${username}/${
-                    role === "customer" ? "cart" : "myhotels"
-                  }`}
-                >
-                  <Nav.Link>
-                    {role === "user" ? "My Cart" : "My Hotels"}
-                  </Nav.Link>
-                </LinkContainer>
-              )}
+                <>
+                  <LinkContainer
+                    to={`/profile/${username}/${
+                      role === "user" ? "cart" : "myhotels"
+                    }`}
+                  >
+                    <Nav.Link>
+                      {role === "user" ? "My Cart" : "My Hotels"}
+                    </Nav.Link>
+                  </LinkContainer>
+                  {role === "operator" && (
+                    <>
+                      <LinkContainer to={`/profile/${username}/addhotel`}>
+                        <Nav.Link>Add hotel</Nav.Link>
+                      </LinkContainer>
 
-              {role === "operator" && (
-                <LinkContainer to={`/profile/${username}/addhotel`}>
-                  <Nav.Link>Add hotel</Nav.Link>
-                </LinkContainer>
+                      <LinkContainer
+                        to={`/profile/${username}/my-reservations`}
+                      >
+                        <Nav.Link>My Reservations</Nav.Link>
+                      </LinkContainer>
+                    </>
+                  )}
+                </>
               )}
             </Nav>
 

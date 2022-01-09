@@ -19,15 +19,13 @@ const RegisterPage = () => {
 
   const [warningMessage, setWarningMessage] = useState("");
 
-  const { callBegin, callSuccess, message } = useSelector(
-    (state) => state.apiCall
-  );
+  const { callBegin, message } = useSelector((state) => state.apiCall);
 
   const dispatch = useDispatch();
 
   const { username } = useSelector((state) => state.user);
-
-  if (callSuccess || username) <Navigate replace to="/" />;
+  console.log(username);
+  if (username) return <Navigate replace to="/" />;
 
   const submitHandler = (e) => {
     e.preventDefault();
