@@ -13,7 +13,7 @@ import { resetHotelsState } from "../../store/slices/hotels";
 // import useSearch from '../../hooks/useSearch';
 
 const Header = () => {
-  const { username = "", role = "" } = useSelector((state) => state.user);
+  const { username, role } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();

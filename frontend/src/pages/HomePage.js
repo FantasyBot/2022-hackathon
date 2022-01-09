@@ -32,63 +32,83 @@ const HomePage = () => {
   //   }
   // };
 
-  const { allHotels } = useSelector((state) => state.hotels);
-  const { username } = useSelector((state) => state.user);
+  const {
+    allHotels: { fetched, newHotel, results },
+  } = useSelector((state) => state.hotels);
 
-  console.log("allHotels", allHotels);
+  const { callBegin } = useSelector((state) => state.apiCall);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     console.log("HomePage effect");
 
-    // Fix
-    if (allHotels.length === 0) dispatch(fetchAllHotels());
+    if (!fetched || (fetched && newHotel)) {
+      console.log(
+        "fetched ->",
+        fetched,
+        "newHotel ->",
+        newHotel,
+        "So fetch will start!"
+      );
+      dispatch(fetchAllHotels());
+    } else {
+      console.log(
+        "fetched ->",
+        fetched,
+        "newHotel ->",
+        newHotel,
+        "So fetch won't happen! X"
+      );
+    }
+  }, [dispatch, fetched, newHotel]);
 
-    return () => dispatch(resetApiCallState());
-  }, [dispatch, allHotels.length]);
+  useEffect(() => {
+    return () => {
+      console.log("Cleanup homepage");
+      dispatch(resetApiCallState());
+    };
+  }, [dispatch]);
 
   return (
     <div className="my-2">
       {console.log("HomePage rendering")}
 
-      {allHotels.length > 0 && (
-        <>
-          <h3 className="text-center my-3">Currently available Hotels</h3>
-          <Row xs={1} md={3} className="g-4">
-            {allHotels.map((hotel, idx) => (
-              <Col key={idx}>
-                <Card>
-                  <Card.Img
-                    variant="top"
-                    // src={hotel.first_photo}
-                    src={logo}
-                    alt={hotel.first_photo}
-                  />
-                  {/* <Card.Header>Header</Card.Header> */}
-                  <Card.Body>
-                    <Card.Title>{hotel.name}</Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">
-                      {hotel.description}
-                    </Card.Subtitle>
-                    <Card.Text>
-                      Email: {hotel.email}
-                      <br />
-                      Price: {hotel.price}
-                      <br />
-                      Discount price: {hotel.discount_price}
-                    </Card.Text>
-                    <Card.Link href="#">Card Link</Card.Link>
-                    <Card.Link href="#">Another Link</Card.Link>
-                  </Card.Body>
-                  <Card.Footer>{hotel.location}</Card.Footer>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </>
-      )}
-      {allHotels.length === 0 && username && (
-        <div className="d-flex justify-content-center">
+      <h3 className="text-center my-3">Currently available Hotels</h3>
+      <Row xs={1} md={3} className="g-4">
+        {results.map((hotel, idx) => (
+          <Col key={idx}>
+            <Card>
+              <Card.Img
+                variant="top"
+                // src={hotel.first_photo}
+                src={logo}
+                alt={hotel.first_photo}
+              />
+              {/* <Card.Header>Header</Card.Header> */}
+              <Card.Body>
+                <Card.Title>{hotel.name}</Card.Title>
+                <Card.Subtitle className="mb-2 text-muted">
+                  {hotel.description}
+                </Card.Subtitle>
+                <Card.Text>
+                  Email: {hotel.email}
+                  <br />
+                  Price: {hotel.price}
+                  <br />
+                  Discount price: {hotel.discount_price}
+                </Card.Text>
+                <Card.Link href="#">Card Link</Card.Link>
+                <Card.Link href="#">Another Link</Card.Link>
+              </Card.Body>
+              <Card.Footer>{hotel.location}</Card.Footer>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+
+      {callBegin && (
+        <div className="d-flex justify-content-center my-4">
           <Spinner animation="border" variant="secondary" size="lg"></Spinner>
         </div>
       )}

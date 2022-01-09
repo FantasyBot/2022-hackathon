@@ -24,7 +24,7 @@ const LoginPage = () => {
   const { username } = useSelector((state) => state.user);
 
   useEffect(() => {
-    // console.log("Effect in LoginPage");
+    console.log("Effect in LoginPage");
     return () => {
       console.log("cleanup in LoginPage");
       dispatch(resetApiCallState());

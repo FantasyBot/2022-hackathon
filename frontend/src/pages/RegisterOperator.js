@@ -31,7 +31,7 @@ const RegisterOperator = () => {
 
   const user = useSelector((state) => state.user);
 
-  if (callSuccess || user.username) return <Navigate to="/" />;
+  if (callSuccess || user.username) return <Navigate replace to="/" />;
 
   const checkInputOnChange = (e) => {
     if (e.target.files.length > 2 || e.target.files.length < 2) {

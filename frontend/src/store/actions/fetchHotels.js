@@ -5,7 +5,7 @@ import { fetchedAllHotels, fetchedMyHotels } from "../slices/hotels";
 // /api/user/allhotels
 
 export const fetchAllHotels = () => async (dispatch) => {
-  callBegin();
+  dispatch(callBegin());
   try {
     const { data } = await axios.get("/api/user/allhotels");
     dispatch(fetchedAllHotels({ allHotels: data.allHotels }));
@@ -22,3 +22,28 @@ export const fetchAllHotels = () => async (dispatch) => {
 };
 
 // /api/user/myhotels
+
+export const fetchMyHotels = () => async (dispatch) => {
+  dispatch(callBegin());
+  try {
+    const { data } = await axios({
+      method: "GET",
+      url: "/api/user/myhotels",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      },
+    });
+    console.log("data", data);
+    dispatch(fetchedMyHotels({ myHotels: data.hotels }));
+    dispatch(callSuccess({ Message: "Successfully fetched data!" }));
+  } catch (error) {
+    dispatch(
+      callFailed(
+        error.response.data.message
+          ? error.response.data.message
+          : error.message
+      )
+    );
+  }
+};
