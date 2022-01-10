@@ -84,7 +84,6 @@ const getUserProfile = async (req, res, next) => {
     res.json({
       _id: rows[0].id,
       name: rows[0].username,
-      password: rows[0].password,
       email: rows[0].email,
       role: rows[0].role,
       operator_personal_id1: rows[0].user_photo1,
