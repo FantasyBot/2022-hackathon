@@ -77,15 +77,18 @@ const getUserProfile = async (req, res, next) => {
   try {
     const { email } = req.user;
     //Check second time
-    const { rows } = await pool.query(
-      "SELECT id, username, email, role FROM users WHERE email = $1",
-      [email]
-    );
+    const { rows } = await pool.query("SELECT * FROM users WHERE email = $1", [
+      email,
+    ]);
+
     res.json({
       _id: rows[0].id,
       name: rows[0].username,
+      password: rows[0].password,
       email: rows[0].email,
-      active: rows[0].operator,
+      role: rows[0].role,
+      operator_personal_id1: rows[0].user_photo1,
+      operator_personal_id2: rows[0].user_photo2,
     });
   } catch (err) {
     console.log(err.message);
