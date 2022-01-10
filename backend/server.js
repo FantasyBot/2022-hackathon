@@ -22,6 +22,13 @@ app.use("/api/product", productRoutes);
 app.use("/api/order", orderRoutes);
 
 app.use("/static", express.static(path.join(__dirname, "public")));
+
+//Reach images from backend in frontend
+app.use(
+  "/backend/public/uploads",
+  express.static(process.cwd() + "/backend/public/uploads")
+);
+
 app.use(notFound);
 app.use(errorHandler);
 
