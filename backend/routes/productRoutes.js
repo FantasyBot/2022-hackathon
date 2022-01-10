@@ -13,8 +13,8 @@ const { protect } = require("../middleware/authMiddleware");
 
 // /api/product..
 router.post("/create/hotel", forMulter, protect, createHotel);
-router.get("/all-hotels", getAllHotels);
-router.get("/my-hotels", protect, getMyHotels);
+router.get("/allhotels", getAllHotels);
+router.get("/myhotels", protect, getMyHotels);
 router.get("/hotels/:id", getSingleHotel);
 
 module.exports = router;
