@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const path = require("path");
 const userRoutes = require("./routes/userRoutes");
+const hotelRoutes = require("./routes/hotelRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const app = express();
@@ -16,6 +17,7 @@ dotenv.config(); // Do we need this here?
 // app.set("views", path.join(__dirname, "/views"));
 
 app.use("/api/user", userRoutes);
+app.use("/api/product", hotelRoutes);
 
 app.use("/static", express.static(path.join(__dirname, "public")));
 app.use(notFound);
