@@ -7,7 +7,7 @@ import { fetchedAllHotels, fetchedMyHotels } from "../slices/hotels";
 export const fetchAllHotels = () => async (dispatch) => {
   dispatch(callBegin());
   try {
-    const { data } = await axios.get("/api/user/allhotels");
+    const { data } = await axios.get("/api/product/allhotels");
     dispatch(fetchedAllHotels({ allHotels: data.allHotels }));
     dispatch(callSuccess({ message: "Successfully fetched data!" }));
   } catch (error) {
@@ -28,7 +28,7 @@ export const fetchMyHotels = () => async (dispatch) => {
   try {
     const { data } = await axios({
       method: "GET",
-      url: "/api/user/myhotels",
+      url: "/api/product/myhotels",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
