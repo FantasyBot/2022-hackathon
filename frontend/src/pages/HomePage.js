@@ -72,6 +72,10 @@ const HomePage = () => {
 
   return (
     <div className="my-2">
+      {/* <img
+        src="backend/public/uploads/first_photo(ბაზიდან სურათის სახელი)"
+        alt="test"
+      /> */}
       {console.log("HomePage rendering")}
 
       <h3 className="text-center my-3">Currently available Hotels</h3>
