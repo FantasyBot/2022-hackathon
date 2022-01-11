@@ -12,7 +12,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-dotenv.config(); // Do we need this here?
+dotenv.config(); // Do we need this here? To use .env files here too
 
 // app.set("view engine", "ejs");
 // app.set("views", path.join(__dirname, "/views"));

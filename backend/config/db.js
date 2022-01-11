@@ -1,15 +1,60 @@
-const { Pool } = require("pg");
+// const { Pool } = require("pg");
 
-const dotenv = require("dotenv");
-dotenv.config();
-// console.log('dotenv.config', dotenv.config());
+// const dotenv = require("dotenv");
+// dotenv.config();
 
-const pool = new Pool({
-  database: process.env.DATABASE,
-  user: process.env.USER,
-  password: process.env.PASSWORD,
-  host: process.env.HOST,
-  port: process.env.PORT_SQL,
+// // const devConfig = {
+// //   database: process.env.DATABASE,
+// //   user: process.env.USER,
+// //   password: process.env.PASSWORD,
+// //   host: process.env.HOST,
+// //   port: process.env.PORT_SQL,
+// // };
+
+// const devConfig = `postgresql://${process.env.USER}:${process.env.PASSWORD}@${process.env.HOST}:${process.env.PORT}/${process.env.DATABASE}`;
+
+// const proConfig = process.env.DATABASE_URL; //heroku addons
+
+// const pool = new Pool({
+//   connectionString:
+//     process.env.NODE_ENV === "production" ? proConfig : devConfig,
+// });
+
+// module.exports = pool;
+
+// //DEFALT
+// const { Pool } = require("pg");
+// const dotenv = require("dotenv");
+// dotenv.config();
+
+// const devConfig = {
+//   database: process.env.DATABASE,
+//   user: process.env.USER,
+//   password: process.env.PASSWORD,
+//   host: process.env.HOST,
+//   port: process.env.PORT_SQL,
+// };
+// const pool = new Pool(devConfig);
+// module.exports = pool;
+
+const { Client } = require("pg");
+
+const client = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
-module.exports = pool;
+client.connect();
+
+client.query(
+  "SELECT table_schema,table_name FROM information_schema.tables;",
+  (err, res) => {
+    if (err) throw err;
+    for (let row of res.rows) {
+      console.log(JSON.stringify(row));
+    }
+    client.end();
+  }
+);
