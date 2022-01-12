@@ -8,7 +8,6 @@ import { userLoggedIn } from "../slices/user";
 export const loginAction =
   (method, url, enteredData, headers) => async (dispatch) => {
     dispatch(callBegin());
-
     try {
       const { data } = await axios({
         method,

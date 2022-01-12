@@ -36,7 +36,7 @@ const RegisterPage = () => {
 
     if (!username || !password || !email) {
       setWarningMessage(
-        "Your fullname, email or password fields must not be empty!"
+        "Your username, password or email fields must not be empty!"
       );
       return;
     }
@@ -67,7 +67,7 @@ const RegisterPage = () => {
           <Form.Control
             type="email"
             value={enteredEmail}
-            placeholder="example@gmail.com"
+            placeholder="Enter email"
             aria-describedby="email-help-text"
             onChange={(e) => setEnteredEmail(e.target.value)}
           />
@@ -81,7 +81,7 @@ const RegisterPage = () => {
           <Form.Control
             type="text"
             value={enteredFullname}
-            placeholder="John Doe"
+            placeholder="Enter fullname"
             onChange={(e) => setEnteredFullname(e.target.value)}
           />
         </Form.Group>
@@ -92,7 +92,7 @@ const RegisterPage = () => {
             type="password"
             value={enteredPassword}
             aria-describedby="password-help-text"
-            // placeholder="Password"
+            placeholder="Password"
             onChange={(e) => setEnteredPassword(e.target.value)}
           />
         </Form.Group>
@@ -102,7 +102,7 @@ const RegisterPage = () => {
           <Form.Control
             type="password"
             value={confirmPassword}
-            // placeholder="Confirm password"
+            placeholder="Confirm password"
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </Form.Group>

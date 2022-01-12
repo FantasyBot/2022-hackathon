@@ -44,6 +44,7 @@ const registerUser = async (req, res, next) => {
   try {
     const { username, password, email } = req.body;
 
+    console.log(req.body);
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 

@@ -54,6 +54,7 @@ const createHotel = async (req, res, next) => {
 // GET/api/product/allhotels
 // Public
 const getAllHotels = async (req, res, next) => {
+  console.log("Here");
   try {
     const { rows } = await pool.query(
       "SELECT name, location, price, discount_price, email, phone, description, first_photo, user_id " +

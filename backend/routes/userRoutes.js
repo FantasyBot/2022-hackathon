@@ -7,9 +7,9 @@ const {
   getUserProfile,
   registerOperator,
 } = require("../controllers/userController");
+
 const { forMulter } = require("../middleware/forMulter");
 const { protect } = require("../middleware/authMiddleware");
-
 
 // /api/user..
 router.post("/login", authUser);
