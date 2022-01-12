@@ -63,4 +63,10 @@ Hotel Tonight
    // GET/api/product/hotels/:id
    // Public
 
+9. https://hackathon-2022.herokuapp.com/api/product/hotels/myhotels/:id (id იქნება სასტუმროს სახელი) სასტუმროს წაშლა(ოპერატორები შლიან მხოლოდ თავის დამატებულ სასტუმროებს)
+   // Delete one hotel
+   // DELETE/api/product/hotels/myhotels/:id
+   // Private
+   ჰედერში ჩაისეტოს შესული იუზერის ტოკენი...
+
 ჯერჯერობით საკმარისია და დამავატებ აქ კიდევ...

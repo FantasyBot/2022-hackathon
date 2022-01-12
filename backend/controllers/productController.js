@@ -150,7 +150,7 @@ const getSingleHotel = async (req, res, next) => {
 };
 
 // Delete one hotel
-// GET/api/product/hotels/myhotels/:id
+// DELETE/api/product/hotels/myhotels/:id
 // Private
 const deleteHotel = async (req, res, next) => {
   try {
@@ -160,7 +160,7 @@ const deleteHotel = async (req, res, next) => {
       "SELECT id FROM hotels h WHERE h.name=$1",
       [hotel_name]
     );
-    
+
     const { rows: delMedia } = await pool.query(
       "DELETE FROM media m WHERE m.hotel_photo=$1",
       [rows[0].id]
