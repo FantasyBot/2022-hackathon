@@ -1,3 +1,4 @@
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
@@ -27,43 +28,46 @@ const Header = () => {
     navigate("/");
   };
 
-  const operatorRoutes =
-    role === "operator" ? (
-      <>
+  const privateRoutes = (
+    <React.Fragment>
+      {role === "operator" ? (
         <LinkContainer to={`/product/${username}/add-hotel`}>
           <Nav.Link>Add hotel</Nav.Link>
         </LinkContainer>
+      ) : null}
 
-        <LinkContainer to={`/profile/${username}/my-reservations`}>
-          <Nav.Link>Hotel Reservations</Nav.Link>
-        </LinkContainer>
-      </>
-    ) : null;
+      <LinkContainer to={`/profile/${username}/reservations`}>
+        <Nav.Link>
+          {role === "user" ? "My Reservations" : "Hotel Reservations"}
+        </Nav.Link>
+      </LinkContainer>
+    </React.Fragment>
+  );
 
   const nav = (
     <Nav className="me-auto">
       {username ? (
-        <>
+        <React.Fragment>
           <LinkContainer
             to={`/profile/${username}/${role === "user" ? "cart" : "myhotels"}`}
           >
             <Nav.Link>My {role === "user" ? "Cart" : "Hotels"}</Nav.Link>
           </LinkContainer>
-          {operatorRoutes}
-        </>
+          {privateRoutes}
+        </React.Fragment>
       ) : null}
     </Nav>
   );
 
   const logoutAndUserProfile = username ? (
-    <>
+    <React.Fragment>
       <NavDropdown title={username} id="userName">
         <LinkContainer to={`/profile/${username}`}>
           <NavDropdown.Item>My profile</NavDropdown.Item>
         </LinkContainer>
         <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
       </NavDropdown>
-    </>
+    </React.Fragment>
   ) : null;
 
   const signIn = !username ? (

@@ -86,7 +86,7 @@ const HomePage = () => {
     <Row xs={1} md={3} className="g-4">
       {results.map((hotel, idx) => (
         <Col key={idx}>
-          <LinkContainer to={`/product/hotels/${hotel.name}`}>
+          <LinkContainer to={`/hotels/${hotel.name}`}>
             <Card>
               <Card.Img
                 variant="top"

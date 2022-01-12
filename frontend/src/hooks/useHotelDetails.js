@@ -4,13 +4,16 @@ import { useParams } from "react-router-dom";
 
 const useHotelDetails = () => {
   const [hotelDetails, setHotelDetails] = useState("");
+
   const { hotelName } = useParams();
-  console.log("hotelName %d", hotelName);
+
+  console.log("hotelName", hotelName);
 
   useEffect(() => {
     const fetchHotelInfo = async () => {
       const { data } = await axios.get(`/api/product/hotels/${hotelName}`);
-      console.log("data: %d", data);
+      console.log("data:", data);
+
       setHotelDetails(data.hotel_info);
     };
 
