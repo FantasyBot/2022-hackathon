@@ -12,7 +12,7 @@ import FormContainer from "../components/FormContainer";
 import Message from "../components/Message";
 
 const RegisterPage = () => {
-  const [enteredUsername, setEnteredUsername] = useState("");
+  const [enteredFullname, setEnteredFullname] = useState("");
   const [enteredEmail, setEnteredEmail] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -30,13 +30,13 @@ const RegisterPage = () => {
   const submitHandler = (e) => {
     e.preventDefault();
 
-    const username = enteredUsername.trim();
+    const fullname = enteredFullname.trim();
     const password = enteredPassword.trim();
     const email = enteredEmail.trim();
 
-    if (!username || !password || !email) {
+    if (!fullname || !password || !email) {
       setWarningMessage(
-        "Your username, password or email fields must not be empty!"
+        "Your fullname, email or password fields must not be empty!"
       );
       return;
     }
@@ -47,7 +47,7 @@ const RegisterPage = () => {
     }
 
     dispatch(
-      loginAction("POST", "/api/user/register", { username, password, email })
+      loginAction("POST", "/api/user/register", { fullname, password, email })
     );
   };
 
@@ -67,22 +67,22 @@ const RegisterPage = () => {
           <Form.Control
             type="email"
             value={enteredEmail}
-            placeholder="Enter email"
+            placeholder="example@gmail.com"
             aria-describedby="email-help-text"
             onChange={(e) => setEnteredEmail(e.target.value)}
           />
-          <Form.Text id="email-help-text" muted>
+          {/* <Form.Text id="email-help-text" muted>
             We'll never share your email with anyone else.
-          </Form.Text>
+          </Form.Text> */}
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="userName">
-          <Form.Label>Username</Form.Label>
+          <Form.Label>Fullname</Form.Label>
           <Form.Control
             type="text"
-            value={enteredUsername}
-            placeholder="Enter name"
-            onChange={(e) => setEnteredUsername(e.target.value)}
+            value={enteredFullname}
+            placeholder="John Doe"
+            onChange={(e) => setEnteredFullname(e.target.value)}
           />
         </Form.Group>
 
@@ -92,7 +92,7 @@ const RegisterPage = () => {
             type="password"
             value={enteredPassword}
             aria-describedby="password-help-text"
-            placeholder="Password"
+            // placeholder="Password"
             onChange={(e) => setEnteredPassword(e.target.value)}
           />
         </Form.Group>
@@ -102,7 +102,7 @@ const RegisterPage = () => {
           <Form.Control
             type="password"
             value={confirmPassword}
-            placeholder="Confirm password"
+            // placeholder="Confirm password"
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </Form.Group>

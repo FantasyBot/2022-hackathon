@@ -35,7 +35,7 @@ const Header = () => {
         </LinkContainer>
 
         <LinkContainer to={`/profile/${username}/my-reservations`}>
-          <Nav.Link>My Reservations</Nav.Link>
+          <Nav.Link>Hotel Reservations</Nav.Link>
         </LinkContainer>
       </>
     ) : null;
@@ -47,7 +47,7 @@ const Header = () => {
           <LinkContainer
             to={`/profile/${username}/${role === "user" ? "cart" : "myhotels"}`}
           >
-            <Nav.Link>{role === "user" ? "My Cart" : "My Hotels"}</Nav.Link>
+            <Nav.Link>My {role === "user" ? "Cart" : "Hotels"}</Nav.Link>
           </LinkContainer>
           {operatorRoutes}
         </>
