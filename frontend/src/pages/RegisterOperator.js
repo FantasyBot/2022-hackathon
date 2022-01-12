@@ -15,7 +15,7 @@ const RegisterOperator = () => {
   const [warningMessage, setWarningMessage] = useState("");
   const [disable, setDisable] = useState(false);
 
-  const [username, setUsername] = useState("");
+  const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [files, setFiles] = useState(null);
@@ -29,7 +29,7 @@ const RegisterOperator = () => {
 
   const user = useSelector((state) => state.user);
 
-  if (user.username) return <Navigate replace to="/" />;
+  if (user.fullname) return <Navigate replace to="/" />;
 
   const checkInputOnChange = (e) => {
     if (e.target.files.length > 2 || e.target.files.length < 2) {
@@ -50,7 +50,7 @@ const RegisterOperator = () => {
     for (let i = 0; i < files.length; i++) {
       bodyFormData.append("images", files[i]);
     }
-    bodyFormData.append("name", username);
+    bodyFormData.append("name", fullname);
     bodyFormData.append("password", password);
     bodyFormData.append("email", email);
 
@@ -70,13 +70,13 @@ const RegisterOperator = () => {
         )}
 
         <Form.Group className="mb-3" controlId="userName">
-          <Form.Label>Username</Form.Label>
+          <Form.Label>Fullname</Form.Label>
           <Form.Control
             type="text"
             required
             name="name"
-            placeholder="Enter name"
-            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Enter your fullname as in personal ID"
+            onChange={(e) => setFullname(e.target.value)}
           />
         </Form.Group>
 

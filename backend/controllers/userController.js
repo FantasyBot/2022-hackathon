@@ -42,7 +42,7 @@ const authUser = async (req, res, next) => {
 // Public
 const registerUser = async (req, res, next) => {
   try {
-    const { username, password, email } = req.body;
+    const { fullname, password, email } = req.body;
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -50,7 +50,7 @@ const registerUser = async (req, res, next) => {
     // username is fullname
     await pool.query(
       "INSERT INTO users (username, password, email) VALUES($1, $2, $3)",
-      [username, hashedPassword, email]
+      [fullname, hashedPassword, email]
     );
     const { rows } = await pool.query(
       "SELECT id, username, email, role FROM users WHERE email = $1",
