@@ -149,9 +149,32 @@ const getSingleHotel = async (req, res, next) => {
   }
 };
 
+// Delete one hotel
+// GET/api/product/hotels/myhotels/:id
+// Private
+const deleteHotel = async (req, res, next) => {
+  try {
+    const { id: hotel_name } = req.params;
+    const { email } = req.user;
+
+    const { rows } = await pool.query(
+      "DELETE FROM hotels",
+      [single_hotel_name]
+    );
+  } catch (err) {
+    console.log(err.message);
+    res.status(404);
+    return next({
+      msg: "Unsuccessful, can not delete hotel",
+      stk: err.message,
+    });
+  }
+};
+
 module.exports = {
   createHotel,
   getAllHotels,
   getMyHotels,
   getSingleHotel,
+  deleteHotel,
 };

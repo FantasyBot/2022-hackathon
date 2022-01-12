@@ -10,7 +10,7 @@ const isOperator = async (req, res, next) => {
 
     if (rows[0].role !== "operator") {
       return next({
-        msg: "Not authorized, is not operator",
+        msg: "Not authorized, is not Operator",
       });
     } else {
       return next();
