@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
 
-import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
+import { Navbar, Container, Nav, NavDropdown, Badge } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 
 import { userLoggedOut } from "../../store/slices/user";
@@ -30,7 +30,7 @@ const Header = () => {
   const operatorRoutes =
     role === "operator" ? (
       <>
-        <LinkContainer to={`/profile/${username}/add-hotel`}>
+        <LinkContainer to={`/product/${username}/add-hotel`}>
           <Nav.Link>Add hotel</Nav.Link>
         </LinkContainer>
 
@@ -58,8 +58,8 @@ const Header = () => {
   const logoutAndUserProfile = username ? (
     <>
       <NavDropdown title={username} id="userName">
-        <LinkContainer to="/profile">
-          <NavDropdown.Item>{username}</NavDropdown.Item>
+        <LinkContainer to={`/profile/${username}`}>
+          <NavDropdown.Item>My profile</NavDropdown.Item>
         </LinkContainer>
         <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
       </NavDropdown>

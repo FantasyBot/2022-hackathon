@@ -7,6 +7,7 @@ import RegisterOperator from "./pages/RegisterOperator";
 import AddHotelPage from "./pages/AddHotelPage";
 import SignupPage from "./pages/SignupPage";
 import MyReservationsPage from "./pages/MyReservationsPage";
+import HotelDetailsPage from "./pages/HotelDetailsPage";
 
 import { Routes, Route } from "react-router-dom";
 
@@ -28,7 +29,7 @@ const routes = [
   },
   {
     id: 4,
-    path: "/profile",
+    path: "/profile/:username",
     element: <ProfilePage />,
   },
   {
@@ -43,7 +44,7 @@ const routes = [
   },
   {
     id: 7,
-    path: "/profile/:username/add-hotel",
+    path: "/product/:username/add-hotel",
     element: <AddHotelPage />,
   },
   {
@@ -55,6 +56,11 @@ const routes = [
     id: 9,
     path: "/profile/:username/my-reservations",
     element: <MyReservationsPage />,
+  },
+  {
+    id: 10,
+    path: "/product/hotels/:hotelName",
+    element: <HotelDetailsPage />,
   },
   {
     id: 100,

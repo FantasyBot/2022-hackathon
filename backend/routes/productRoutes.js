@@ -7,9 +7,9 @@ const {
   getMyHotels,
   getSingleHotel,
 } = require("../controllers/productController");
+
 const { forMulter } = require("../middleware/forMulter");
 const { protect } = require("../middleware/authMiddleware");
-
 
 // /api/product..
 router.post("/create/hotel", forMulter, protect, createHotel);

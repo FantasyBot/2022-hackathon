@@ -2,6 +2,8 @@ import { useEffect } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 
+// import { LinkContainer } from "react-router-bootstrap";
+
 import { fetchAllHotels } from "../store/actions/fetchHotels";
 
 import {
@@ -9,15 +11,19 @@ import {
   Col,
   Card,
   Spinner,
+  // Carousel,
+  // Image,
   // Form,
   // Stack,
-  // Spinner,
-  // ListGroup,
-  // Button,
 } from "react-bootstrap";
 
 import logo from "../assets/images/hotels.jpg";
+// import hotel2 from "../assets/images/hotel-2.jpg";
+// import hotel3 from "../assets/images/hotel-3.jpg";
+
 import { resetApiCallState } from "../store/slices/apiCall";
+import { LinkContainer } from "react-router-bootstrap";
+
 // import useSearch from "../hooks/useSearch";
 // import classes from "./HomePage.module.css";
 
@@ -70,18 +76,17 @@ const HomePage = () => {
     };
   }, [dispatch]);
 
-  return (
-    <div className="my-2">
-      {/* <img
-        src="backend/public/uploads/first_photo(ბაზიდან სურათის სახელი)"
-        alt="test"
-      /> */}
-      {console.log("HomePage rendering")}
+  const spinner = (
+    <div className="d-flex justify-content-center my-4">
+      <Spinner animation="border" variant="secondary" size="lg"></Spinner>
+    </div>
+  );
 
-      <h3 className="text-center my-3">Currently available Hotels</h3>
-      <Row xs={1} md={3} className="g-4">
-        {results.map((hotel, idx) => (
-          <Col key={idx}>
+  const content = (
+    <Row xs={1} md={3} className="g-4">
+      {results.map((hotel, idx) => (
+        <Col key={idx}>
+          <LinkContainer to={`/product/hotels/${hotel.name}`}>
             <Card>
               <Card.Img
                 variant="top"
@@ -107,15 +112,20 @@ const HomePage = () => {
               </Card.Body>
               <Card.Footer>{hotel.location}</Card.Footer>
             </Card>
-          </Col>
-        ))}
-      </Row>
+          </LinkContainer>
+        </Col>
+      ))}
+    </Row>
+  );
 
-      {callBegin && (
-        <div className="d-flex justify-content-center my-4">
-          <Spinner animation="border" variant="secondary" size="lg"></Spinner>
-        </div>
-      )}
+  return (
+    <div className="my-2">
+      {/* <img src="../../../backend/public/uploads/random.jpg" alt="test" /> */}
+      {console.log("HomePage rendering")}
+
+      <h3 className="text-center my-3">Currently available Hotels</h3>
+      {callBegin ? spinner : null}
+      {content}
     </div>
   );
 };
