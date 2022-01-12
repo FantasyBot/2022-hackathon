@@ -30,11 +30,11 @@ const RegisterPage = () => {
   const submitHandler = (e) => {
     e.preventDefault();
 
-    const username = enteredFullname.trim();
+    const fullname = enteredFullname.trim();
     const password = enteredPassword.trim();
     const email = enteredEmail.trim();
 
-    if (!username || !password || !email) {
+    if (!fullname || !password || !email) {
       setWarningMessage(
         "Your username, password or email fields must not be empty!"
       );
@@ -47,7 +47,7 @@ const RegisterPage = () => {
     }
 
     dispatch(
-      loginAction("POST", "/api/user/register", { username, password, email })
+      loginAction("POST", "/api/user/register", { fullname, password, email })
     );
   };
 
