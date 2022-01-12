@@ -54,13 +54,12 @@ const createHotel = async (req, res, next) => {
 // GET/api/product/allhotels
 // Public
 const getAllHotels = async (req, res, next) => {
-  console.log("dasf");
   try {
     const { rows } = await pool.query(
-      "SELECT name, location, price, discount_price, email, phone, description, first_photo, user_id " +
-        "FROM hotels JOIN media ON hotels.id = media.hotel_photo"
+      "SELECT name, location, price, discount_price, email, phone, description, user_id " +
+        "FROM hotels"
     );
-
+    // JOIN media ON hotels.id = media.hotel_photo"
     if (rows.length !== 0) {
       res.json({
         message: "SUCCESS",
@@ -69,14 +68,14 @@ const getAllHotels = async (req, res, next) => {
     } else {
       res.status(404);
       return next({
-        msg: "Can not get user's hotels",
+        msg: "Can not get hotels2",
       });
     }
   } catch (err) {
     console.log(err.message);
     res.status(404);
     return next({
-      msg: "Can not get user's hotels",
+      msg: "Can not get hotels",
       stk: err.message,
     });
   }
@@ -122,7 +121,6 @@ const getMyHotels = async (req, res, next) => {
 const getSingleHotel = async (req, res, next) => {
   try {
     const { id: single_hotel_name } = req.params;
-    console.log("single_hotel_name", single_hotel_name);
 
     const { rows } = await pool.query(
       "SELECT * FROM (SELECT name, location, price, discount_price, email, phone, description, first_photo, second_photo, third_photo, fourth_photo " +

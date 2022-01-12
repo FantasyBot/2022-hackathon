@@ -12,10 +12,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-dotenv.config(); // Do we need this here?
+dotenv.config();
 
 // app.set("view engine", "ejs");
 // app.set("views", path.join(__dirname, "/views"));
+
+app.get("/", (req, res) => {
+  res.send("Hello world");
+});
 
 app.use("/api/user", userRoutes);
 app.use("/api/product", productRoutes);

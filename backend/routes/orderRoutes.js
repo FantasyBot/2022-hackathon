@@ -6,5 +6,6 @@ const { protect } = require("../middleware/authMiddleware");
 
 // /api/product..
 router.post("/save/reservation", protect, saveReservation);
+// router.get('hotel/reservations', protect, hotelReservations);
 
 module.exports = router;
