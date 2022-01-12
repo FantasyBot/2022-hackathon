@@ -40,7 +40,7 @@ const forMulter = (req, res, next) => {
       console.log("forMulter => ", err.message);
       res.status(404);
       return next({
-        msg: "Operator registration failed",
+        msg: "Error in multer! Operator registration failed",
         stk: err.message,
       });
     }

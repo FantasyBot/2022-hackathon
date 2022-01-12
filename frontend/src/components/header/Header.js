@@ -61,6 +61,7 @@ const Header = () => {
 
   const logoutAndUserProfile = username ? (
     <React.Fragment>
+      <Badge bg="success">{role}</Badge>
       <NavDropdown title={username} id="userName">
         <LinkContainer to={`/profile/${username}`}>
           <NavDropdown.Item>My profile</NavDropdown.Item>

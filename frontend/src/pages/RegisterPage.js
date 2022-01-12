@@ -6,7 +6,7 @@ import { Navigate } from "react-router-dom";
 
 import { Form, Button, Spinner } from "react-bootstrap";
 
-import { loginAction } from "../store/actions/loginAction";
+import { entryUser } from "../store/actions/entryUsers";
 
 import FormContainer from "../components/FormContainer";
 import Message from "../components/Message";
@@ -36,7 +36,7 @@ const RegisterPage = () => {
 
     if (!fullname || !password || !email) {
       setWarningMessage(
-        "Your fullname, email or password fields must not be empty!"
+        "Your username, password or email fields must not be empty!"
       );
       return;
     }
@@ -47,17 +47,17 @@ const RegisterPage = () => {
     }
 
     dispatch(
-      loginAction("POST", "/api/user/register", { fullname, password, email })
+      entryUser("POST", "/api/user/register", { fullname, password, email })
     );
   };
 
   return (
     <FormContainer>
       {console.log("RegisterPage rendering....")}
+
       <Form onSubmit={submitHandler}>
         <h4 className="text-center">Register</h4>
 
-        {/* {isLoading && <Spinner animation="border" variant="warning" />} */}
         {(warningMessage || message) && (
           <Message variant="danger">{warningMessage || message}</Message>
         )}
@@ -67,7 +67,7 @@ const RegisterPage = () => {
           <Form.Control
             type="email"
             value={enteredEmail}
-            placeholder="example@gmail.com"
+            placeholder="Enter email"
             aria-describedby="email-help-text"
             onChange={(e) => setEnteredEmail(e.target.value)}
           />
@@ -81,7 +81,7 @@ const RegisterPage = () => {
           <Form.Control
             type="text"
             value={enteredFullname}
-            placeholder="John Doe"
+            placeholder="Enter fullname"
             onChange={(e) => setEnteredFullname(e.target.value)}
           />
         </Form.Group>
@@ -92,7 +92,7 @@ const RegisterPage = () => {
             type="password"
             value={enteredPassword}
             aria-describedby="password-help-text"
-            // placeholder="Password"
+            placeholder="Password"
             onChange={(e) => setEnteredPassword(e.target.value)}
           />
         </Form.Group>
@@ -102,7 +102,7 @@ const RegisterPage = () => {
           <Form.Control
             type="password"
             value={confirmPassword}
-            // placeholder="Confirm password"
+            placeholder="Confirm password"
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </Form.Group>
