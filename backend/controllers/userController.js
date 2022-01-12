@@ -106,13 +106,13 @@ const getUserProfile = async (req, res, next) => {
 // Public
 const registerOperator = async (req, res, next) => {
   try {
-    const { name, password, email, filename1, filename2 } = req.body;
+    const { fullname, password, email, filename1, filename2 } = req.body;
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
     await pool.query(
       "INSERT INTO users (username, password, email, role, user_photo1, user_photo2) VALUES($1, $2, $3, $4, $5, $6)",
-      [name, hashedPassword, email, "operator", filename1, filename2]
+      [fullname, hashedPassword, email, "operator", filename1, filename2]
     );
 
     const { rows } = await pool.query(

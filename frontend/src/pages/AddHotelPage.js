@@ -9,7 +9,7 @@ import VerticallyCenteredModal from "../components/UI/VerticallyCenteredModal";
 
 import { useNavigate } from "react-router-dom";
 
-import { registerHotel } from "../store/actions/loginAction";
+import { registerHotel } from "../store/actions/registerHotel";
 
 import Message from "../components/Message";
 import FormContainer from "../components/FormContainer";

@@ -6,7 +6,7 @@ import { Navigate } from "react-router-dom";
 
 import { Form, Button, Spinner } from "react-bootstrap";
 
-import { loginAction } from "../store/actions/loginAction";
+import { entryUser } from "../store/actions/entryUsers";
 
 import FormContainer from "../components/FormContainer";
 import Message from "../components/Message";
@@ -47,17 +47,17 @@ const RegisterPage = () => {
     }
 
     dispatch(
-      loginAction("POST", "/api/user/register", { fullname, password, email })
+      entryUser("POST", "/api/user/register", { fullname, password, email })
     );
   };
 
   return (
     <FormContainer>
       {console.log("RegisterPage rendering....")}
+
       <Form onSubmit={submitHandler}>
         <h4 className="text-center">Register</h4>
 
-        {/* {isLoading && <Spinner animation="border" variant="warning" />} */}
         {(warningMessage || message) && (
           <Message variant="danger">{warningMessage || message}</Message>
         )}

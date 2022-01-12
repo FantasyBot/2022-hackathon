@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Form, Button, Spinner } from "react-bootstrap";
 import { Link, Navigate } from "react-router-dom";
 
-import { loginAction } from "../store/actions/loginAction";
+import { entryUser } from "../store/actions/entryUsers";
 
 import FormContainer from "../components/FormContainer";
 import Message from "../components/Message";
@@ -40,7 +40,7 @@ const LoginPage = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(loginAction("POST", "/api/user/login", { email, password }));
+    dispatch(entryUser("POST", "/api/user/login", { email, password }));
   };
 
   return (
