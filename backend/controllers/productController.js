@@ -155,12 +155,25 @@ const getSingleHotel = async (req, res, next) => {
 const deleteHotel = async (req, res, next) => {
   try {
     const { id: hotel_name } = req.params;
-    const { email } = req.user;
 
     const { rows } = await pool.query(
-      "DELETE FROM hotels",
-      [single_hotel_name]
+      "SELECT id FROM hotels h WHERE h.name=$1",
+      [hotel_name]
     );
+    
+    const { rows: delMedia } = await pool.query(
+      "DELETE FROM media m WHERE m.hotel_photo=$1",
+      [rows[0].id]
+    );
+
+    const { rows: delHotel } = await pool.query(
+      "DELETE FROM hotels h WHERE h.name=$1",
+      [hotel_name]
+    );
+
+    res.json({
+      message: "Hotel successfully deleted",
+    });
   } catch (err) {
     console.log(err.message);
     res.status(404);
