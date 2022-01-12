@@ -27,9 +27,9 @@ const RegisterOperator = () => {
 
   const { callBegin, message } = useSelector((state) => state.apiCall);
 
-  const user = useSelector((state) => state.user);
+  const { username } = useSelector((state) => state.user);
 
-  if (user.fullname) return <Navigate replace to="/" />;
+  if (username) return <Navigate replace to="/" />;
 
   const checkInputOnChange = (e) => {
     if (e.target.files.length !== 2) {
