@@ -10,11 +10,13 @@ const {
 
 const { forMulter } = require("../middleware/forMulter");
 const { protect } = require("../middleware/authMiddleware");
+const { isOperator } = require("../middleware/isOperatorMiddleware");
 
 // /api/product..
-router.post("/create/hotel", forMulter, protect, createHotel);
+router.post("/create/hotel", forMulter, isOperator, protect, createHotel);
 router.get("/allhotels", getAllHotels);
-router.get("/myhotels", protect, getMyHotels);
+router.get("/myhotels", protect, isOperator, getMyHotels);
 router.get("/hotels/:id", getSingleHotel);
+// router.delete('hotels/myhotels/:id', )
 
 module.exports = router;

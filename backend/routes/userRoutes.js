@@ -9,12 +9,12 @@ const {
 } = require("../controllers/userController");
 const { forMulter } = require("../middleware/forMulter");
 const { protect } = require("../middleware/authMiddleware");
-
+const { isOperator } = require("../middleware/isOperatorMiddleware");
 
 // /api/user..
 router.post("/login", authUser);
 router.post("/register", registerUser);
-router.get("/profile", protect, getUserProfile);
+router.get("/profile", protect, isOperator, getUserProfile);
 router.post("/register/operator", forMulter, registerOperator);
 
 module.exports = router;
