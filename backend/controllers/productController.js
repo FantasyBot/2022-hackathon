@@ -56,10 +56,9 @@ const createHotel = async (req, res, next) => {
 const getAllHotels = async (req, res, next) => {
   try {
     const { rows } = await pool.query(
-      "SELECT name, location, price, discount_price, email, phone, description, user_id " +
-        "FROM hotels"
+      "SELECT name, location, price, discount_price, email, phone, description, first_photo, user_id " +
+        "FROM hotels JOIN media ON hotels.id = media.hotel_photo"
     );
-    // JOIN media ON hotels.id = media.hotel_photo"
     if (rows.length !== 0) {
       res.json({
         message: "SUCCESS",
@@ -68,7 +67,7 @@ const getAllHotels = async (req, res, next) => {
     } else {
       res.status(404);
       return next({
-        msg: "Can not get hotels2",
+        msg: "Can not get hotels",
       });
     }
   } catch (err) {
