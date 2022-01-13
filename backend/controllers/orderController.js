@@ -26,16 +26,16 @@ const saveReservation = async (req, res, next) => {
     const current_time = today.toLocaleDateString();
 
     const { rows: name_of_hotel } = await pool.query(
-      "SELECT name FROM hotels WHERE hotels.name = $1",
+      "SELECT id, name FROM hotels WHERE hotels.name = $1",
       [hotel_name]
     );
     if (name_of_hotel[0].name) {
       const { rows } = await pool.query(
         "INSERT INTO reservations (name, location, price, discount_price, hotel_email, phone, " +
-          "description, hotel_photo, nights_in_hotel, voucher_price, user_email, buy_date, user_id) " +
-          "VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)",
+          "description, hotel_photo, nights_in_hotel, voucher_price, user_email, buy_date, user_id, hotel_id) " +
+          "VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)",
         [
-          hotel_name,
+          name_of_hotel[0]?.name,
           location,
           price,
           discount_price,
@@ -48,6 +48,7 @@ const saveReservation = async (req, res, next) => {
           user_email,
           current_time,
           user_id,
+          name_of_hotel[0]?.id,
         ]
       );
 
@@ -70,6 +71,23 @@ const saveReservation = async (req, res, next) => {
   }
 };
 
+// Display hotel reservation for operator
+// GET/api/product/hotel/reservations
+// Private
+const hotelReservations = async (req, res, next) => {
+  try {
+    const { email } = req.user;
+  } catch (err) {
+    console.log(err.message);
+    res.status(404);
+    return next({
+      msg: "Reservation failed",
+      stk: err.message,
+    });
+  }
+};
+
 module.exports = {
   saveReservation,
+  hotelReservations,
 };
