@@ -54,6 +54,11 @@ const saveReservation = async (req, res, next) => {
       res.json({
         message: "Payment is successfull, reservation added!",
       });
+    } else {
+      res.status(404);
+      return next({
+        msg: "No such hotel...",
+      });
     }
   } catch (err) {
     console.log(err.message);
