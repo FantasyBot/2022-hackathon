@@ -10,6 +10,6 @@ const { isOperator } = require("../middleware/isOperatorMiddleware");
 
 // /api/product..
 router.post("/save/reservation", protect, saveReservation);
-router.get("hotel/reservations", protect, isOperator, hotelReservations);
+router.get("/hotel/reservations", protect, isOperator, hotelReservations);
 
 module.exports = router;

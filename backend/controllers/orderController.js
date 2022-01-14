@@ -87,7 +87,6 @@ const hotelReservations = async (req, res, next) => {
       [email]
     );
 
-    console.log(rows);
     res.json({
       reservations: rows,
     });
