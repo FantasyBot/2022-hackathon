@@ -1,10 +1,11 @@
 import { Fragment } from "react";
 import { Navigate, Link } from "react-router-dom";
 
-import { Card, Stack, Row, Col, Spinner } from "react-bootstrap";
+import { Card, Stack, Row, Col } from "react-bootstrap";
 
 import useUserDetails from "../hooks/useUserDetails";
 
+import CustomSpinner from "../components/UI/CustomSpinner";
 import logo from "../assets/images/hotel-2.jpg";
 
 const ProfilePage = () => {
@@ -18,12 +19,6 @@ const ProfilePage = () => {
       // operator_personal_id2,
     },
   } = useUserDetails();
-
-  const spinner = (
-    <div className="d-flex justify-content-center my-4">
-      <Spinner animation="border" variant="secondary" size="lg"></Spinner>
-    </div>
-  );
 
   const profileCard = (
     <Fragment>
@@ -94,7 +89,9 @@ const ProfilePage = () => {
 
   if (!username) return <Navigate replace to="/" />;
 
-  return <Fragment>{!name && !email ? spinner : profileCard}</Fragment>;
+  return (
+    <Fragment>{!name && !email ? <CustomSpinner /> : profileCard}</Fragment>
+  );
 };
 
 export default ProfilePage;

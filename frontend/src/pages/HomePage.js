@@ -1,86 +1,18 @@
-import { useEffect } from "react";
+import { Row, Col, Card } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 
-import { useSelector, useDispatch } from "react-redux";
+import useResetApiCallState from "../hooks/useResetApiCallState";
+import { useFetchAllHotels } from "../hooks/fetchHotels";
 
-// import { LinkContainer } from "react-router-bootstrap";
-
-import { fetchAllHotels } from "../store/actions/fetchHotels";
-
-import {
-  Row,
-  Col,
-  Card,
-  Spinner,
-  // Carousel,
-  // Image,
-  // Form,
-  // Stack,
-} from "react-bootstrap";
+import CustomSpinner from "../components/UI/CustomSpinner";
 
 import logo from "../assets/images/hotels.jpg";
 // import hotel2 from "../assets/images/hotel-2.jpg";
 // import hotel3 from "../assets/images/hotel-3.jpg";
 
-import { resetApiCallState } from "../store/slices/apiCall";
-import { LinkContainer } from "react-router-bootstrap";
-
-// import useSearch from "../hooks/useSearch";
-// import classes from "./HomePage.module.css";
-
 const HomePage = () => {
-  // const onSubmit = async () => {
-  //   try {
-  //     const { data } = await axios.post("/upload", {
-  //       headers: { "Content-Type": "multipart/form-data" },
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  const {
-    allHotels: { fetched, newHotel, results },
-  } = useSelector((state) => state.hotels);
-
-  const { callBegin } = useSelector((state) => state.apiCall);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    console.log("HomePage effect");
-
-    if (!fetched || (fetched && newHotel)) {
-      console.log(
-        "fetched ->",
-        fetched,
-        "newHotel ->",
-        newHotel,
-        "So fetch will start!"
-      );
-      dispatch(fetchAllHotels());
-    } else {
-      console.log(
-        "fetched ->",
-        fetched,
-        "newHotel ->",
-        newHotel,
-        "So fetch won't happen! X"
-      );
-    }
-  }, [dispatch, fetched, newHotel]);
-
-  useEffect(() => {
-    return () => {
-      console.log("Cleanup homepage");
-      dispatch(resetApiCallState());
-    };
-  }, [dispatch]);
-
-  const spinner = (
-    <div className="d-flex justify-content-center my-4">
-      <Spinner animation="border" variant="secondary" size="lg"></Spinner>
-    </div>
-  );
+  const { results, callBegin } = useFetchAllHotels();
+  useResetApiCallState();
 
   const content = (
     <Row xs={1} md={3} className="g-4">
@@ -124,7 +56,7 @@ const HomePage = () => {
       {console.log("HomePage rendering")}
 
       <h3 className="my-3 my-4 fw-light">Currently available Hotels</h3>
-      {callBegin ? spinner : null}
+      {callBegin ? <CustomSpinner /> : null}
       {content}
     </div>
   );
