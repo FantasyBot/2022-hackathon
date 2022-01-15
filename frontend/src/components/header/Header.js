@@ -61,7 +61,7 @@ const Header = () => {
 
   const logoutAndUserProfile = username ? (
     <React.Fragment>
-      <Badge bg="success">{role}</Badge>
+      {role === "operator" && <Badge bg="success">{role}</Badge>}
       <NavDropdown title={username} id="userName">
         <LinkContainer to={`/profile/${username}`}>
           <NavDropdown.Item>My profile</NavDropdown.Item>
@@ -86,7 +86,9 @@ const Header = () => {
       <Navbar bg="light" variant="light" expand="lg">
         <Container>
           <LinkContainer to="/">
-            <Navbar.Brand>Notebooking</Navbar.Brand>
+            <Navbar.Brand className="text-success fs-4">
+              Hotel Midnight
+            </Navbar.Brand>
           </LinkContainer>
 
           <Navbar.Toggle aria-controls="basic-navbar-nav" />

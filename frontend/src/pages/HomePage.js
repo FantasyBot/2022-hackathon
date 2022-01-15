@@ -123,7 +123,7 @@ const HomePage = () => {
       {/* <img src="../../../backend/public/uploads/random.jpg" alt="test" /> */}
       {console.log("HomePage rendering")}
 
-      <h3 className="text-center my-3">Currently available Hotels</h3>
+      <h3 className="my-3 my-4 fw-light">Currently available Hotels</h3>
       {callBegin ? spinner : null}
       {content}
     </div>

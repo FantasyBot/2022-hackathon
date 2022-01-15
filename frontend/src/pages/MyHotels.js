@@ -1,13 +1,10 @@
 import { useEffect } from "react";
-
 import { useSelector, useDispatch } from "react-redux";
-
 import { Navigate } from "react-router-dom";
 
 import { Row, Col, Card, Spinner } from "react-bootstrap";
 
 import { fetchMyHotels } from "../store/actions/fetchHotels";
-
 import { resetApiCallState } from "../store/slices/apiCall";
 
 import logo from "../assets/images/hotels.jpg";

@@ -1,8 +1,8 @@
 //DEFAULT
 const { Pool } = require("pg");
 const dotenv = require("dotenv");
-dotenv.config();
 
+dotenv.config();
 
 const devConfig = {
   database: process.env.DATABASE,
@@ -14,5 +14,7 @@ const devConfig = {
     rejectUnauthorized: false,
   },
 };
+
 const pool = new Pool(devConfig);
+
 module.exports = pool;
