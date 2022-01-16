@@ -1,7 +1,7 @@
 const pool = require("../config/db");
 
 // Save reservation info in reservations table
-// POST/api/product/save/reservation
+// POST/api/order/save/reservation
 // Private
 const saveReservation = async (req, res, next) => {
   try {
@@ -72,7 +72,7 @@ const saveReservation = async (req, res, next) => {
 };
 
 // Display hotel reservation for operator
-// GET/api/product/hotel/reservations
+// GET/api/order/hotel/reservations
 // Private
 const operatorReservations = async (req, res, next) => {
   try {
@@ -113,7 +113,7 @@ const operatorReservations = async (req, res, next) => {
 };
 
 // Display hotel reservation for user
-// GET/api/product/hotel/user/reservations
+// GET/api/order/hotel/user/reservations
 // Private
 const userReservations = async (req, res, next) => {
   try {
