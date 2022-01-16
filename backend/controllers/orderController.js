@@ -74,27 +74,77 @@ const saveReservation = async (req, res, next) => {
 // Display hotel reservation for operator
 // GET/api/product/hotel/reservations
 // Private
-const hotelReservations = async (req, res, next) => {
+const operatorReservations = async (req, res, next) => {
   try {
     const { email } = req.user;
 
-    const { rows } = await pool.query(
-      "SELECT r_hotel_name, r_location, r_price, r_discount_price, r_description " +
-        "r_hotel_photo, r_nights_in_hotel, r_voucher_price, r_user_email, r_buy_date " +
-        "FROM users u JOIN hotels h ON h.user_id=u.id " +
-        "JOIN reservations r ON r.r_hotel_id=h.id " +
-        "AND u.email = $1",
+    const { rows: user } = await pool.query(
+      "SELECT * FROM users WHERE email= $1",
       [email]
     );
+    if (user[0]) {
+      const { rows } = await pool.query(
+        "SELECT r_hotel_name, r_location, r_price, r_discount_price, r_description " +
+          "r_hotel_photo, r_nights_in_hotel, r_voucher_price, r_user_email, r_buy_date " +
+          "FROM users u JOIN hotels h ON h.user_id=u.id " +
+          "JOIN reservations r ON r.r_hotel_id=h.id " +
+          "AND u.email = $1",
+        [email]
+      );
 
-    res.json({
-      reservations: rows,
-    });
+      res.json({
+        message: "Success",
+        reservations: rows,
+      });
+    } else {
+      res.status(404);
+      return next({
+        msg: "Can not get operator's reservations, operator does not exists",
+      });
+    }
   } catch (err) {
     console.log(err.message);
     res.status(404);
     return next({
-      msg: "Can not get operator users's reservations",
+      msg: "Can not get operator's reservations",
+      stk: err.message,
+    });
+  }
+};
+
+// Display hotel reservation for user
+// GET/api/product/hotel/user/reservations
+// Private
+const userReservations = async (req, res, next) => {
+  try {
+    const { id, email } = req.user;
+
+    const { rows: user } = await pool.query(
+      "SELECT * FROM users WHERE email= $1",
+      [email]
+    );
+
+    if (user[0]) {
+      const { rows } = await pool.query(
+        "SELECT * FROM reservations WHERE r_user_id=$1",
+        [id]
+      );
+
+      res.json({
+        message: "Success",
+        reservations: rows,
+      });
+    } else {
+      res.status(404);
+      return next({
+        msg: "Can not get users's reservations, user does not exist",
+      });
+    }
+  } catch (err) {
+    console.log(err.message);
+    res.status(404);
+    return next({
+      msg: "Can not get user users's reservations",
       stk: err.message,
     });
   }
@@ -102,5 +152,6 @@ const hotelReservations = async (req, res, next) => {
 
 module.exports = {
   saveReservation,
-  hotelReservations,
+  operatorReservations,
+  userReservations,
 };

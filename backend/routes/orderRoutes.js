@@ -3,13 +3,15 @@ const router = express.Router();
 
 const {
   saveReservation,
-  hotelReservations,
+  operatorReservations,
+  userReservations,
 } = require("../controllers/orderController");
 const { protect } = require("../middleware/authMiddleware");
 const { isOperator } = require("../middleware/isOperatorMiddleware");
 
-// /api/product..
+// /api/order..
 router.post("/save/reservation", protect, saveReservation);
-router.get("/hotel/reservations", protect, isOperator, hotelReservations);
+router.get("/hotel/reservations", protect, isOperator, operatorReservations);
+router.get("/hotel/user/reservations", protect, userReservations);
 
 module.exports = router;
