@@ -6,6 +6,7 @@ const {
   registerUser,
   getUserProfile,
   registerOperator,
+  updateUserProfile
 } = require("../controllers/userController");
 
 const { forMulter } = require("../middleware/forMulter");
@@ -16,6 +17,7 @@ const { protect } = require("../middleware/authMiddleware");
 router.post("/login", authUser);
 router.post("/register", registerUser);
 router.get("/profile", protect, getUserProfile);
+router.put("/profile", protect, updateUserProfile);
 router.post("/register/operator", forMulter, registerOperator);
 
 module.exports = router;

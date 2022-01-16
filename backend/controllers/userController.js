@@ -44,7 +44,6 @@ const registerUser = async (req, res, next) => {
   try {
     const { fullname, password, email } = req.body;
 
-    console.log(req.body);
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
@@ -101,6 +100,69 @@ const getUserProfile = async (req, res, next) => {
   }
 };
 
+// Update user profile
+// Put/api/user/profile
+// Private
+const updateUserProfile = async (req, res, next) => {
+  try {
+    //Check if the user exists in DB
+    const { rows } = await pool.query("SELECT * FROM users WHERE email = $1", [
+      req.user.email,
+    ]);
+    //id from token
+    const { id } = req.user;
+
+    const user = rows[0];
+    if (user) {
+      user.username = req.body.fullname || user.username;
+      user.email = req.body.email || user.email;
+
+      //if the user changed password
+      if (req.body.password) {
+        const encryptedPassword = await bcrypt.compare(
+          req.body.password,
+          user.password
+        ); //true if the password match
+
+        //if the user didn't write the same password
+        if (!encryptedPassword) {
+          //hash new password
+          const salt = await bcrypt.genSalt(10);
+          const hashedPassword = await bcrypt.hash(req.body.password, salt);
+          user.password = hashedPassword;
+        }
+      }
+
+      const { rows } = await pool.query(
+        "UPDATE users SET username=$1, email=$2, password=$3 WHERE id=$4",
+        [user.username, user.email, user.password, id]
+      );
+
+      //Find user in DB for token
+      const { rows: tokenInfo } = await pool.query(
+        "SELECT id, username, email, role FROM users WHERE email=$1",
+        [user.email]
+      );
+      res.json({
+        message: "User info Updated",
+        token: generateToken(tokenInfo[0]),
+      });
+    } else {
+      res.status(404);
+      return next({
+        msg: "Can not update user info..",
+      });
+    }
+  } catch (err) {
+    console.log(err.message);
+    res.status(404);
+    return next({
+      msg: "Can not update user info",
+      stk: err.message,
+    });
+  }
+};
+
 // Register new operator
 // POST/api/user/register/operator
 // Public
@@ -139,4 +201,5 @@ module.exports = {
   registerUser,
   getUserProfile,
   registerOperator,
+  updateUserProfile,
 };
