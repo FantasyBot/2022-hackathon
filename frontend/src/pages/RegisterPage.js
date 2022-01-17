@@ -1,55 +1,29 @@
-import { useState } from "react";
-
-import { useDispatch, useSelector } from "react-redux";
-
 import { Navigate } from "react-router-dom";
-
-import { Form, Button, Spinner } from "react-bootstrap";
-
-import { entryUser } from "../store/actions/entryUsers";
+import { Form } from "react-bootstrap";
+import useRegisterOrEdit from "../hooks/useRegisterOrEdit";
 
 import FormContainer from "../components/FormContainer";
 import Message from "../components/Message";
+import CustomBlockButton from "../components/UI/CustomBlockButton";
 
 const RegisterPage = () => {
-  const [enteredFullname, setEnteredFullname] = useState("");
-  const [enteredEmail, setEnteredEmail] = useState("");
-  const [enteredPassword, setEnteredPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const {
+    fullname,
+    email,
+    password,
+    confirmPassword,
+    warningMessage,
+    callBegin,
+    message,
+    username,
+    setFullname,
+    setEmail,
+    setPassword,
+    setConfirmPassword,
+    submitHandler,
+  } = useRegisterOrEdit();
 
-  const [warningMessage, setWarningMessage] = useState("");
-
-  const { callBegin, message } = useSelector((state) => state.apiCall);
-
-  const dispatch = useDispatch();
-
-  const { username } = useSelector((state) => state.user);
-  console.log(username);
   if (username) return <Navigate replace to="/" />;
-
-  const submitHandler = (e) => {
-    e.preventDefault();
-
-    const fullname = enteredFullname.trim();
-    const password = enteredPassword.trim();
-    const email = enteredEmail.trim();
-
-    if (!fullname || !password || !email) {
-      setWarningMessage(
-        "Your username, password or email fields must not be empty!"
-      );
-      return;
-    }
-
-    if (enteredPassword !== confirmPassword) {
-      setWarningMessage("Passwords do not match!");
-      return;
-    }
-
-    dispatch(
-      entryUser("POST", "/api/user/register", { fullname, password, email })
-    );
-  };
 
   return (
     <FormContainer>
@@ -66,10 +40,10 @@ const RegisterPage = () => {
           <Form.Label>Email</Form.Label>
           <Form.Control
             type="email"
-            value={enteredEmail}
+            value={email}
             placeholder="Enter email"
             aria-describedby="email-help-text"
-            onChange={(e) => setEnteredEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
           />
           {/* <Form.Text id="email-help-text" muted>
             We'll never share your email with anyone else.
@@ -80,9 +54,9 @@ const RegisterPage = () => {
           <Form.Label>Fullname</Form.Label>
           <Form.Control
             type="text"
-            value={enteredFullname}
+            value={fullname}
             placeholder="Enter fullname"
-            onChange={(e) => setEnteredFullname(e.target.value)}
+            onChange={(e) => setFullname(e.target.value)}
           />
         </Form.Group>
 
@@ -90,14 +64,14 @@ const RegisterPage = () => {
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
-            value={enteredPassword}
+            value={password}
             aria-describedby="password-help-text"
             placeholder="Password"
-            onChange={(e) => setEnteredPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
 
-        <Form.Group className="mb-3" controlId="confirmPassword">
+        <Form.Group className="mb-1" controlId="confirmPassword">
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             type="password"
@@ -106,21 +80,18 @@ const RegisterPage = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </Form.Group>
-        <div className="d-grid gap-2 mb-4">
-          <Button variant="primary" disabled={callBegin} type="submit">
-            {callBegin && (
-              <Spinner
-                as="span"
-                variant="light"
-                animation="grow"
-                size="sm"
-                role="status"
-                aria-hidden="true"
-              />
-            )}
-            {callBegin ? " Loading..." : " Register"}
-          </Button>
-        </div>
+        {password && confirmPassword && password === confirmPassword ? (
+          <Form.Text className="text-success fst-italic">
+            Passwords match!
+          </Form.Text>
+        ) : null}
+        <CustomBlockButton
+          disabled={callBegin}
+          type="submit"
+          showSpinner={callBegin}
+          loadingText="Registering..."
+          defaultText="REGISTER"
+        />
       </Form>
     </FormContainer>
   );

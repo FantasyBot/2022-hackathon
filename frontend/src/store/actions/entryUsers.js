@@ -13,7 +13,7 @@ export const entryUser =
         method,
         url,
         data: enteredData,
-        headers,
+        ...(headers && { headers }),
       });
 
       // const { data } = await axios.post(url, { ...enteredData });
@@ -21,6 +21,7 @@ export const entryUser =
 
       const decodedToken = decodeToken(data.token);
       console.log("decodedToken", decodedToken);
+
       const { name, role } = decodedToken;
 
       dispatch(callSuccess({ message: "Successful!" }));
