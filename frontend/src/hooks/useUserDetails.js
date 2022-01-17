@@ -1,10 +1,13 @@
-import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { userGotProfileInfo } from "../store/slices/user";
+
 import axios from "axios";
 
 const useUserDetails = () => {
   const [userDetails, setUserdetails] = useState({});
   const { username } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (username) {
@@ -20,6 +23,7 @@ const useUserDetails = () => {
           },
         });
 
+        dispatch(userGotProfileInfo({ email: data.email }));
         setUserdetails(data);
       };
 
@@ -29,7 +33,7 @@ const useUserDetails = () => {
         "No user! Can not give you user details, because user was NOT SIGNED IN!"
       );
     }
-  }, [username]);
+  }, [dispatch, username]);
 
   return { userDetails, username };
 };

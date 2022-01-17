@@ -1,7 +1,7 @@
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import ProfilePage from "./pages/ProfilePage";
+import UserProfilePage from "./pages/UserProfilePage";
 import MyHotels from "./pages/MyHotels";
 import RegisterOperator from "./pages/RegisterOperator";
 import AddHotelPage from "./pages/AddHotelPage";
@@ -30,7 +30,7 @@ const routes = [
   {
     id: 4,
     path: "/profile/:username",
-    element: <ProfilePage />,
+    element: <UserProfilePage />,
   },
   {
     id: 5,
