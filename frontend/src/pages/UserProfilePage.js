@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 
-import { Card, Row, Col, Table, Form, Button, Spinner } from "react-bootstrap";
+import { Card, Row, Col, Table, Form } from "react-bootstrap";
 
 import useUserDetails from "../hooks/useUserDetails";
 import useRegisterOrEdit from "../hooks/useRegisterOrEdit";
@@ -8,7 +8,6 @@ import Message from "../components/Message";
 
 import CustomSpinner from "../components/UI/CustomSpinner";
 import logo from "../assets/images/hotel-2.jpg";
-import CustomBlockButton from "../components/UI/CustomBlockButton";
 
 const UserProfilePage = () => {
   const {
@@ -135,49 +134,71 @@ const UserProfilePage = () => {
   );
 
   const generalContent = (
-    <Col className="rounded border pt-3 pb-2">
-      <h1 className="fs-4">EDIT PROFILE</h1>
+    <Col md="8" className="rounded border mx-auto pt-2">
+      <div className="px-1 py-2 mb-3">
+        <h1 className="fs-5">Profile</h1>
+        <small className="text-muted">Update your personal details here.</small>
+      </div>
 
       {warningMessage || message ? (
         <Message>{warningMessage || message} </Message>
       ) : null}
 
-      <Form onSubmit={submitHandler} className="mx-2">
-        <Form.Group controlId="fullname" className="mb-3">
-          <Form.Label>Fullname</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Edit fullname"
-            value={fullname}
-            onChange={(e) => setFullname(e.target.value)}
-          ></Form.Control>
+      <Form onSubmit={submitHandler}>
+        <Form.Group as={Row} className="py-2 border-top" controlId="fullname">
+          <Form.Label column sm="4">
+            Fullname
+          </Form.Label>
+          <Col sm="8">
+            <Form.Control
+              type="text"
+              placeholder="Edit fullname"
+              value={fullname}
+              onChange={(e) => setFullname(e.target.value)}
+            />
+          </Col>
         </Form.Group>
-        <Form.Group controlId="email" className="mb-3">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Change email"
-            value={enteredEmail}
-            onChange={(e) => setEmail(e.target.value)}
-          ></Form.Control>
+
+        <Form.Group as={Row} className="py-2" controlId="email">
+          <Form.Label column sm="4">
+            Email
+          </Form.Label>
+          <Col sm="8">
+            <Form.Control
+              type="text"
+              placeholder="Change email"
+              value={enteredEmail}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </Col>
         </Form.Group>
-        <Form.Group controlId="password" className="mb-3">
-          <Form.Label>New Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Enter new password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          ></Form.Control>
+
+        <Form.Group as={Row} className="py-2" controlId="password">
+          <Form.Label column sm="4">
+            New password
+          </Form.Label>
+          <Col sm="8">
+            <Form.Control
+              type="password"
+              placeholder="Enter new password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Col>
         </Form.Group>
-        <Form.Group controlId="confirmPassword" className="mb-3">
-          <Form.Label>Confirm new Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Confirm new password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          ></Form.Control>
+
+        <Form.Group as={Row} className="py-2" controlId="confirmPassword">
+          <Form.Label column sm="4">
+            Confirm new password
+          </Form.Label>
+          <Col sm="8">
+            <Form.Control
+              type="password"
+              placeholder="Confirm new password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </Col>
           {password && confirmPassword && password === confirmPassword ? (
             <Form.Text className="text-success fst-italic">
               Passwords match!
@@ -185,14 +206,11 @@ const UserProfilePage = () => {
           ) : null}
         </Form.Group>
 
-        <CustomBlockButton
-          variant="success"
-          disabled={callBegin}
-          type="submit"
-          showSpinner={callBegin}
-          loadingText="Loading..."
-          defaultText="SAVE"
-        />
+        <div className="d-grid col-4 mx-auto my-2">
+          <button className="btn btn-outline-success" type="submit">
+            UPDATE
+          </button>
+        </div>
       </Form>
     </Col>
   );
