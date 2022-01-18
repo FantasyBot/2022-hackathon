@@ -64,20 +64,16 @@ const useRegisterOrEdit = (condition = "register") => {
     }
 
     const method = condition === "register" ? "POST" : "PUT";
+    const url = `/api/user/${
+      condition === "register" ? "register" : "profile"
+    }`;
 
     const headers = {
       "Content-Type": "application/json",
       Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
     };
 
-    dispatch(
-      entryUser(
-        method,
-        "/api/user/register",
-        { fullname, password, email },
-        headers
-      )
-    );
+    dispatch(entryUser(method, url, { fullname, password, email }, headers));
   };
 
   return {
