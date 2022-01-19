@@ -26,7 +26,7 @@ Hotel Midnight
     // Register new operator
     // POST/api/user/register/operator
     // Public
-    formdata-თი აგზავნი name, password, email და images(2სურათი, პირადობის წინა და უკანა მხარე...) (შეგიძლიათ registerOperator.js ფეიჯში ჩაიხედოთ...)
+    body ში სვავ name, password, email, filename1, filename2 (ბოლო ორი, 2სურათი, პირადობის წინა და უკანა მხარე base64 დაკონვერტირებული სტრინგები იქნება...) (შეგიძლიათ registerOperator.js ფეიჯში ჩაიხედოთ...)
 
 5.  https://hackathon-2022.herokuapp.com/api/user/profile როგორც იუზერის ისე ოპერატორის პროფაილ გვერდი...
     // Get user profile
@@ -40,7 +40,7 @@ Hotel Midnight
     // POST/api/product/create/hotel
     // Private
     ჰედერში შესული იუზერის ტოკენი..
-    აქაც formdata თი აგზავნი
+    formdata თი აგზავნი
     name,
     location,
     price,
