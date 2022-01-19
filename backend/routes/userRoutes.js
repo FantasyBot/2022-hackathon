@@ -18,6 +18,6 @@ router.post("/login", authUser);
 router.post("/register", registerUser);
 router.get("/profile", protect, getUserProfile);
 router.put("/profile", protect, updateUserProfile);
-router.post("/register/operator", forMulter, registerOperator);
+router.post("/register/operator", registerOperator);
 
 module.exports = router;

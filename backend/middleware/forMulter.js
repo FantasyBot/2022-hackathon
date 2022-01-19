@@ -17,23 +17,13 @@ const forMulter = (req, res, next) => {
 
       const filename3 = req?.files[2]?.filename;
       const filename4 = req?.files[3]?.filename;
-
-      // I know I know...
-      if (!filename1 || !filename2) {
+      if (req.files.length !== 4) {
         res.status(401);
         return next({
-          msg: "Please upload two images (You can select both together)",
+          msg: "Images must be four!",
         });
-      } else if (req?.files?.images?.length > 4) {
-        res.status(401);
-        return next({
-          msg: "Please upload four images (You can select them together)",
-        });
-      } else if ((filename3, filename4)) {
-        req.body = { ...req.body, filename1, filename2, filename3, filename4 };
-        return next();
       } else {
-        req.body = { ...req.body, filename1, filename2 };
+        req.body = { ...req.body, filename1, filename2, filename3, filename4 };
         return next();
       }
     } catch (err) {
