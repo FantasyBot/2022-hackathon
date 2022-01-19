@@ -18,7 +18,6 @@ const RegisterOperator = () => {
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [files, setFiles] = useState(null);
 
   // const [token, setToken] = useState("");
   const [objectUrls, setObjectUrls] = useState([]);
@@ -66,22 +65,27 @@ const RegisterOperator = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (fileBase64String1 === fileBase64String2) {
+      setWarningMessage("Images must be different");
+    } else {
+      setWarningMessage("");
 
-    //გადააკეთე მერე...
-    axios
-      .post("/api/user/register/operator", {
-        name: fullname,
-        password,
-        email,
-        filename1: fileBase64String1,
-        filename2: fileBase64String2,
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+      //გადააკეთე მერე...
+      axios
+        .post("/api/user/register/operator", {
+          name: fullname,
+          password,
+          email,
+          filename1: fileBase64String1,
+          filename2: fileBase64String2,
+        })
+        .then(function (response) {
+          console.log(response.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   };
 
   const convertToBase64 = (file) => {
@@ -97,7 +101,6 @@ const RegisterOperator = () => {
     });
   };
   const handleChange1 = async (e) => {
-    console.log(e.target.files[0].type);
     const file = e.target.files[0];
     const base64 = await convertToBase64(file);
     setFileBase64String1(base64.split(",")[1]);
