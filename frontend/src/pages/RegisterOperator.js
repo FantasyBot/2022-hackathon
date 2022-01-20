@@ -1,5 +1,4 @@
 import { useState } from "react";
-import axios from "axios";
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -33,35 +32,7 @@ const RegisterOperator = () => {
 
   if (username) return <Navigate replace to="/" />;
 
-  // const checkInputOnChange = (e) => {
-  //   if (e.target.files.length !== 2) {
-  //     setDisable(true);
-  //     setWarningMessage("Please upload two images");
-  //   } else {
-  //     setObjectUrls([...e.target.files].map((o) => URL.createObjectURL(o)));
-  //     setDisable(false);
-  //     setWarningMessage("");
-  //     setFiles(e.target.files);
-  //   }
-  // };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   let bodyFormData = new FormData();
-
-  //   for (let i = 0; i < files.length; i++) {
-  //     bodyFormData.append("images", files[i]);
-  //   }
-  //   bodyFormData.append("name", fullname);
-  //   bodyFormData.append("password", password);
-  //   bodyFormData.append("email", email);
-
-  //   dispatch(
-  //     entryUser("POST", "/api/user/register/operator", bodyFormData, {
-  //       "Content-Type": "multipart/form-data",
-  //     })
-  //   );
-  // };
+  console.log("filesBase64Strings.length", filesBase64Strings.length);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -80,20 +51,15 @@ const RegisterOperator = () => {
     }
 
     setWarningMessage("");
-    axios
-      .post("/api/user/register/operator", {
+    dispatch(
+      entryUser("POST", "/api/user/register/operator", {
         name: fullname,
         password,
         email,
         filename1: firstString,
         filename2: secondString,
       })
-      .then(function (response) {
-        console.log(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    );
   };
 
   const convertToBase64 = (file) => {
@@ -110,7 +76,19 @@ const RegisterOperator = () => {
   };
 
   const handleChange = async (e) => {
-    if (e.target.files.length !== 2) return;
+    setWarningMessage("");
+
+    console.log(e.target.files.length);
+    console.log("objectUrls", objectUrls);
+
+    setObjectUrls([]);
+
+    if (e.target.files.length !== 2) {
+      setFilesBase64Strings([]);
+      setWarningMessage("You must upload 2 pictures!");
+      return;
+    }
+
     try {
       const firstPic = e.target.files[0];
       const secondPic = e.target.files[1];
