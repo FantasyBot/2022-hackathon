@@ -112,7 +112,7 @@ const RegisterOperator = () => {
     setFileBase64String2(base64.split(",")[1]);
   };
 
-  // console.log(fileBase64String1);
+  console.log(fileBase64String1.length + fileBase64String2.length);
   // console.log("+++++++++++");
   // console.log(fileBase64String2);
 
