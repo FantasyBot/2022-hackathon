@@ -112,9 +112,9 @@ const RegisterOperator = () => {
     setFileBase64String2(base64.split(",")[1]);
   };
 
-  // console.log(fileBase64String1);
-  // console.log("+++++++++++");
-  // console.log(fileBase64String2);
+  console.log(fileBase64String1);
+  console.log("+++++++++++");
+  console.log(fileBase64String2);
 
   const submitButton = (
     <div className="d-grid gap-2 mb-4">
