@@ -67,6 +67,8 @@ const RegisterOperator = () => {
     e.preventDefault();
     if (fileBase64String1 === fileBase64String2) {
       setWarningMessage("Images must be different");
+    } else if (fileBase64String1.length + fileBase64String2.length > 99999) {
+      setWarningMessage("Images resolution is too high...");
     } else {
       setWarningMessage("");
 
@@ -115,7 +117,7 @@ const RegisterOperator = () => {
   console.log(fileBase64String1.length);
   console.log("+++++++++++");
   console.log(fileBase64String2.length);
-  
+
   console.log("SUM ---> ", fileBase64String1.length + fileBase64String2.length);
 
   const submitButton = (

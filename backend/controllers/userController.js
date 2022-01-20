@@ -169,31 +169,23 @@ const updateUserProfile = async (req, res, next) => {
 const registerOperator = async (req, res, next) => {
   try {
     const { name, password, email, filename1, filename2 } = req.body;
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-    if (filename1.length + filename2.length > 99999) {
-      res.status(401);
-      return next({
-        msg: "Image resolution is too high...",
-      });
-    } else {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
+    await pool.query(
+      "INSERT INTO users (username, password, email, role, user_photo1, user_photo2) VALUES($1, $2, $3, $4, $5, $6)",
+      [name, hashedPassword, email, "operator", filename1, filename2]
+    );
 
-      await pool.query(
-        "INSERT INTO users (username, password, email, role, user_photo1, user_photo2) VALUES($1, $2, $3, $4, $5, $6)",
-        [name, hashedPassword, email, "operator", filename1, filename2]
-      );
+    const { rows } = await pool.query(
+      "SELECT id, username, email, role FROM users WHERE email = $1",
+      [email]
+    );
 
-      const { rows } = await pool.query(
-        "SELECT id, username, email, role FROM users WHERE email = $1",
-        [email]
-      );
-
-      res.json({
-        message: "Success operator",
-        token: generateToken(rows[0]),
-      });
-    }
+    res.json({
+      message: "Success operator",
+      token: generateToken(rows[0]),
+    });
   } catch (err) {
     console.log(err.message);
     res.status(404);
