@@ -18,6 +18,7 @@ const app = express();
 // app.use(express.urlencoded({limit: '10mb', extended: true}));
 
 //3
+//In base 64, image is 1.37% larger then original 
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
