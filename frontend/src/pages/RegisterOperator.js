@@ -67,8 +67,6 @@ const RegisterOperator = () => {
     e.preventDefault();
     if (fileBase64String1 === fileBase64String2) {
       setWarningMessage("Images must be different");
-
-      // }else if(fileBase64String1.length + fileBase64String2.length > 99999) {
     } else {
       setWarningMessage("");
       axios
@@ -100,23 +98,16 @@ const RegisterOperator = () => {
       };
     });
   };
-  const handleChange1 = async (e) => {
-    const file = e.target.files[0];
-    const base64 = await convertToBase64(file);
-    setFileBase64String1(base64.split(",")[1]);
+  const handleChange = async (e) => {
+    const file1 = e?.target?.files[0];
+    const file2 = e?.target?.files[1];
+
+    const base64First = await convertToBase64(file1);
+    setFileBase64String1(base64First.split(",")[1]);
+
+    const base64Second = await convertToBase64(file2);
+    setFileBase64String2(base64Second.split(",")[1]);
   };
-
-  const handleChange2 = async (e) => {
-    const file = e.target.files[0];
-    const base64 = await convertToBase64(file);
-    setFileBase64String2(base64.split(",")[1]);
-  };
-
-  console.log(fileBase64String1.length);
-  console.log("+++++++++++");
-  console.log(fileBase64String2.length);
-
-  console.log("SUM ---> ", fileBase64String1.length + fileBase64String2.length);
 
   const submitButton = (
     <div className="d-grid gap-2 mb-4">
@@ -196,14 +187,8 @@ const RegisterOperator = () => {
           name="image1"
           accept=".jpeg, .jpg, .png"
           required
-          onChange={(e) => handleChange1(e)}
-        />
-        <Form.Control
-          type="file"
-          name="image2"
-          accept=".jpeg, .jpg, .png"
-          required
-          onChange={(e) => handleChange2(e)}
+          multiple
+          onChange={handleChange}
         />
         {/* <div className="my-2 d-flex gap-2">
           {objectUrls.map((url) => (
