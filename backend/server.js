@@ -5,14 +5,21 @@ const path = require("path");
 const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/productRoutes");
 const orderRoutes = require("./routes/orderRoutes");
-// const bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const app = express();
-//Data limit for body
+//1
 // app.use(bodyParser.json({ limit: "50mb" }));
-app.use(express.json({limit: '25mb'}));
-app.use(express.urlencoded({limit: '25mb', extended: true}));
+
+
+//2
+// app.use(express.json({limit: '10mb'}));
+// app.use(express.urlencoded({limit: '10mb', extended: true}));
+
+//3
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 
 app.use(cors());
