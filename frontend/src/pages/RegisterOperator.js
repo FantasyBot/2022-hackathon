@@ -67,8 +67,8 @@ const RegisterOperator = () => {
     e.preventDefault();
     if (fileBase64String1 === fileBase64String2) {
       setWarningMessage("Images must be different");
-    } else if (fileBase64String1.length + fileBase64String2.length > 99999) {
-      setWarningMessage("Images resolution is too high...");
+
+      // }else if(fileBase64String1.length + fileBase64String2.length > 99999) {
     } else {
       setWarningMessage("");
 

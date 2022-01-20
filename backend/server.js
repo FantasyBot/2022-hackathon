@@ -5,13 +5,15 @@ const path = require("path");
 const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/productRoutes");
 const orderRoutes = require("./routes/orderRoutes");
+const bodyParser = require("body-parser");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-
+//Data limit for body
+app.use(bodyParser.json({ limit: "50mb" }));
 dotenv.config();
 
 // app.set("view engine", "ejs");
