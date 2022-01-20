@@ -23,6 +23,8 @@ const RegisterOperator = () => {
   // const [token, setToken] = useState("");
   const [objectUrls, setObjectUrls] = useState([]);
 
+  const [filesBase64Strings, setFilesBase64Strings] = useState([]);
+
   const [fileBase64String1, setFileBase64String1] = useState("");
   const [fileBase64String2, setFileBase64String2] = useState("");
 
@@ -66,25 +68,55 @@ const RegisterOperator = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (fileBase64String1 === fileBase64String2) {
-      setWarningMessage("Images must be different");
-    } else {
-      setWarningMessage("");
-      axios
-        .post("/api/user/register/operator", {
-          name: fullname,
-          password,
-          email,
-          filename1: fileBase64String1,
-          filename2: fileBase64String2,
-        })
-        .then(function (response) {
-          console.log(response.data);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+
+    if (filesBase64Strings.length !== 2) {
+      setWarningMessage("You must upload 2 pictures!");
+      return;
     }
+
+    const firstString = filesBase64Strings[0];
+    const secondString = filesBase64Strings[1];
+
+    if (firstString === secondString) {
+      setWarningMessage("Images must be different");
+      return;
+    }
+
+    setWarningMessage("");
+    axios
+      .post("/api/user/register/operator", {
+        name: fullname,
+        password,
+        email,
+        filename1: firstString,
+        filename2: secondString,
+      })
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+    // if (fileBase64String1 === fileBase64String2) {
+    //   setWarningMessage("Images must be different");
+    // } else {
+    //   setWarningMessage("");
+    //   axios
+    //     .post("/api/user/register/operator", {
+    //       name: fullname,
+    //       password,
+    //       email,
+    //       filename1: fileBase64String1,
+    //       filename2: fileBase64String2,
+    //     })
+    //     .then(function (response) {
+    //       console.log(response.data);
+    //     })
+    //     .catch(function (error) {
+    //       console.log(error);
+    //     });
+    // }
   };
 
   const convertToBase64 = (file) => {
@@ -101,13 +133,30 @@ const RegisterOperator = () => {
   };
 
   const handleChange = async (e) => {
-    const file1 = e?.target?.files[0];
-    const file2 = e?.target?.files[1];
-    const base64First = await convertToBase64(file1);
-    setFileBase64String1(base64First.split(",")[1]);
+    if (e.target.files.length !== 2) return;
 
-    const base64Second = await convertToBase64(file2);
-    setFileBase64String2(base64Second.split(",")[1]);
+    try {
+      const firstPic = e.target.files[0];
+      const secondPic = e.target.files[1];
+
+      const stringsArray = await Promise.all([
+        convertToBase64(firstPic),
+        convertToBase64(secondPic),
+      ]);
+
+      const readyStrings = stringsArray.map((string) => string.split(",")[1]);
+      console.log({ readyStrings });
+      setFilesBase64Strings(readyStrings);
+    } catch (error) {
+      console.log(error);
+    }
+    // const file1 = e?.target?.files[0];
+    // const file2 = e?.target?.files[1];
+    // const base64First = await convertToBase64(file1);
+    // setFileBase64String1(base64First.split(",")[1]);
+
+    // const base64Second = await convertToBase64(file2);
+    // setFileBase64String2(base64Second.split(",")[1]);
   };
 
   const alert =
