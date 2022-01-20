@@ -7,6 +7,7 @@ import { Form, Image, Button, Spinner } from "react-bootstrap";
 import { Navigate } from "react-router-dom";
 
 import { entryUser } from "../store/actions/entryUsers";
+import CustomBlockButton from "../components/UI/CustomBlockButton";
 
 import FormContainer from "../components/FormContainer";
 import Message from "../components/Message";
@@ -100,41 +101,24 @@ const RegisterOperator = () => {
       };
     });
   };
-  const handleChange1 = async (e) => {
+
+  const handleChange = async (e) => {
     const file = e.target.files[0];
     const base64 = await convertToBase64(file);
     setFileBase64String1(base64.split(",")[1]);
   };
 
-  const handleChange2 = async (e) => {
-    const file = e.target.files[0];
-    const base64 = await convertToBase64(file);
-    setFileBase64String2(base64.split(",")[1]);
-  };
+  // const handleChange2 = async (e) => {
+  //   const file = e.target.files[0];
+  //   const base64 = await convertToBase64(file);
+  //   setFileBase64String2(base64.split(",")[1]);
+  // };
 
   console.log(fileBase64String1.length);
   console.log("+++++++++++");
   console.log(fileBase64String2.length);
 
   console.log("SUM ---> ", fileBase64String1.length + fileBase64String2.length);
-
-  const submitButton = (
-    <div className="d-grid gap-2 mb-4">
-      <Button variant="primary" disabled={callBegin || disable} type="submit">
-        {callBegin && (
-          <Spinner
-            as="span"
-            variant="light"
-            animation="grow"
-            size="sm"
-            role="status"
-            aria-hidden="true"
-          />
-        )}
-        {callBegin ? " Loading..." : " Submit"}
-      </Button>
-    </div>
-  );
 
   const alert =
     warningMessage || message ? (
@@ -196,15 +180,16 @@ const RegisterOperator = () => {
           name="image1"
           accept=".jpeg, .jpg, .png"
           required
-          onChange={(e) => handleChange1(e)}
+          multiple
+          onChange={handleChange}
         />
-        <Form.Control
+        {/* <Form.Control
           type="file"
           name="image2"
           accept=".jpeg, .jpg, .png"
           required
-          onChange={(e) => handleChange2(e)}
-        />
+          onChange={handleChange2}
+        /> */}
         {/* <div className="my-2 d-flex gap-2">
           {objectUrls.map((url) => (
             <div key={url}>
@@ -219,7 +204,13 @@ const RegisterOperator = () => {
         </div> */}
       </Form.Group>
 
-      {submitButton}
+      <CustomBlockButton
+        type="submit"
+        disabled={callBegin || disable}
+        showSpinner={callBegin}
+        loadingText="Loading..."
+        defaultText="Submit"
+      />
     </Form>
   );
 
