@@ -71,8 +71,6 @@ const RegisterOperator = () => {
       // }else if(fileBase64String1.length + fileBase64String2.length > 99999) {
     } else {
       setWarningMessage("");
-
-      //გადააკეთე მერე...
       axios
         .post("/api/user/register/operator", {
           name: fullname,
