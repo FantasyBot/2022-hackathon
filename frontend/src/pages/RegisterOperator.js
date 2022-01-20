@@ -3,7 +3,7 @@ import axios from "axios";
 
 import { useSelector, useDispatch } from "react-redux";
 
-import { Form, Image, Button, Spinner } from "react-bootstrap";
+import { Form, Image } from "react-bootstrap";
 import { Navigate } from "react-router-dom";
 
 import { entryUser } from "../store/actions/entryUsers";
@@ -24,9 +24,6 @@ const RegisterOperator = () => {
   const [objectUrls, setObjectUrls] = useState([]);
 
   const [filesBase64Strings, setFilesBase64Strings] = useState([]);
-
-  const [fileBase64String1, setFileBase64String1] = useState("");
-  const [fileBase64String2, setFileBase64String2] = useState("");
 
   const dispatch = useDispatch();
 
@@ -97,26 +94,6 @@ const RegisterOperator = () => {
       .catch(function (error) {
         console.log(error);
       });
-
-    // if (fileBase64String1 === fileBase64String2) {
-    //   setWarningMessage("Images must be different");
-    // } else {
-    //   setWarningMessage("");
-    //   axios
-    //     .post("/api/user/register/operator", {
-    //       name: fullname,
-    //       password,
-    //       email,
-    //       filename1: fileBase64String1,
-    //       filename2: fileBase64String2,
-    //     })
-    //     .then(function (response) {
-    //       console.log(response.data);
-    //     })
-    //     .catch(function (error) {
-    //       console.log(error);
-    //     });
-    // }
   };
 
   const convertToBase64 = (file) => {
@@ -134,7 +111,6 @@ const RegisterOperator = () => {
 
   const handleChange = async (e) => {
     if (e.target.files.length !== 2) return;
-
     try {
       const firstPic = e.target.files[0];
       const secondPic = e.target.files[1];
@@ -147,16 +123,12 @@ const RegisterOperator = () => {
       const readyStrings = stringsArray.map((string) => string.split(",")[1]);
       console.log({ readyStrings });
       setFilesBase64Strings(readyStrings);
+      setObjectUrls(
+        [...e.target.files].map((file) => URL.createObjectURL(file))
+      );
     } catch (error) {
       console.log(error);
     }
-    // const file1 = e?.target?.files[0];
-    // const file2 = e?.target?.files[1];
-    // const base64First = await convertToBase64(file1);
-    // setFileBase64String1(base64First.split(",")[1]);
-
-    // const base64Second = await convertToBase64(file2);
-    // setFileBase64String2(base64Second.split(",")[1]);
   };
 
   const alert =
@@ -222,9 +194,9 @@ const RegisterOperator = () => {
           multiple
           onChange={handleChange}
         />
-        {/* <div className="my-2 d-flex gap-2">
+        <div className="my-2 d-flex gap-2">
           {objectUrls.map((url) => (
-            <div key={url}>
+            <div style={{ width: "50%" }} key={url}>
               <Image
                 rounded
                 style={{ width: "100%", height: "100%" }}
@@ -233,7 +205,7 @@ const RegisterOperator = () => {
               />
             </div>
           ))}
-        </div> */}
+        </div>
       </Form.Group>
 
       <CustomBlockButton
