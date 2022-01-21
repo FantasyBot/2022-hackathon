@@ -3,11 +3,11 @@ import { Navigate } from "react-router-dom";
 import { Card, Row, Col, Table, Form } from "react-bootstrap";
 
 import useUserDetails from "../hooks/useUserDetails";
-import useRegisterOrEdit from "../hooks/useRegisterOrEdit";
+import useUserData from "../hooks/useUserData";
 import Message from "../components/Message";
 
 import CustomSpinner from "../components/UI/CustomSpinner";
-import logo from "../assets/images/hotel-2.jpg";
+// import logo from "../assets/images/hotel-2.jpg";
 
 const UserProfilePage = () => {
   const {
@@ -15,11 +15,10 @@ const UserProfilePage = () => {
       name,
       email,
       role,
-      // operator_personal_id1,
-      // operator_personal_id2,
+      operator_personal_id1,
+      operator_personal_id2,
     },
   } = useUserDetails();
-  console.log("role", role);
 
   const {
     fullname,
@@ -35,7 +34,9 @@ const UserProfilePage = () => {
     setPassword,
     setConfirmPassword,
     submitHandler,
-  } = useRegisterOrEdit("edit", { name, email });
+  } = useUserData("edit");
+
+  console.log({ name, email, role });
 
   const operatorContent = (
     <Row xs={1} md={2} className="g-4 mt-2">
@@ -43,8 +44,8 @@ const UserProfilePage = () => {
         <Card>
           <Card.Img
             variant="top"
-            // src={operator_personal_id1}
-            src={logo}
+            src={`data:image/jpeg;base64,${operator_personal_id1}`}
+            // src={logo}
             alt="operator_personal_id1"
           />
           <Card.Body>
@@ -62,7 +63,8 @@ const UserProfilePage = () => {
           <Card.Img
             variant="top"
             // src={operator_personal_id2}
-            src={logo}
+            src={`data:image/jpeg;base64,${operator_personal_id2}`}
+            // src={logo}
             alt="operator_personal_id2"
           />
           <Card.Body>
@@ -220,7 +222,9 @@ const UserProfilePage = () => {
   return (
     <Row className="my-2">
       {callBegin ? <CustomSpinner /> : generalContent}
-      {role === "operator" ? operatorContent : userContent}
+      {!role || !name || !email ? <CustomSpinner /> : null}
+      {role === "operator" && operatorContent}
+      {role === "user" && userContent}
     </Row>
   );
 };

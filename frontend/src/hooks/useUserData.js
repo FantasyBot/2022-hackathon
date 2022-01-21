@@ -7,7 +7,7 @@ import { resetApiCallState } from "../store/slices/apiCall";
 
 const isEmpty = (string) => string.trim() === "";
 
-const useRegisterOrEdit = (condition = "register") => {
+const useUserData = (condition = "register") => {
   const { username, userEmail } = useSelector((state) => state.user);
   const { callBegin, message } = useSelector((state) => state.apiCall);
 
@@ -96,4 +96,4 @@ const useRegisterOrEdit = (condition = "register") => {
   };
 };
 
-export default useRegisterOrEdit;
+export default useUserData;

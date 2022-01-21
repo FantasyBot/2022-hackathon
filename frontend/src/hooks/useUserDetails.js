@@ -6,6 +6,7 @@ import axios from "axios";
 
 const useUserDetails = () => {
   const [userDetails, setUserdetails] = useState({});
+
   const { username } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 

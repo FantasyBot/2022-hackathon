@@ -1,10 +1,11 @@
 import { Navigate } from "react-router-dom";
 import { Form } from "react-bootstrap";
-import useRegisterOrEdit from "../hooks/useRegisterOrEdit";
+import useUserData from "../hooks/useUserData";
 
 import FormContainer from "../components/FormContainer";
 import Message from "../components/Message";
 import CustomBlockButton from "../components/UI/CustomBlockButton";
+// import useUserData from "../hooks/useUserData";
 
 const RegisterPage = () => {
   const {
@@ -21,7 +22,7 @@ const RegisterPage = () => {
     setPassword,
     setConfirmPassword,
     submitHandler,
-  } = useRegisterOrEdit();
+  } = useUserData();
 
   if (username) return <Navigate replace to="/" />;
 
