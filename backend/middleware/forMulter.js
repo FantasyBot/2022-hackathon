@@ -1,8 +1,5 @@
 const upload = require("../libs/saveImages");
 
-//E X T R A
-// const upload = multer({ dest: "uploads/" });
-
 const forMulter = (req, res, next) => {
   upload(req, res, (err) => {
     if (err) {

@@ -9,7 +9,6 @@ const {
   updateUserProfile
 } = require("../controllers/userController");
 
-const { forMulter } = require("../middleware/forMulter");
 const { protect } = require("../middleware/authMiddleware");
 // const { isOperator } = require("../middleware/isOperatorMiddleware");
 
