@@ -1,113 +1,37 @@
-import { useState } from "react";
-
-import { useSelector, useDispatch } from "react-redux";
-
 import { Form, Image } from "react-bootstrap";
 import { Navigate } from "react-router-dom";
 
-import { entryUser } from "../store/actions/entryUsers";
 import CustomBlockButton from "../components/UI/CustomBlockButton";
 
 import FormContainer from "../components/FormContainer";
 import Message from "../components/Message";
 
+import useOperatorData from "../hooks/useOperatorData";
+
 const RegisterOperator = () => {
-  const [warningMessage, setWarningMessage] = useState("");
-  const [disable, setDisable] = useState(false);
+  const {
+    warningMessage,
+    disable,
+    fullname,
+    email,
+    password,
+    objectUrls,
+    filesBase64Strings,
+    setFullname,
+    setEmail,
+    setPassword,
 
-  const [fullname, setFullname] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+    handleChange,
+    handleSubmit,
 
-  // const [token, setToken] = useState("");
-  const [objectUrls, setObjectUrls] = useState([]);
-
-  const [filesBase64Strings, setFilesBase64Strings] = useState([]);
-
-  const dispatch = useDispatch();
-
-  const { callBegin, message } = useSelector((state) => state.apiCall);
-
-  const { username } = useSelector((state) => state.user);
+    callBegin,
+    message,
+    username,
+  } = useOperatorData();
 
   if (username) return <Navigate replace to="/" />;
 
   console.log("filesBase64Strings.length", filesBase64Strings.length);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (filesBase64Strings.length !== 2) {
-      setWarningMessage("You must upload 2 pictures!");
-      return;
-    }
-
-    const firstString = filesBase64Strings[0];
-    const secondString = filesBase64Strings[1];
-
-    if (firstString === secondString) {
-      setWarningMessage("Images must be different");
-      return;
-    }
-
-    setWarningMessage("");
-    dispatch(
-      entryUser("POST", "/api/user/register/operator", {
-        name: fullname,
-        password,
-        email,
-        filename1: firstString,
-        filename2: secondString,
-      })
-    );
-  };
-
-  const convertToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  };
-
-  const handleChange = async (e) => {
-    setWarningMessage("");
-
-    console.log(e.target.files.length);
-    console.log("objectUrls", objectUrls);
-
-    setObjectUrls([]);
-
-    if (e.target.files.length !== 2) {
-      setFilesBase64Strings([]);
-      setWarningMessage("You must upload 2 pictures!");
-      return;
-    }
-
-    try {
-      const firstPic = e.target.files[0];
-      const secondPic = e.target.files[1];
-
-      const stringsArray = await Promise.all([
-        convertToBase64(firstPic),
-        convertToBase64(secondPic),
-      ]);
-
-      const readyStrings = stringsArray.map((string) => string.split(",")[1]);
-      console.log({ readyStrings });
-      setFilesBase64Strings(readyStrings);
-      setObjectUrls(
-        [...e.target.files].map((file) => URL.createObjectURL(file))
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const alert =
     warningMessage || message ? (
@@ -125,6 +49,7 @@ const RegisterOperator = () => {
           type="text"
           required
           name="name"
+          value={fullname}
           placeholder="Enter your fullname as in personal ID"
           onChange={(e) => setFullname(e.target.value)}
         />
@@ -135,6 +60,7 @@ const RegisterOperator = () => {
         <Form.Control
           type="email"
           name="email"
+          value={email}
           required
           placeholder="Enter email"
           onChange={(e) => setEmail(e.target.value)}
@@ -146,6 +72,7 @@ const RegisterOperator = () => {
         <Form.Control
           type="password"
           required
+          value={password}
           name="password"
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
@@ -156,14 +83,6 @@ const RegisterOperator = () => {
         <Form.Label>
           Take photos of your id (both sides) and upload here
         </Form.Label>
-        {/* <Form.Control
-          type="file"
-          name="images"
-          accept=".jpeg, .jpg, .png, .gif"
-          multiple
-          required
-          onChange={checkInputOnChange}
-        /> */}
         <Form.Control
           type="file"
           name="image1"

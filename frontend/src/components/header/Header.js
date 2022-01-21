@@ -10,6 +10,8 @@ import { userLoggedOut } from "../../store/slices/user";
 import { resetApiCallState } from "../../store/slices/apiCall";
 import { resetHotelsState } from "../../store/slices/hotels";
 
+// import logo from "../../assets/images/hotel-midnight-logo.png";
+
 // import classes from './Header.module.css';
 // import useSearch from '../../hooks/useSearch';
 
@@ -38,9 +40,7 @@ const Header = () => {
       ) : null}
 
       <LinkContainer to={`/profile/${username}/reservations`}>
-        <Nav.Link>
-          {role === "user" ? "My Reservations" : "Hotel Reservations"}
-        </Nav.Link>
+        <Nav.Link>{role === "operator" ? "Hotel Reservations" : null}</Nav.Link>
       </LinkContainer>
     </React.Fragment>
   );
@@ -91,6 +91,16 @@ const Header = () => {
               Hotel Midnight
             </Navbar.Brand>
           </LinkContainer>
+
+          {/* <LinkContainer to="/">
+            <Navbar.Brand className="text-success fs-4">
+              <Image
+                style={{ width: 72, height: 50 }}
+                src={logo}
+                alt="navbarbrand"
+              />
+            </Navbar.Brand>
+          </LinkContainer> */}
 
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
