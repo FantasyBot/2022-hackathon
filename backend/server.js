@@ -16,8 +16,8 @@ const app = express();
 
 //3 for base64 image uploading, both work
 // In base 64, image is 1.37% larger then original
-// app.use(bodyParser.json({limit: '50mb'}));
-// app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 app.use(cors());
 app.use(express.json());
