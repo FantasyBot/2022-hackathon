@@ -40,27 +40,51 @@ const authUser = async (req, res, next) => {
 // Register new user
 // POST/api/user/register
 // Public
-const registerUser = async (req, res, next) => {
+const registerCustomer = async (req, res, next) => {
   try {
-    const { fullname, password, email } = req.body;
+    const { fullname, password, email, checked } = req.body;
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // username is fullname
-    await pool.query(
-      "INSERT INTO users (username, password, email) VALUES($1, $2, $3)",
-      [fullname, hashedPassword, email]
-    );
-    const { rows } = await pool.query(
-      "SELECT id, username, email, role FROM users WHERE email = $1",
-      [email]
-    );
-
-    res.json({
-      message: "Success",
-      token: generateToken(rows[0]),
-    });
+    //is operator not active
+    if (checked === "true") {
+      // username is fullname
+      await pool.query(
+        "INSERT INTO users (username, password, email, role) VALUES($1, $2, $3, $4)",
+        [fullname, hashedPassword, email, "operator"]
+      );
+      //find operator user
+      const { rows } = await pool.query(
+        "SELECT id, username, email, role, active FROM users WHERE email = $1",
+        [email]
+      );
+      res.json({
+        message: "Success",
+        token: generateToken(rows[0]),
+      });
+    } else if (checked === "false") {
+      // is user not active
+      // username is fullname
+      await pool.query(
+        "INSERT INTO users (username, password, email) VALUES($1, $2, $3)",
+        [fullname, hashedPassword, email]
+      );
+      //find user
+      const { rows } = await pool.query(
+        "SELECT id, username, email, role, active FROM users WHERE email = $1",
+        [email]
+      );
+      res.json({
+        message: "Success",
+        token: generateToken(rows[0]),
+      });
+    } else {
+      res.status(401);
+      return next({
+        msg: "User registration failed",
+      });
+    }
   } catch (e) {
     console.log(e.message);
     res.status(404);
@@ -87,8 +111,7 @@ const getUserProfile = async (req, res, next) => {
       name: rows[0].username,
       email: rows[0].email,
       role: rows[0].role,
-      operator_personal_id1: rows[0].user_photo1,
-      operator_personal_id2: rows[0].user_photo2,
+      active: rows[0].active,
     });
   } catch (err) {
     console.log(err.message);
@@ -140,7 +163,7 @@ const updateUserProfile = async (req, res, next) => {
 
       //Find user in DB for token
       const { rows: tokenInfo } = await pool.query(
-        "SELECT id, username, email, role FROM users WHERE email=$1",
+        "SELECT id, username, email, role, active FROM users WHERE email=$1",
         [user.email]
       );
       res.json({
@@ -163,49 +186,9 @@ const updateUserProfile = async (req, res, next) => {
   }
 };
 
-// Register new operator
-// POST/api/user/register/operator
-// Public
-const registerOperator = async (req, res, next) => {
-  try {
-    const { name, password, email, filename1, filename2 } = req.body;
-    if (filename1.length === 0 || filename2.length === 0) {
-      return next({
-        msg: "Please upload 2 image",
-      });
-    } else {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
-
-      await pool.query(
-        "INSERT INTO users (username, password, email, role, user_photo1, user_photo2) VALUES($1, $2, $3, $4, $5, $6)",
-        [name, hashedPassword, email, "operator", filename1, filename2]
-      );
-
-      const { rows } = await pool.query(
-        "SELECT id, username, email, role FROM users WHERE email = $1",
-        [email]
-      );
-
-      res.json({
-        message: "Success operator",
-        token: generateToken(rows[0]),
-      });
-    }
-  } catch (err) {
-    console.log(err.message);
-    res.status(404);
-    return next({
-      msg: "Operator registration failed",
-      stk: err.message,
-    });
-  }
-};
-
 module.exports = {
   authUser,
-  registerUser,
   getUserProfile,
-  registerOperator,
   updateUserProfile,
+  registerCustomer,
 };
