@@ -10,7 +10,7 @@ const authUser = async (req, res, next) => {
     const { email, password } = req.body;
 
     const user = await pool.query(
-      "SELECT id, username, password, email, role FROM users WHERE email = $1",
+      "SELECT id, username, password, email, role, active FROM users WHERE email = $1",
       [email]
     );
     const encryptedPassword = await bcrypt.compare(
