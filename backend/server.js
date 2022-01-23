@@ -11,8 +11,8 @@ const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const app = express();
 
 //2 for base64 image uploading, both work
-app.use(express.json({limit: '10mb'}));
-app.use(express.urlencoded({limit: '10mb', extended: true}));
+// app.use(express.json({limit: '10mb'}));
+// app.use(express.urlencoded({limit: '10mb', extended: true}));
 
 //3 for base64 image uploading, both work
 // In base 64, image is 1.37% larger then original

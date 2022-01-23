@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-// import axios from "axios";
+import axios from "axios";
 
 import { Form, Button, Image, Spinner } from "react-bootstrap";
 
@@ -23,7 +23,9 @@ const AddHotelPage = () => {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [description, setDescription] = useState("");
-  const [files, setFiles] = useState("");
+  // const [files, setFiles] = useState("");
+
+  const [filesBase64Strings, setFilesBase64Strings] = useState([]);
 
   const [disable, setDisable] = useState("");
   const [warningMessage, setWarningMessage] = useState("");
@@ -43,45 +45,129 @@ const AddHotelPage = () => {
     return () => dispatch(resetApiCallState());
   }, [dispatch]);
 
-  const checkInputOnChange = (e) => {
-    if (e.target.files.length !== 4) {
-      setDisable(true);
-      setWarningMessage("Please upload exactly four (4) images!");
-    } else {
-      setDisable(false);
-      setWarningMessage("");
-      setFiles(e.target.files);
-
-      // New
-      setObjectUrls([...e.target.files].map((o) => URL.createObjectURL(o)));
-    }
-  };
-
   const hideModalHandler = () => navigate(`/profile/${username}/myhotels`);
 
+  // const checkInputOnChange = (e) => {
+  //   if (e.target.files.length !== 4) {
+  //     setDisable(true);
+  //     setWarningMessage("Please upload exactly four (4) images!");
+  //   } else {
+  //     setDisable(false);
+  //     setWarningMessage("");
+  //     setFiles(e.target.files);
+
+  //     // New
+  //     setObjectUrls([...e.target.files].map((o) => URL.createObjectURL(o)));
+  //   }
+  // };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   let bodyFormData = new FormData();
+
+  //   for (let i = 0; i < files.length; i++) {
+  //     bodyFormData.append("images", files[i]);
+  //   }
+  //   bodyFormData.append("name", hotelName);
+  //   bodyFormData.append("location", location);
+  //   bodyFormData.append("price", price);
+  //   bodyFormData.append("discount_price", discPrice);
+  //   bodyFormData.append("email", email);
+  //   bodyFormData.append("phone", phoneNumber);
+  //   bodyFormData.append("description", description);
+
+  //   const token = localStorage.getItem("token");
+
+  //   dispatch(
+  //     registerHotel("POST", "/api/product/create/hotel", bodyFormData, {
+  //       "Content-Type": "multipart/form-data",
+  //       Authorization: `Bearer ${JSON.parse(token)}`,
+  //     })
+  //   );
+  // };
   const handleSubmit = (e) => {
     e.preventDefault();
-    let bodyFormData = new FormData();
 
-    for (let i = 0; i < files.length; i++) {
-      bodyFormData.append("images", files[i]);
+    if (filesBase64Strings.length !== 4) {
+      setWarningMessage("You must upload 2 pictures!");
+      return;
     }
-    bodyFormData.append("name", hotelName);
-    bodyFormData.append("location", location);
-    bodyFormData.append("price", price);
-    bodyFormData.append("discount_price", discPrice);
-    bodyFormData.append("email", email);
-    bodyFormData.append("phone", phoneNumber);
-    bodyFormData.append("description", description);
+
+    const firstString = filesBase64Strings[0];
+    const secondString = filesBase64Strings[1];
+    const thirdString = filesBase64Strings[2];
+    const fourthString = filesBase64Strings[3];
+
+    setWarningMessage("");
+
+    const sendData = {
+      name: hotelName,
+      location: location,
+      price: price,
+      discount_price: discPrice,
+      email: email,
+      phone: phoneNumber,
+      description: description,
+      image1: firstString,
+      image2: secondString,
+      image3: thirdString,
+      image4: fourthString,
+    };
+
+    console.log(sendData);
 
     const token = localStorage.getItem("token");
-
     dispatch(
-      registerHotel("POST", "/api/product/create/hotel", bodyFormData, {
-        "Content-Type": "multipart/form-data",
+      registerHotel("POST", "/api/product/create/hotel", sendData, {
+        "Content-Type": "application/x-www-form-urlencoded",
         Authorization: `Bearer ${JSON.parse(token)}`,
       })
     );
+  };
+
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+
+  const handleChange = async (e) => {
+    setWarningMessage("");
+    setObjectUrls([]);
+
+    if (e.target.files.length !== 4) {
+      setFilesBase64Strings([]);
+      setWarningMessage("You must upload 4 pictures!");
+      return;
+    }
+    try {
+      const firstPic = e.target.files[0];
+      const secondPic = e.target.files[1];
+      const thirdPic = e.target.files[2];
+      const fourthPic = e.target.files[3];
+
+      const stringsArray = await Promise.all([
+        convertToBase64(firstPic),
+        convertToBase64(secondPic),
+        convertToBase64(thirdPic),
+        convertToBase64(fourthPic),
+      ]);
+
+      const readyStrings = stringsArray.map((string) => string.split(",")[1]);
+      setFilesBase64Strings(readyStrings);
+      setObjectUrls(
+        [...e.target.files].map((file) => URL.createObjectURL(file))
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -181,7 +267,7 @@ const AddHotelPage = () => {
               accept=".jpeg, .jpg, .png, .gif"
               multiple
               required
-              onChange={checkInputOnChange}
+              onChange={handleChange}
             />
             <div className="my-2 d-flex gap-2">
               {objectUrls.map((url) => (
@@ -199,7 +285,7 @@ const AddHotelPage = () => {
 
           {/* description */}
           <Form.Group className="mb-3" controlId="basicTextarea">
-            <Form.Label>Comment</Form.Label>
+            <Form.Label>Description</Form.Label>
             <Form.Control
               as="textarea"
               rows={3}
