@@ -54,10 +54,9 @@ const createHotel = async (req, res, next) => {
 // GET/api/product/allhotels
 // Public
 const getAllHotels = async (req, res, next) => {
-  console.log("Here");
   try {
     const { rows } = await pool.query(
-      "SELECT id, name, location, price, discount_price, email, phone, description, first_photo " +
+      "SELECT hotels.id, name, location, price, discount_price, email, phone, description, first_photo " +
         "FROM hotels JOIN media ON hotels.id = media.hotel_photo"
     );
     if (rows.length !== 0) {
