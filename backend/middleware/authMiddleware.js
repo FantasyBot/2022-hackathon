@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const pool = require("../config/db");
 
 const protect = async (req, res, next) => {
+  console.log("protect");
   let token;
   if (
     req.headers.authorization &&

@@ -4,6 +4,9 @@ const pool = require("../config/db");
 // POST/api/product/create/hotel
 // Private
 const createHotel = async (req, res, next) => {
+  
+  console.log(req.body);
+
   try {
     const { id } = req.user;
     const {
@@ -14,10 +17,10 @@ const createHotel = async (req, res, next) => {
       email,
       phone,
       description,
-      filename1,
-      filename2,
-      filename3,
-      filename4,
+      image1,
+      image2,
+      image3,
+      image4,
     } = req.body;
 
     await pool.query(
@@ -34,7 +37,7 @@ const createHotel = async (req, res, next) => {
     await pool.query(
       "INSERT INTO media (first_photo, second_photo, third_photo, fourth_photo, author_photo, hotel_photo) " +
         "VALUES($1, $2, $3, $4, $5, $6)",
-      [filename1, filename2, filename3, filename4, id, hotelId[0].id]
+      [image1, image2, image3, image4, id, hotelId[0].id]
     );
 
     res.json({
@@ -54,10 +57,9 @@ const createHotel = async (req, res, next) => {
 // GET/api/product/allhotels
 // Public
 const getAllHotels = async (req, res, next) => {
-  console.log("Here");
   try {
     const { rows } = await pool.query(
-      "SELECT name, location, price, discount_price, email, phone, description, first_photo, user_id " +
+      "SELECT hotels.id, name, location, price, discount_price, email, phone, description, first_photo " +
         "FROM hotels JOIN media ON hotels.id = media.hotel_photo"
     );
     if (rows.length !== 0) {
