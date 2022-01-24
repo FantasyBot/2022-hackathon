@@ -8,7 +8,7 @@ const useResetApiCallState = () => {
 
   useEffect(() => {
     return () => {
-      console.log("Cleanup ");
+      console.log("Cleanup useResetApiCallState");
       dispatch(resetApiCallState());
     };
   }, [dispatch]);
