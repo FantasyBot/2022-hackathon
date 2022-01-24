@@ -118,10 +118,17 @@ const AddHotelPage = () => {
 
     const token = localStorage.getItem("token");
     dispatch(
-      registerHotel("POST", "/api/product/create/hotel", sendData, {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: `Bearer ${JSON.parse(token)}`,
-      })
+      registerHotel(
+        "POST",
+        "/api/product/create/hotel",
+        sendData,
+        {
+          // "Content-Type": "application/x-www-form-urlencoded",
+          'Content-Type': 'application/json',
+          'accept':'application/json',
+          Authorization: `Bearer ${JSON.parse(token)}`,
+        }
+      )
     );
   };
 

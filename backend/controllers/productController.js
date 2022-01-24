@@ -4,9 +4,7 @@ const pool = require("../config/db");
 // POST/api/product/create/hotel
 // Private
 const createHotel = async (req, res, next) => {
-  
-  console.log(req.body);
-
+  console.log("SAXELI --- >", req.body.name);
   try {
     const { id } = req.user;
     const {
@@ -22,7 +20,6 @@ const createHotel = async (req, res, next) => {
       image3,
       image4,
     } = req.body;
-
     await pool.query(
       "INSERT INTO hotels (name, location, price, discount_price, email, phone, description, user_id) " +
         "VALUES($1, $2, $3, $4, $5, $6, $7, $8)",
