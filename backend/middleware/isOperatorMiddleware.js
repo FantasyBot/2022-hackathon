@@ -12,7 +12,7 @@ const isOperatorActive = async (req, res, next) => {
       return next({
         msg: "Not authorized, is not Operator",
       });
-    } else if (rows[0].active !== "true") {
+    } else if (!rows[0].active) {
       return next({
         msg: "Not authorized, Operator user is not active",
       });
