@@ -68,8 +68,8 @@ const AddHotelPage = () => {
     setWarningMessage("");
 
     // get city name from adress...
-    let split = address.split(" ");
-    let splitedCity = split[split.length - 1];
+    let split = address.split(", ");
+    let splitedCity = split[split.length - 2];
 
     const sendData = {
       name: hotelName,
@@ -100,7 +100,6 @@ const AddHotelPage = () => {
       })
     );
   };
-  console.log(coordinates);
   // Sugestions
   const handleSelect = async (value) => {
     const results = await geocodeByAddress(value);
@@ -197,7 +196,7 @@ const AddHotelPage = () => {
                     {...getInputProps({
                       type: "text",
                       name: "location",
-                      placeholder: "Hotel adress...",
+                      placeholder: "Choose from suggestions...",
                       className: "location-search-input",
                     })}
                     required
