@@ -288,7 +288,7 @@ const AddHotelPage = () => {
               type="number"
               name="phone"
               required
-              min="995598000000"
+              min="0322000000"
               // WE CAN USE REGEX HERE
               placeholder="+(995)598123456"
               onChange={(e) => setPhoneNumber(e.target.value)}
