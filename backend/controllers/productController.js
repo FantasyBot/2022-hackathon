@@ -5,7 +5,7 @@ const pool = require("../config/db");
 // Private
 const createHotel = async (req, res, next) => {
   try {
-    const { id } = req.user;
+    const { id: user_id_from_token } = req.user;
     const {
       name,
       location,
@@ -24,7 +24,7 @@ const createHotel = async (req, res, next) => {
     } = req.body;
     await pool.query(
       "INSERT INTO hotels (name, location, city, latitude, longitude, price, discount_price, email, phone, description, user_id) " +
-        "VALUES($1, $2, $3, $4, $5, $6, $7, $8)",
+        "VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",
       [
         name,
         location,
@@ -36,7 +36,7 @@ const createHotel = async (req, res, next) => {
         email,
         phone,
         description,
-        id,
+        user_id_from_token,
       ]
     );
 
