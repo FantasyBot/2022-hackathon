@@ -33,16 +33,26 @@ Hotel Midnight
     // Create new hotel
     // POST/api/product/create/hotel
     // Private
+    ბექში აგზავნი ამათ
+    const {
+        name,
+        location,
+        city,
+        latitude,
+        longitude,
+        price,
+        discount_price,
+        email,
+        phone,
+        description,
+        image1,
+        image2,
+        image3,
+        image4,
+    } = req.body;
+    სურათები იქნება base64 ში სტრინგები...
+    react-places-autocomplete გამოვიყენეთ (ჩაიხედეთ addHotelPage ში)
     ჰედერში შესული იუზერის ტოკენი..
-    formdata თი აგზავნი
-    name,
-    location,
-    price,
-    discount_price,
-    email,
-    phone,
-    description
-    და images (4 სასტუმროს სურათი, ჩაიხედეთ AddHotelPage.js ში)
 
 6.  https://hackathon-2022.herokuapp.com/api/product/myhotels ოპერატორი ნახულობს თავის დამატებულ სასტუმროებს
     // Get user's hotels
@@ -61,7 +71,7 @@ Hotel Midnight
     // Private
     ჰედერში ჩაისეტოს შესული იუზერის ტოკენი...
 
-9. https://hackathon-2022.herokuapp.com/api/user/profile იუზერი აანფდეითებს თავის ინფორმაციას (fullname, email, password) იგზავნება ინფო ფრონტიდან როგორ post რექვესტია...
+9.  https://hackathon-2022.herokuapp.com/api/user/profile იუზერი აანფდეითებს თავის ინფორმაციას (fullname, email, password) იგზავნება ინფო ფრონტიდან როგორ post რექვესტია...
     // Update user profile
     // Put/api/user/profile
     // Private

@@ -4,12 +4,14 @@ const pool = require("../config/db");
 // POST/api/product/create/hotel
 // Private
 const createHotel = async (req, res, next) => {
-  console.log("SAXELI --- >", req.body.name);
   try {
     const { id } = req.user;
     const {
       name,
       location,
+      city,
+      latitude,
+      longitude,
       price,
       discount_price,
       email,
@@ -21,9 +23,21 @@ const createHotel = async (req, res, next) => {
       image4,
     } = req.body;
     await pool.query(
-      "INSERT INTO hotels (name, location, price, discount_price, email, phone, description, user_id) " +
+      "INSERT INTO hotels (name, location, city, latitude, longitude, price, discount_price, email, phone, description, user_id) " +
         "VALUES($1, $2, $3, $4, $5, $6, $7, $8)",
-      [name, location, price, discount_price, email, phone, description, id]
+      [
+        name,
+        location,
+        city,
+        latitude,
+        longitude,
+        price,
+        discount_price,
+        email,
+        phone,
+        description,
+        id,
+      ]
     );
 
     const { rows: hotelId } = await pool.query(
@@ -32,7 +46,7 @@ const createHotel = async (req, res, next) => {
     );
 
     await pool.query(
-      "INSERT INTO media (first_photo, second_photo, third_photo, fourth_photo, author_photo, hotel_photo) " +
+      "INSERT INTO media (first_photo, second_photo, third_photo, fourth_photo, author_photo_id, hotel_photo_id) " +
         "VALUES($1, $2, $3, $4, $5, $6)",
       [image1, image2, image3, image4, id, hotelId[0].id]
     );
@@ -56,8 +70,8 @@ const createHotel = async (req, res, next) => {
 const getAllHotels = async (req, res, next) => {
   try {
     const { rows } = await pool.query(
-      "SELECT hotels.id, name, location, price, discount_price, email, phone, description, first_photo " +
-        "FROM hotels JOIN media ON hotels.id = media.hotel_photo"
+      "SELECT hotels.id, name, location, city, latitude, longitude, price, discount_price, email, phone, description, first_photo " +
+        "FROM hotels JOIN media ON hotels.id = media.hotel_photo_id"
     );
     if (rows.length !== 0) {
       res.json({
@@ -88,8 +102,8 @@ const getMyHotels = async (req, res, next) => {
     const { id } = req.user;
 
     const { rows } = await pool.query(
-      "SELECT * FROM (SELECT name, location, price, discount_price, email, phone, description, first_photo, user_id " +
-        "FROM hotels JOIN media ON hotels.id = media.hotel_photo) as joined_info WHERE joined_info.user_id = $1",
+      "SELECT * FROM (SELECT hotels.id, name, location, city, latitude, longitude, price, discount_price, email, phone, description, first_photo, user_id " +
+        "FROM hotels JOIN media ON hotels.id = media.hotel_photo_id) as joined_info WHERE joined_info.user_id = $1",
       [id]
     );
 
@@ -122,8 +136,9 @@ const getSingleHotel = async (req, res, next) => {
     const { id: single_hotel_name } = req.params;
 
     const { rows } = await pool.query(
-      "SELECT * FROM (SELECT name, location, price, discount_price, email, phone, description, first_photo, second_photo, third_photo, fourth_photo " +
-        "FROM hotels JOIN media ON hotels.id = media.hotel_photo) as joined_info WHERE joined_info.name = $1",
+      "SELECT * FROM (SELECT hotels.id name, location, city, latitude, longitude, price, discount_price, email, phone, " +
+        "description, first_photo, second_photo, third_photo, fourth_photo " +
+        "FROM hotels JOIN media ON hotels.id = media.hotel_photo_id) as joined_info WHERE joined_info.name = $1",
       [single_hotel_name]
     );
 
@@ -161,7 +176,7 @@ const deleteHotel = async (req, res, next) => {
     );
 
     const { rows: delMedia } = await pool.query(
-      "DELETE FROM media m WHERE m.hotel_photo=$1",
+      "DELETE FROM media m WHERE m.hotel_photo_id=$1",
       [rows[0].id]
     );
 
