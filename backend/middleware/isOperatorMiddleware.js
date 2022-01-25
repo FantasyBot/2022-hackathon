@@ -7,8 +7,6 @@ const isOperatorActive = async (req, res, next) => {
       "SELECT role FROM users WHERE email = $1",
       [email]
     );
-    console.log("active", active);
-    console.log("rows ", rows[0].active);
     if (rows[0].role !== "operator") {
       return next({
         msg: "Not authorized, is not Operator",

@@ -48,7 +48,7 @@ const createHotel = async (req, res, next) => {
     await pool.query(
       "INSERT INTO media (first_photo, second_photo, third_photo, fourth_photo, author_photo_id, hotel_photo_id) " +
         "VALUES($1, $2, $3, $4, $5, $6)",
-      [image1, image2, image3, image4, id, hotelId[0].id]
+      [image1, image2, image3, image4, user_id_from_token, hotelId[0].id]
     );
 
     res.json({

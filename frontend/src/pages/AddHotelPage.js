@@ -100,7 +100,7 @@ const AddHotelPage = () => {
       })
     );
   };
-
+  console.log(coordinates);
   // Sugestions
   const handleSelect = async (value) => {
     const results = await geocodeByAddress(value);
