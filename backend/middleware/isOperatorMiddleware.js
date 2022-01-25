@@ -2,17 +2,18 @@ const pool = require("../config/db");
 
 const isOperatorActive = async (req, res, next) => {
   try {
-    const { email } = req.user;
+    const { email, active } = req.user;
     const { rows } = await pool.query(
       "SELECT role FROM users WHERE email = $1",
       [email]
     );
-
+    console.log("active", active);
+    console.log("rows ", rows[0].active);
     if (rows[0].role !== "operator") {
       return next({
         msg: "Not authorized, is not Operator",
       });
-    } else if (!rows[0].active) {
+    } else if (!active) {
       return next({
         msg: "Not authorized, Operator user is not active",
       });
