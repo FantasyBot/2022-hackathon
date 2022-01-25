@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import axios from "axios";
+// import axios from "axios";
 
 import { Form, Button, Image, Spinner } from "react-bootstrap";
 
@@ -15,15 +15,20 @@ import Message from "../components/Message";
 import FormContainer from "../components/FormContainer";
 import { resetApiCallState } from "../store/slices/apiCall";
 
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  getLatLng,
+} from "react-places-autocomplete";
+
 const AddHotelPage = () => {
   const [hotelName, setHotelName] = useState("");
-  const [location, setLocation] = useState("");
+  const [address, setAddress] = useState("");
+  const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
   const [price, setPrice] = useState("");
   const [discPrice, setDicsPrice] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [description, setDescription] = useState("");
-  // const [files, setFiles] = useState("");
 
   const [filesBase64Strings, setFilesBase64Strings] = useState([]);
 
@@ -47,49 +52,11 @@ const AddHotelPage = () => {
 
   const hideModalHandler = () => navigate(`/profile/${username}/myhotels`);
 
-  // const checkInputOnChange = (e) => {
-  //   if (e.target.files.length !== 4) {
-  //     setDisable(true);
-  //     setWarningMessage("Please upload exactly four (4) images!");
-  //   } else {
-  //     setDisable(false);
-  //     setWarningMessage("");
-  //     setFiles(e.target.files);
-
-  //     // New
-  //     setObjectUrls([...e.target.files].map((o) => URL.createObjectURL(o)));
-  //   }
-  // };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   let bodyFormData = new FormData();
-
-  //   for (let i = 0; i < files.length; i++) {
-  //     bodyFormData.append("images", files[i]);
-  //   }
-  //   bodyFormData.append("name", hotelName);
-  //   bodyFormData.append("location", location);
-  //   bodyFormData.append("price", price);
-  //   bodyFormData.append("discount_price", discPrice);
-  //   bodyFormData.append("email", email);
-  //   bodyFormData.append("phone", phoneNumber);
-  //   bodyFormData.append("description", description);
-
-  //   const token = localStorage.getItem("token");
-
-  //   dispatch(
-  //     registerHotel("POST", "/api/product/create/hotel", bodyFormData, {
-  //       "Content-Type": "multipart/form-data",
-  //       Authorization: `Bearer ${JSON.parse(token)}`,
-  //     })
-  //   );
-  // };
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (filesBase64Strings.length !== 4) {
-      setWarningMessage("You must upload 2 pictures!");
+      setWarningMessage("You must upload 4 pictures!");
       return;
     }
 
@@ -100,9 +67,18 @@ const AddHotelPage = () => {
 
     setWarningMessage("");
 
+    // get city name from adress...
+    let split = address.split(", ");
+    let splitedCity = split[split.length - 2];
+
     const sendData = {
       name: hotelName,
-      location: location,
+      location: address,
+      //added
+      city: splitedCity,
+      latitude: coordinates.lat,
+      longitude: coordinates.lng,
+      //
       price: price,
       discount_price: discPrice,
       email: email,
@@ -114,22 +90,22 @@ const AddHotelPage = () => {
       image4: fourthString,
     };
 
-    console.log(sendData);
-
     const token = localStorage.getItem("token");
+    // http://localhost:5000/api/product/create/hotel
     dispatch(
-      registerHotel(
-        "POST",
-        "/api/product/create/hotel",
-        sendData,
-        {
-          // "Content-Type": "application/x-www-form-urlencoded",
-          'Content-Type': 'application/json',
-          'accept':'application/json',
-          Authorization: `Bearer ${JSON.parse(token)}`,
-        }
-      )
+      registerHotel("POST", "/api/product/create/hotel", sendData, {
+        "Content-Type": "application/json",
+        accept: "application/json",
+        Authorization: `Bearer ${JSON.parse(token)}`,
+      })
     );
+  };
+  // Sugestions
+  const handleSelect = async (value) => {
+    const results = await geocodeByAddress(value);
+    const ll = await getLatLng(results[0]);
+    setAddress(value);
+    setCoordinates(ll);
   };
 
   const convertToBase64 = (file) => {
@@ -144,7 +120,6 @@ const AddHotelPage = () => {
       };
     });
   };
-
   const handleChange = async (e) => {
     setWarningMessage("");
     setObjectUrls([]);
@@ -202,16 +177,70 @@ const AddHotelPage = () => {
             />
           </Form.Group>
 
-          {/* Location */}
-          <Form.Group className="mb-3" controlId="formBasicHotelLocation">
-            <Form.Label>Location</Form.Label>
-            <Form.Control
-              type="text"
-              name="location"
-              required
-              onChange={(e) => setLocation(e.target.value)}
-            />
-          </Form.Group>
+          {/* Location with auto complete */}
+          <PlacesAutocomplete
+            value={address}
+            onChange={setAddress}
+            onSelect={handleSelect}
+          >
+            {({
+              getInputProps,
+              suggestions,
+              getSuggestionItemProps,
+              loading,
+            }) => (
+              <div>
+                <Form.Group className="mb-3" controlId="formBasicHotelLocation">
+                  <Form.Label>Location</Form.Label>
+                  <Form.Control
+                    {...getInputProps({
+                      type: "text",
+                      name: "location",
+                      placeholder: "Choose from suggestions...",
+                      className: "location-search-input",
+                    })}
+                    required
+                    // onChange={(e) => setLocation(e.target.value)}
+                  />
+                </Form.Group>
+                <div className="autocomplete-dropdown-container">
+                  {loading && <div>Loading...</div>}
+                  {suggestions.map((suggestion) => {
+                    // console.log(suggestions);
+                    const className = suggestion.active
+                      ? "suggestion-item--active"
+                      : "suggestion-item";
+                    // inline style for demonstration purpose
+                    const style = suggestion.active
+                      ? {
+                          margin: "0 0 2px 0",
+                          backgroundColor: "lightblue",
+                          cursor: "pointer",
+                          padding: "5px",
+                        }
+                      : {
+                          margin: "0 0 2px 0",
+                          borderRadius: "5px",
+                          backgroundColor: "#e3e3fa",
+                          cursor: "pointer",
+                          padding: "5px",
+                        };
+                    return (
+                      <div
+                        {...getSuggestionItemProps(suggestion, {
+                          className,
+                          style,
+                        })}
+                        key={suggestion.index}
+                      >
+                        <span>{suggestion.description}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </PlacesAutocomplete>
 
           {/* price  */}
           <Form.Group className="mb-3" controlId="formBasicHotelPrice">
@@ -258,7 +287,7 @@ const AddHotelPage = () => {
               type="number"
               name="phone"
               required
-              min="995598000000"
+              min="0322000000"
               // WE CAN USE REGEX HERE
               placeholder="+(995)598123456"
               onChange={(e) => setPhoneNumber(e.target.value)}
