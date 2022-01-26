@@ -7,6 +7,7 @@ const {
   getMyHotels,
   getSingleHotel,
   deleteHotel,
+  getAllFilteredHotels,
 } = require("../controllers/productController");
 
 // const { forMulter } = require("../middleware/forMulter");
@@ -16,6 +17,7 @@ const { isOperatorActive } = require("../middleware/isOperatorMiddleware");
 // /api/product..
 router.post("/create/hotel", protect, isOperatorActive, createHotel);
 router.get("/allhotels", getAllHotels);
+router.get("/allhotels/filteredbycity", getAllFilteredHotels);
 router.get("/myhotels", protect, isOperatorActive, getMyHotels);
 router.get("/hotels/:id", getSingleHotel);
 router.delete("/hotels/myhotels/:id", protect, isOperatorActive, deleteHotel);
