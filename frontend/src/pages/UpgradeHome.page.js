@@ -1,42 +1,30 @@
-import { useState } from "react";
 import { Autocomplete } from "@react-google-maps/api";
+import { useNavigate } from "react-router-dom";
 
-import {
-  Image,
-  Card,
-  Row,
-  Col,
-  Container,
-  Stack,
-  Form,
-  Button,
-} from "react-bootstrap";
+import { Image, Card, Row, Col, Form, Button } from "react-bootstrap";
 
+import useAutocomplete from "../hooks/useAutocomplete";
 import logo from "../assets/images/www.jpg";
 
 // pic src: "https://www.behance.net/gallery/101990779/RIVER-FRONT-Hotel-Resort/modules/587441533"
 
-const UpgradeHomePage = ({ setCoordinates }) => {
-  const [autoComplete, setAutoComplete] = useState(null);
+const UpgradeHomePage = () => {
+  const { onLoad, onPlaceChanged, searchRef } = useAutocomplete();
+  const navigate = useNavigate();
 
-  const onLoad = (autoC) => {
-    // console.log("here");
-    setAutoComplete(autoC);
-  };
-  console.log({ autoComplete });
+  const submitHandler = (e) => {
+    e.preventDefault();
+    console.log(searchRef.current.value);
 
-  const onPlaceChanged = () => {
-    console.log("Changed");
-
-    const lat = autoComplete.getPlace().geometry.location.lat();
-    const lng = autoComplete.getPlace().geometry.location.lng();
-
-    console.log({ lat, lng });
-    setCoordinates({ lat, lng });
+    if (searchRef.current.value) {
+      navigate("/map");
+    } else {
+      console.log("Search bar is empty! Please enter a city!");
+    }
   };
 
   return (
-    <Form className="my-2">
+    <Form onSubmit={submitHandler} className="my-2">
       {console.log("Rendering")}
       <Image
         fluid
@@ -50,6 +38,7 @@ const UpgradeHomePage = ({ setCoordinates }) => {
           <Col xs={12} sm={6}>
             <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
               <Form.Control
+                ref={searchRef}
                 type="search"
                 placeholder="Search place..."
                 // className="me-auto"
