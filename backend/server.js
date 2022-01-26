@@ -5,6 +5,7 @@ const path = require("path");
 const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/productRoutes");
 const orderRoutes = require("./routes/orderRoutes");
+const sessionRoutes = require("./routes/sessionRoutes");
 const bodyParser = require("body-parser");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
@@ -16,8 +17,8 @@ const app = express();
 
 //3 for base64 image uploading, both work
 // In base 64, image is 1.37% larger then original
-app.use(bodyParser.json({limit: '50mb'}));
-app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
 app.use(cors());
 app.use(express.json());
@@ -30,6 +31,7 @@ app.get("/", (req, res) => {
 app.use("/api/user", userRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/order", orderRoutes);
+app.use("/api/session", sessionRoutes);
 
 // images should be uploaded in public dir...
 app.use("/static", express.static(path.join(__dirname, "public")));

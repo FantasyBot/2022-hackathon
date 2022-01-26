@@ -96,6 +96,7 @@ const getAllHotels = async (req, res, next) => {
 
 // Get all filtered hotels
 // GET/api/product/allhotels/filteredbycity
+// GET/api/hotel?filter=city 
 // Public
 const getAllFilteredHotels = async (req, res, next) => {
   try {

@@ -16,7 +16,7 @@ Hotel Midnight
     // Public
     ბექში ველოდები ამას - const { email, password } = req.body;
 
-3.  https://hackathon-2022.herokuapp.com/api/user/register ახალი იუზერის, როგორც ოპერატორი ისე ჩვეულებრივი იუზერის რეგისტრაცია (sign up ფორმში იქნება checkbox თუ მონიშნულია - checked='true' თუ არა checked='false')
+3.  https://hackathon-2022.herokuapp.com/api/user/register ახალი იუზერის, როგორც ოპერატორი ისე ჩვეულებრივი იუზერის რეგისტრაცია (sign up ფორმში იქნება checkbox თუ მონიშნულია - checked=true თუ არა checked=false)
     // Register new user
     // POST/api/user/register
     // Public
