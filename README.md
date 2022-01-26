@@ -16,7 +16,7 @@ Hotel Midnight
     // Public
     ბექში ველოდები ამას - const { email, password } = req.body;
 
-3.  https://hackathon-2022.herokuapp.com/api/user/register ახალი იუზერის, როგორც ოპერატორი ისე ჩვეულებრივი იუზერის რეგისტრაცია (sign up ფორმში იქნება checkbox თუ მონიშნულია - checked='true' თუ არა checked='false')
+3.  https://hackathon-2022.herokuapp.com/api/user/register ახალი იუზერის, როგორც ოპერატორი ისე ჩვეულებრივი იუზერის რეგისტრაცია (sign up ფორმში იქნება checkbox თუ მონიშნულია - checked=true თუ არა checked=false)
     // Register new user
     // POST/api/user/register
     // Public
@@ -35,20 +35,20 @@ Hotel Midnight
     // Private
     ბექში აგზავნი ამათ
     const {
-        name,
-        location,
-        city,
-        latitude,
-        longitude,
-        price,
-        discount_price,
-        email,
-        phone,
-        description,
-        image1,
-        image2,
-        image3,
-        image4,
+    name,
+    location,
+    city,
+    latitude,
+    longitude,
+    price,
+    discount_price,
+    email,
+    phone,
+    description,
+    image1,
+    image2,
+    image3,
+    image4,
     } = req.body;
     სურათები იქნება base64 ში სტრინგები...
     react-places-autocomplete გამოვიყენეთ (ჩაიხედეთ addHotelPage ში)
@@ -98,5 +98,10 @@ Hotel Midnight
     // GET/api/order/hotel/user/reservations
     // Private
     ჰედერში ჩაისეტოს შესული იუზერის ტოკენი...
+
+13. https://hackathon-2022.herokuapp.com/api/product/allhotels/filteredbycity ყველა სასტუმრო homepage ზე..
+    // Get all hotels filtered by city
+    // GET/api/product/allhotels/filteredbycity
+    // Public
 
 ჯერჯერობით საკმარისია და დროდადრო დაემატება კიდევ...

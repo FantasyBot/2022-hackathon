@@ -73,15 +73,62 @@ const getAllHotels = async (req, res, next) => {
       "SELECT hotels.id, name, location, city, latitude, longitude, price, discount_price, email, phone, description, first_photo " +
         "FROM hotels JOIN media ON hotels.id = media.hotel_photo_id"
     );
+
     if (rows.length !== 0) {
       res.json({
         message: "SUCCESS",
         allHotels: rows,
       });
     } else {
-      res.status(404);
-      return next({
-        msg: "Can not get hotels",
+      res.json({
+        message: "No hotels added...",
+      });
+    }
+  } catch (err) {
+    console.log(err.message);
+    res.status(404);
+    return next({
+      msg: "Can not get hotels",
+      stk: err.message,
+    });
+  }
+};
+
+// Get all filtered hotels
+// GET/api/product/allhotels/filteredbycity
+// GET/api/hotel?filter=city 
+// Public
+const getAllFilteredHotels = async (req, res, next) => {
+  try {
+    const { rows } = await pool.query(
+      "SELECT hotels.id, name, location, city, latitude, longitude, price, discount_price, email, phone, description, first_photo " +
+        "FROM hotels JOIN media ON hotels.id = media.hotel_photo_id"
+    );
+
+    if (rows.length !== 0) {
+      let citys = [];
+      for (var i = 0; i < rows.length; i++) {
+        if (!citys.includes(rows[i].city)) {
+          citys.push(rows[i].city);
+        }
+      }
+
+      let resultArr = [];
+      for (var k = 0; k < citys.length; k++) {
+        resultArr.push({
+          [citys[k]]: (filtered = rows.filter(
+            (item) => item.city === citys[k]
+          )),
+        });
+      }
+
+      res.json({
+        message: "SUCCESSFULLY FILTERED",
+        filteredHotels: resultArr,
+      });
+    } else {
+      res.json({
+        message: "filtered hotels failed, no hotels added...",
       });
     }
   } catch (err) {
@@ -204,4 +251,5 @@ module.exports = {
   getMyHotels,
   getSingleHotel,
   deleteHotel,
+  getAllFilteredHotels,
 };

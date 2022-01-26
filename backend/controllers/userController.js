@@ -48,7 +48,7 @@ const registerCustomer = async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     //is operator not active
-    if (checked === "true") {
+    if (checked) {
       // username is fullname
       await pool.query(
         "INSERT INTO users (username, password, email, role) VALUES($1, $2, $3, $4)",
@@ -63,7 +63,7 @@ const registerCustomer = async (req, res, next) => {
         message: "Success",
         token: generateToken(rows[0]),
       });
-    } else if (checked === "false") {
+    } else if (!checked) {
       // is user not active
       // username is fullname
       await pool.query(
