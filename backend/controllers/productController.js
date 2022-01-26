@@ -75,22 +75,6 @@ const getAllHotels = async (req, res, next) => {
     );
 
     if (rows.length !== 0) {
-      // let citys = [];
-      // for (var i = 0; i < rows.length; i++) {
-      //   if (!citys.includes(rows[i].city)) {
-      //     citys.push(rows[i].city);
-      //   }
-      // }
-
-      // let resultArr = [];
-      // for (var k = 0; k < citys.length; k++) {
-      //   resultArr.push({
-      //     [citys[k]]: (filtered = rows.filter(
-      //       (item) => item.city === citys[k]
-      //     )),
-      //   });
-      // }
-
       res.json({
         message: "SUCCESS",
         allHotels: rows,
