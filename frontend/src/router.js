@@ -9,12 +9,15 @@ import SignupPage from "./pages/SignupPage";
 import ReservationsPage from "./pages/ReservationsPage";
 import HotelDetailsPage from "./pages/HotelDetailsPage";
 
+import UpgradeHomePage from "./pages/UpgradeHome.page";
+
 import { Routes, Route } from "react-router-dom";
 
 const routes = [
   {
     id: 1,
-    element: <HomePage />,
+    // element: <HomePage />,
+    element: <UpgradeHomePage />,
     path: "/",
   },
   {
