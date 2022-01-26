@@ -9,7 +9,7 @@ const { sendKycRequest } = require("../utils/kycApis");
 const getKyc = async (req, res, next) => {
   try {
     const { id: singed_user_id } = req.user;
-    const request = await sendKycRequest;
+    const request = await sendKycRequest();
 
     res.json({
       id: singed_user_id,

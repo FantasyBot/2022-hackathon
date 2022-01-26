@@ -11,7 +11,7 @@ const sendKycRequest = async () => {
     }
   );
 
-  return token;
+  return `HERE ${token}`;
 
   // const verify = await axios.post(
   //   "https://kyc.dev.sweeftdigital.com:8081/auth/create-session",
