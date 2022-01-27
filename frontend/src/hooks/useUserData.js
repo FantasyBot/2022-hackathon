@@ -21,6 +21,7 @@ const useUserData = (condition = "register") => {
   const [email, setEmail] = useState(condition === "register" ? "" : userEmail);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [checked, setChecked] = useState(false);
   const [warningMessage, setWarningMessage] = useState("");
 
   useEffect(() => {
@@ -73,7 +74,9 @@ const useUserData = (condition = "register") => {
       Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
     };
 
-    dispatch(entryUser(method, url, { fullname, password, email }, headers));
+    dispatch(
+      entryUser(method, url, { fullname, password, email, checked }, headers)
+    );
   };
 
   return {
@@ -81,6 +84,7 @@ const useUserData = (condition = "register") => {
     email,
     password,
     confirmPassword,
+    checked,
     warningMessage,
     callBegin,
     message,
@@ -91,6 +95,7 @@ const useUserData = (condition = "register") => {
     setEmail,
     setPassword,
     setConfirmPassword,
+    setChecked,
     setWarningMessage,
     submitHandler,
   };

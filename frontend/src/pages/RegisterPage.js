@@ -17,11 +17,13 @@ const RegisterPage = () => {
     callBegin,
     message,
     username,
+    checked,
     setFullname,
     setEmail,
     setPassword,
     setConfirmPassword,
     submitHandler,
+    setChecked,
   } = useUserData();
 
   if (username) return <Navigate replace to="/" />;
@@ -79,6 +81,14 @@ const RegisterPage = () => {
             value={confirmPassword}
             placeholder="Confirm password"
             onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group className="mt-3" controlId="formBasicCheckbox">
+          <Form.Check
+            value={checked}
+            onChange={(e) => setChecked(e.target.checked)}
+            type="checkbox"
+            label="Register as hotel manager"
           />
         </Form.Group>
         {password && confirmPassword && password === confirmPassword ? (
