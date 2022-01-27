@@ -101,7 +101,7 @@ const UpgradeHomePage = () => {
                   className="p-2"
                 >
                   <Card.Body>
-                    <Card.Title className="fs-3 text-secondary mb-4">
+                    <Card.Title className="fs-3 text-center text-secondary mb-4">
                       {name}
                     </Card.Title>
                     <div className="d-flex justify-content-between mb-2">

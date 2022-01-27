@@ -8,7 +8,7 @@ const App = () => {
   return (
     <Router>
       <Header />
-      <main>
+      <main style={{minHeight: '80vh'}}>
         <Container>
           <AppRouter />
         </Container>

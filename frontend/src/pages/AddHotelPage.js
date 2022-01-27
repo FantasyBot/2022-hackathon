@@ -332,7 +332,7 @@ const AddHotelPage = () => {
 
           <div className="d-grid">
             <Button
-              variant="primary"
+              variant="secondary"
               disabled={callBegin || disable}
               type="submit"
             >

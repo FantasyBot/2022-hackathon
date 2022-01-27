@@ -72,7 +72,7 @@ const LoginPage = () => {
           />
         </Form.Group>
         <div className="d-grid gap-2 mb-4">
-          <Button variant="primary" disabled={callBegin} type="submit">
+          <Button variant="secondary" disabled={callBegin} type="submit">
             {callBegin && (
               <Spinner
                 as="span"

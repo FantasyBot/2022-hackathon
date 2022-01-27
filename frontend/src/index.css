@@ -16,3 +16,8 @@ code {
 header {
   background-color: #d3e4cd;
 }
+
+#userName {
+  text-decoration: none;
+  color: white !important;
+}

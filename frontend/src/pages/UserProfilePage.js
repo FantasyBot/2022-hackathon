@@ -38,102 +38,6 @@ const UserProfilePage = () => {
 
   console.log({ name, email, role });
 
-  const operatorContent = (
-    <Row xs={1} md={2} className="g-4 mt-2">
-      <Col>
-        <Card>
-          <Card.Img
-            variant="top"
-            src={`data:image/jpeg;base64,${operator_personal_id1}`}
-            // src={logo}
-            alt="operator_personal_id1"
-          />
-          <Card.Body>
-            <Card.Title>Card title</Card.Title>
-            <Card.Text>
-              This is a longer card with supporting text below as a natural
-              lead-in to additional content. This content is a little bit
-              longer.
-            </Card.Text>
-          </Card.Body>
-        </Card>
-      </Col>
-      <Col>
-        <Card>
-          <Card.Img
-            variant="top"
-            // src={operator_personal_id2}
-            src={`data:image/jpeg;base64,${operator_personal_id2}`}
-            // src={logo}
-            alt="operator_personal_id2"
-          />
-          <Card.Body>
-            <Card.Title>Card title</Card.Title>
-            <Card.Text>
-              This is a longer card with supporting text below as a natural
-              lead-in to additional content. This content is a little bit
-              longer.
-            </Card.Text>
-          </Card.Body>
-        </Card>
-      </Col>
-    </Row>
-  );
-
-  const userContent = (
-    <Col md={12} className="mt-5">
-      <h2>My Orders</h2>
-      {/* 
-      {loadingOrders ? (
-        <Loader />
-      ) : errorOrders ? (
-        <Message variant="danger">{errorOrders}</Message>
-      ) : ( */}
-      <Table striped bordered hover responsive className="table-sm">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>DATE</th>
-            <th>TOTAL</th>
-            <th>PAID</th>
-            <th>DELIVERED</th>
-            <th></th>
-          </tr>
-        </thead>
-        {/* <tbody>
-            {orders.map((order) => (
-              <tr key={order._id}>
-                <td>{order._id}</td>
-                <td>{order.createdAt.substring(0, 10)}</td>
-                <td>{order.totalPrice}</td>
-                <td>
-                  {order.isPaid ? (
-                    order.paidAt.substring(0, 10)
-                  ) : (
-                    <i className="fas fa-times" style={{ color: "red" }}></i>
-                  )}
-                </td>
-                <td>
-                  {order.isDelivered ? (
-                    order.deliveredAt.substring(0, 10)
-                  ) : (
-                    <i className="fas fa-times" style={{ color: "red" }}></i>
-                  )}
-                </td>
-                <td>
-                  <LinkContainer to={`/order/${order._id}`}>
-                    <Button className="btn-sm" variant="light">
-                      Details
-                    </Button>
-                  </LinkContainer>
-                </td>
-              </tr>
-            ))}
-          </tbody> */}
-      </Table>
-      {/* )} */}
-    </Col>
-  );
 
   const generalContent = (
     <Col md="8" className="rounded border mx-auto pt-2">
@@ -209,7 +113,7 @@ const UserProfilePage = () => {
         </Form.Group>
 
         <div className="d-grid col-4 mx-auto my-2">
-          <button className="btn btn-outline-success" type="submit">
+          <button className="btn btn-outline-secondary" type="submit">
             UPDATE
           </button>
         </div>
@@ -223,8 +127,8 @@ const UserProfilePage = () => {
     <Row className="my-2">
       {callBegin ? <CustomSpinner /> : generalContent}
       {!role || !name || !email ? <CustomSpinner /> : null}
-      {role === "operator" && operatorContent}
-      {role === "user" && userContent}
+      {/* {role === "operator" && operatorContent} */}
+      {/* {role === "user" && userContent} */}
     </Row>
   );
 };

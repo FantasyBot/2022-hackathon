@@ -61,7 +61,7 @@ const Header = () => {
   );
 
   const logoutAndUserProfile = username ? (
-    <React.Fragment>
+    <React.Fragment >
       {role === "operator" && <Badge bg="success">{role}</Badge>}
       <NavDropdown title={username} id="userName">
         <LinkContainer to={`/profile/${username}`}>
@@ -74,7 +74,7 @@ const Header = () => {
 
   const signIn = !username ? (
     <LinkContainer to="/login">
-      <Nav.Link className="text-secondary">
+      <Nav.Link className="text-light">
         <i className="far fa-user"></i> Sign In
       </Nav.Link>
     </LinkContainer>
