@@ -10,7 +10,7 @@ import { userLoggedOut } from "../../store/slices/user";
 import { resetApiCallState } from "../../store/slices/apiCall";
 import { resetHotelsState } from "../../store/slices/hotels";
 
-// import logo from "../../assets/images/hotel-midnight-logo.png";
+import brandLogo from "../../assets/images/logo.svg";
 
 // import classes from './Header.module.css';
 // import useSearch from '../../hooks/useSearch';
@@ -87,7 +87,12 @@ const Header = () => {
       <Navbar bg="light" variant="light" expand="lg">
         <Container>
           <LinkContainer to="/">
-            <Navbar.Brand className="text-success fs-4">
+            <Navbar.Brand className="text-warning fs-4">
+              <img
+                src={brandLogo}
+                alt="Hotel Midnight brand logo"
+                style={{ width: "60px", height: "60px", marginLeft: "-15px" }}
+              />
               Hotel Midnight
             </Navbar.Brand>
           </LinkContainer>

@@ -1,4 +1,4 @@
-import HomePage from "./pages/HomePage";
+// import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import UserProfilePage from "./pages/UserProfilePage";
@@ -10,15 +10,21 @@ import ReservationsPage from "./pages/ReservationsPage";
 import HotelDetailsPage from "./pages/HotelDetailsPage";
 
 import UpgradeHomePage from "./pages/UpgradeHome.page";
+import MapPage from "./pages/MapPage";
 
 import { Routes, Route } from "react-router-dom";
 
 const routes = [
   {
-    id: 1,
+    id: 0,
     // element: <HomePage />,
     element: <UpgradeHomePage />,
     path: "/",
+  },
+  {
+    id: 1,
+    path: "/map",
+    element: <MapPage />,
   },
   {
     id: 2,
