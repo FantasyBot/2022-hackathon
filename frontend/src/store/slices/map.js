@@ -10,8 +10,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   coordinates: {
-    lat: 41.7151,
-    lng: 44.8271,
+    lat: 41.6936,
+    lng: 44.7948,
   },
   city: "Tbilisi",
   bounds: {},

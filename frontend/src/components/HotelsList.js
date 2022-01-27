@@ -1,29 +1,11 @@
 import { Row } from "react-bootstrap";
-
 // import { useState, useEffect, createRef } from "react";
-// import {
-//   CircularProgress,
-//   Grid,
-//   Typography,
-//   InputLabel,
-//   MenuItem,
-//   FormControl,
-//   Select,
-// } from "@material-ui/core";
 
 import PlaceDetails from "./PlaceDetails";
 
 // import useStyles from "./styles";
 
-const HotelsList = ({
-  places,
-  // childClicked,
-  isLoading,
-  // type,
-  // setType,
-  // rating,
-  // setRating,
-}) => {
+const HotelsList = ({ places, isLoading }) => {
   // const [elRefs, setElRefs] = useState([]);
 
   // const classes = useStyles();
@@ -40,9 +22,9 @@ const HotelsList = ({
   // console.log({ childClicked });
 
   return (
-    <div>
+    <div className="mt-2">
       {console.log("HotelsList.js rendering")}
-      <h4>Hotels for you:</h4>
+      <h1 className="text-center text-success display-6">Hotels for you:</h1>
 
       {isLoading ? (
         <div>Loading...</div>
