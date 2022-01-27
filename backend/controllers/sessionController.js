@@ -87,7 +87,7 @@ const webHook = async (req, res, next) => {
       // table --> managers (id, manager_fullname, m_hotel_name)
       const { rows: manager_exists } = await pool.query(
         "SELECT manager_fullname FROM managers WHERE manager_fullname=$1",
-        [`${data.firstName} ${data.lastName}`]
+        [`${data.firstName.toUpperCase()} ${data.lastName.toUpperCase()}`]
       );
       if (manager_exists[0]?.manager_fullname) {
         const { rows: userUpdate } = await pool.query(
