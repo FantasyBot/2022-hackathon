@@ -8,12 +8,12 @@ const useRandomHotels = (enteredText) => {
   const [isLoading, setIsLoading] = useState(false);
   const [randomHotels, setRandomHotels] = useState([
     {
-      name: "Sheraton Batumi Hotel",
-      location: "Sheraton Batumi Hotel, Rustaveli Avenue, Batumi, Georgia",
-      price: 150,
-      discount_price: 100,
-      email: "sheraton@gmial.com",
-      phone: 995422229000,
+      name: "Rooms Hotel Kazbegi",
+      location: "1 V.gorgasali St, Stepantsminda, Georgia",
+      price: 110,
+      discount_price: 70,
+      email: "kazbegi@roomshotels.com",
+      phone: 995322710100,
     },
     {
       name: "Hilton Batumi",
@@ -22,6 +22,14 @@ const useRandomHotels = (enteredText) => {
       discount_price: 170,
       email: "hilton@gmial.com",
       phone: 422222299,
+    },
+    {
+      name: "Holiday Inn Tbilisi",
+      location: "1 26 May Street, Tbilisi, Georgia",
+      price: 120,
+      discount_price: 70,
+      email: "holiday-in@gmail.com",
+      phone: 800008079,
     },
   ]);
 

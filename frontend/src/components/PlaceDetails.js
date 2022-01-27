@@ -18,7 +18,7 @@ const PlaceDetails = ({ place }) => {
         <Card.Img variant="top" src={`data:image/jpeg;base64,${first_photo}`} />
         <Card.Header></Card.Header>
         <Card.Body>
-          <Card.Title className="fs-3 text-warning text-center">
+          <Card.Title className="fs-3 text-secondary my-2 text-center">
             {name}
           </Card.Title>
           <div className="d-flex justify-content-between mb-2">

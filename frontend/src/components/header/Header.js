@@ -84,10 +84,10 @@ const Header = () => {
     <header>
       {console.log("Header Rendering")}
 
-      <Navbar bg="light" variant="light" expand="lg">
+      <Navbar variant="dark" expand="lg" style={{ background: "#548CA8" }}>
         <Container>
           <LinkContainer to="/">
-            <Navbar.Brand className="text-warning fs-4">
+            <Navbar.Brand className=" fs-4">
               <img
                 src={brandLogo}
                 alt="Hotel Midnight brand logo"

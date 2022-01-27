@@ -45,7 +45,7 @@ const MapPage = () => {
           </Col>
         </Row>
       </Col>
-      <Col xs={12} md={8} className="mt-2 rounded" style={{ height: "85vh" }}>
+      <Col xs={12} md={8} className="mt-2 rounded" style={{ height: "100vh" }}>
         <GoogleMapReact
           bootstrapURLKeys={{
             key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,

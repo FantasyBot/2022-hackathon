@@ -32,7 +32,7 @@ const UpgradeHomePage = () => {
 
   return (
     <>
-      <Form onSubmit={submitHandler} className="my-2">
+      <Form onSubmit={submitHandler} className="mt-2">
         {console.log("Rendering")}
         <Image
           fluid
@@ -51,7 +51,6 @@ const UpgradeHomePage = () => {
                   value={enteredCity}
                   type="search"
                   placeholder="Find a city..."
-                  // className="me-auto"
                 />
               </Autocomplete>
             </Col>
@@ -65,7 +64,7 @@ const UpgradeHomePage = () => {
 
             <Col xs={12} sm={3}>
               <Button
-                variant="warning"
+                variant="secondary"
                 type="Submit"
                 // style={{ width: "100%" }}
                 className="w-100 text-light"
@@ -85,15 +84,8 @@ const UpgradeHomePage = () => {
         {!isLoading &&
           randomHotels.length > 0 &&
           randomHotels.map((place) => {
-            const {
-              name,
-              location,
-              price,
-              discount_price,
-              email,
-              phone,
-              first_photo,
-            } = place;
+            const { name, location, price, discount_price, email, phone } =
+              place;
 
             const standartPrice = Number(price);
             const discountedPrice = Number(discount_price);
@@ -104,13 +96,12 @@ const UpgradeHomePage = () => {
 
             return (
               <Col key={place.name} className="my-3">
-                <Card className="p-1">
-                  {/* <Card.Img
-                    variant="top"
-                    src={`data:image/jpeg;base64,${first_photo}`}
-                  /> */}
+                <Card
+                  style={{ borderRadius: "4px", height: 295 }}
+                  className="p-2"
+                >
                   <Card.Body>
-                    <Card.Title className="fs-3 text-warning">
+                    <Card.Title className="fs-3 text-secondary mb-4">
                       {name}
                     </Card.Title>
                     <div className="d-flex justify-content-between mb-2">
