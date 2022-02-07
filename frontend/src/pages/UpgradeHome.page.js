@@ -39,7 +39,7 @@ const UpgradeHomePage = () => {
           rounded
           src={logo}
           alt="home cover"
-          style={{ width: "100%", filter: "brightness(80%)" }}
+          style={{ width: "100%" }}
         />
         <Card className="mx-3 mx-md-5 p-4" style={{ marginTop: "-110px" }}>
           <Row>
