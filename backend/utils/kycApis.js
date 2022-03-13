@@ -13,7 +13,7 @@ const sendKycRequest = async () => {
       key: process.env.KYC_KEY,
     }
   );
-  const accessToken = data?.access_token;
+  const accessToken = data.access_token;
 
   // check
   if (!accessToken) {

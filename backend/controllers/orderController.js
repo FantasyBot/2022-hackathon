@@ -35,7 +35,7 @@ const saveReservation = async (req, res, next) => {
           "r_description, r_hotel_photo, r_nights_in_hotel, r_voucher_price, r_user_email, r_buy_date, r_user_id, r_hotel_id) " +
           "VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)",
         [
-          name_of_hotel[0]?.name,
+          name_of_hotel[0].name,
           location,
           price,
           discount_price,
@@ -48,7 +48,7 @@ const saveReservation = async (req, res, next) => {
           user_email,
           current_time,
           user_id,
-          name_of_hotel[0]?.id,
+          name_of_hotel[0].id,
         ]
       );
 
